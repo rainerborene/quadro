@@ -33,6 +33,8 @@ class StickiesController < ApplicationController
   private
 
   def find_board
-    @board = Board.where(:id => params[:board_id], :user_id => current_user.id).first
+    @board = Board.where("$or" => [
+      { :_id => BSON::ObjectId(params[:board_id]), :user_id => current_user.id }, 
+      { :_id => BSON::ObjectId(params[:board_id]), :collaborator_ids => { "$in" => [current_user.id] } } ]).first
   end
 end

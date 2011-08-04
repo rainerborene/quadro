@@ -25,7 +25,7 @@ class User
   end
 
   def every_boards
-    boards + Board.all(:author_ids => [_id])
+    boards + Board.all(:collaborator_ids => [_id])
   end
 
   def serializable_hash(options={})
