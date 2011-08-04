@@ -27,9 +27,8 @@ class CollaboratorsController < ApplicationController
   end
 
   def destroy
-   @board.collaborator_ids.delete(params[:id])
-   @board.save
-   render :json => { :success => true }
+   @board.collaborator_ids.delete_if { |i| i.to_s.eql? params[:id] }
+   render :json => { :success => @board.save }
   end
 
   private
