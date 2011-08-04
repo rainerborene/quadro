@@ -29,12 +29,4 @@ class StickiesController < ApplicationController
     @board.save
     render :json => { :success => true }
   end
-
-  private
-
-  def find_board
-    @board = Board.where("$or" => [
-      { :_id => BSON::ObjectId(params[:board_id]), :user_id => current_user.id }, 
-      { :_id => BSON::ObjectId(params[:board_id]), :collaborator_ids => { "$in" => [current_user.id] } } ]).first
-  end
 end

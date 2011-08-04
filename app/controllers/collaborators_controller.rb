@@ -30,10 +30,4 @@ class CollaboratorsController < ApplicationController
    @board.collaborator_ids.delete_if { |i| i.to_s.eql? params[:id] }
    render :json => { :success => @board.save }
   end
-
-  private
-
-  def find_board
-    @board = Board.where(:id => params[:board_id], :user_id => current_user.id).first
-  end
 end
