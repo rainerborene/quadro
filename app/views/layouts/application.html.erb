@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Stickies • Quadro</title>
+  <link href="http://fonts.googleapis.com/css?family=Just+Another+Hand" rel="stylesheet" type="text/css" />
+  <%= stylesheet_link_tag :all %>
+  <%= csrf_meta_tag %>
+</head>
+<body<% if signed_in? %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %>>
+  <div id="loading"></div>
+  <div id="app"></div>
+
+  <%= yield %>
+
+  <%= include_javascripts :libraries, :templates, :core %>
+  <script>_.extend(Quadro, <%= current_user_session %>);</script>
+
+  <% if signed_in? %>
+  <script>Boards.reset(<%= raw current_user.every_boards.to_json %>);</script>
+  <script>Stickies.reset(<%= raw @board.stickies.to_json %>);</script>
+  <% end %>
+
+  <script>
+    var uvOptions = {};
+    (function() {
+      var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+      uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/uh18fLNg6k8sqXIu19TdQ.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+    })();
+  </script>
+</body>
+</html>

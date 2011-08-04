@@ -1,0 +1,29 @@
+@import "compass/reset"
+@import "compass/css3"
+@import "compass/utilities/general"
+@import "compass/typography/text/replacement"
+@import "compass/typography/text/ellipsis"
+@import "compass/typography/text/force-wrap"
+
+html, body
+  width: 100%
+  height: 100%
+  overflow: hidden
+
+body
+  color: #fff
+  font: 13px Helvetica Neue, Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif
+  background: #444 no-repeat left top
+  -webkit-font-smoothing: antialiased
+
+#loading
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0px
+  left: 0px
+  background: #444 image-url("ajax-loader.gif") no-repeat center center
+  z-index: 999
+
+.clearfix
+  +pie-clearfix

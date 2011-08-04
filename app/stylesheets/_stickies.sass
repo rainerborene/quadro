@@ -1,0 +1,75 @@
+/**
+ * Sticky
+ */
+
+.stickies
+  position: relative
+  clear: both
+
+  .even
+    +rotate(0.5deg)
+
+    &:before
+      +rotate(6deg)
+
+.sticky 
+  display: none
+  position: absolute
+  top: 100px
+  left: 100px
+  width: 300px
+  height: 200px
+  padding: 25px 20px
+  +rotate(-0.5deg)
+  +background(linear-gradient(rgba(247,247,210,1), rgba(240,242,155,1)))
+  +single-box-shadow(rgba(0,0,0,0.5), 0px, 2px, 12px)
+
+  h2
+    margin-bottom: 20px
+
+  h2, div
+    color: #333
+    font-family: 'Just Another Hand', Helvetica, sans-serif
+    font-size: 30px
+    +force-wrap
+
+    &:focus
+      color: #000
+      outline: none
+  
+  &:hover .remove
+    visibility: visible
+
+  &:before
+    position: absolute
+    content: ' '
+    width: 75px
+    height: 25px
+    top: -15px
+    left: 130px
+    background-color: rgba(243, 245, 228, 0.5)
+    border: 2px solid rgba(255, 255, 255, 0.5)
+    +rotate(-6deg)
+    +single-box-shadow(#888, 0px, 0px, 8px)
+
+/**
+ * Colors
+ */
+
+// H: 60, S: 15, B: 97
+// H: 61, S: 36, B: 95
+
+.blue
+  +background(linear-gradient(#d2f2f7, #9be7f2))
+
+.green
+  +background(linear-gradient(#d9f7d2, #abf29b))
+
+.pink
+  +background(linear-gradient(#f7d2d2, #f29b9b))
+
+.purple
+  +background(linear-gradient(#d2dcf7, #9bb2f2))
+
+.gray
+  +background(linear-gradient(#f2f2f2, #cfcfcf))

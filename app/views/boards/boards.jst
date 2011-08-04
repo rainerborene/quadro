@@ -1,0 +1,11 @@
+<div class="ui-overlay"><div class="ui-widget-overlay"></div><div class="ui-widget-shadow ui-corner-all"></div></div>
+<div class="ui-widget ui-widget-content ui-corner-all">
+  <div class="ui-dialog-content ui-widget-content">
+    <h3>Boards <a href="#create" class="new_board">New Board</a></h3>
+    <ul>
+      <% _.each(boards, function(item) { %>
+        <%= item %>
+      <% }); %>
+    </ul>
+  </div> 
+</div> 

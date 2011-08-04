@@ -1,0 +1,21 @@
+<a href="#share" class="share">Share</a>
+<div class="share_menu">
+  <h2>Sharing Settings</h2>
+
+  <div class="share_public_wrapper">
+    <input type="checkbox" id="share_public" name="share_public" value="true" <% if (share_public) { %>checked="checked"<% } %> />Make this public:
+    <a href="/share/<%= secret_token %>">quadroapp.com/share/<%= secret_token %></a>
+  </div> 
+
+  <div class="username_wrapper">
+    <input type="text" id="username" placeholder="enter a twitter username and press enter" />
+  </div>
+
+  <div class="collaborators dark_scrollbars">
+    <% _.each(collaborators, function(item) { %>
+      <div class="user_item" data-id="<%= item.id %>">
+        <img src="<%= item.profile_image %>" width="20" height="20" /> <%= item.name %> <a href="#" class="remove_item destroy_relationship">Remove</a>
+      </div>
+    <% }); %>
+  </div>
+</div>

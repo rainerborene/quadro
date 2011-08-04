@@ -1,0 +1,23 @@
+<h1 class="board_title"><%= currentBoard.get("title") %></h1>
+<ul class="actions">
+  <% if (Quadro.readonly) { %>
+  <li><a href="/">← Return</a></li>
+  <% } %>
+  <% if (Quadro.authenticated && !Quadro.readonly) { %>
+  <li><a href="#new" class="new">New Note</a></li>
+  <li><a href="#boards" class="boards">Boards</a></li>
+  <% } %>
+  <li>
+    <ul class="right">
+      <li><div class="mini_loader"></div></li>
+      <% if (Quadro.authenticated && !Quadro.readonly) { %>
+        <li>Hi, <%= Quadro.name %></li>
+      <% } %>
+      <li><a href="#feedback" class="feedback" title="Open feedback & support dialog">Feedback</a></li>
+      <% if (Quadro.authenticated && !Quadro.readonly) { %>
+      <li><a href="/logout" class="logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </li>
+</ul>
+<div class="stickies"></div>

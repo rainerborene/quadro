@@ -1,0 +1,19 @@
+embed_assets: on
+template_function: _.template
+
+javascripts:
+  libraries:
+    - public/javascripts/vendor/jquery.js
+    - public/javascripts/vendor/jquery-ui.js
+    - public/javascripts/vendor/underscore.js
+    - public/javascripts/vendor/backbone.js
+
+  templates:
+    - app/views/**/*.jst
+
+  core:
+    - public/javascripts/sessions.js
+    - public/javascripts/workspace.js
+    - public/javascripts/stickies.js
+    - public/javascripts/boards.js
+    - public/javascripts/bootstrap.js
