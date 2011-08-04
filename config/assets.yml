@@ -2,7 +2,7 @@ embed_assets: on
 template_function: _.template
 
 javascripts:
-  libraries:
+  libs:
     - public/javascripts/vendor/jquery.js
     - public/javascripts/vendor/jquery-ui.js
     - public/javascripts/vendor/underscore.js

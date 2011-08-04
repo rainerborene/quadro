@@ -19,8 +19,7 @@ class Board
     super({
       :except => [ :collaborator_ids, :created_at, :updated_at, :stickies ],
       :include => {
-        :collaborators => { :except => [ :token, :secret_token, :uid, :provider, :created_at, :updated_at ] },
-        :stickies => { :except => [] }
+        :collaborators => { :except => [ :token, :secret_token, :uid, :provider, :created_at, :updated_at ] }
       }
     }.merge(options))
   end
