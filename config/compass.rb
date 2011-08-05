@@ -6,8 +6,10 @@ project_type = :rails
 http_path = "/"
 
 # Changes directory path to make Compass work on Heroku
-css_dir = "tmp/stylesheets"
-sass_dir = "app/views/stylesheets"
+if defined?(Rails) && Rails.env.production?
+  css_dir = "tmp/stylesheets"
+  sass_dir = "app/views/stylesheets"
+end
 
 # You can select your preferred output style here (can be overridden via the command line):
 output_style = :compressed
