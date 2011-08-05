@@ -9,6 +9,7 @@ gem 'mongo_session_store-rails3'
 gem 'SystemTimer', '>= 1.2.0'
 gem 'omniauth', '>= 0.2.6'
 gem "twitter", "1.6.0"
+gem 'hoptoad_notifier'
 
 group :development do
   gem 'ruby-debug', :platform => :ruby_18
