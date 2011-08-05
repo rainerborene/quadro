@@ -1,5 +1,5 @@
-<h1 class="board_title"><%= currentBoard.get("title") %></h1>
-<ul class="actions">
+<h1 class="board_title unselectable"><%= currentBoard.get("title") %></h1>
+<ul class="actions unselectable">
   <% if (Quadro.readonly) { %>
   <li><a href="/">← Return</a></li>
   <% } %>

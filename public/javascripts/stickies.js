@@ -92,15 +92,15 @@ var StickyView = Backbone.View.extend({
       }
     });
   },
-
+  
   setContentEditable: function(event) {
-    j(event.currentTarget).attr("contenteditable", "true");
+    j(event.currentTarget).removeClass("unselectable").attr("contenteditable", "true");
   },
 
   unsetContentEditable: function(event) {
     var content = [], title = j(this.el).find(".title").text();
 
-    j(event.currentTarget).attr("contenteditable", "false");
+    j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
     j(this.el).find(".content p").each(function() {
       content.push( j(this).text() );
     });

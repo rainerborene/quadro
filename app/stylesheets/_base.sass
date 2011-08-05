@@ -23,7 +23,13 @@ body
   top: 0px
   left: 0px
   background: #444 image-url("ajax-loader.gif") no-repeat center center
-  z-index: 999
+  z-index: 99999
+
+.unselectable
+  -moz-user-select: -moz-none
+  -khtml-user-select: none
+  -webkit-user-select: none
+  user-select: none
 
 .clearfix
   +pie-clearfix

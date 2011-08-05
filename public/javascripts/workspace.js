@@ -29,6 +29,7 @@ var WorkspaceView = Backbone.View.extend({
 
     // http://developer.apple.com/library/mac/#documentation/AppleApplications/Conceptual/SafariJSProgTopics/Tasks/CopyAndPaste.html
     j(document).bind("paste", this.manipulateClipboard);
+    j(document).bind("dblclick", this.createSticky);
   },
 
   setReadonly: function() {
@@ -37,7 +38,7 @@ var WorkspaceView = Backbone.View.extend({
 
   changeBoardTitle: function(event) {
     var title = prompt("Enter a new title:");
-    if (title !== null) {
+    if (j.trim(title) != "") {
       currentBoard.set({ title: title }).save();
     }
   },
@@ -73,8 +74,8 @@ var WorkspaceView = Backbone.View.extend({
 
   manipulateClipboard: function(event) {
     var clipboardData = event.originalEvent.clipboardData
-    , content = clipboardData.getData("text/html") || clipboardData.getData("text/plain")
-    , data = j("<p/>").html(content).text();
+      , content = clipboardData.getData("text/html") || clipboardData.getData("text/plain")
+      , data = j("<p/>").html(content).text();
 
     j(event.target).append(data);
 
@@ -85,22 +86,43 @@ var WorkspaceView = Backbone.View.extend({
     var stickyView = new StickyView({ model: sticky }).render();
 
     var el = j(stickyView.el)
-    .appendTo(".stickies")
-    .css({
-      top: sticky.get("position_y"),
-      left: sticky.get("position_x")
-    }) 
-    .show();
+      .appendTo(".stickies")
+      .css({
+        top: sticky.get("position_y"),
+        left: sticky.get("position_x")
+      })
+      .show();
   },
 
   addAll: function() {
     Stickies.each(this.addOne);
+
+    setTimeout(function() {
+      j(".sticky").css("height", "auto");
+    }, 2000);
   },
 
-  // new sticky button action
   createSticky: function(event) {
+    if (Quadro.readonly) { return; }
+
     var stickyView = new StickyView({ model: new Sticky }).render();
-    j(stickyView.el).appendTo(".stickies").fadeIn().css("z-index", zIndexMax());
+
+    if (event.type == "dblclick") {
+      if (event.target != document.body) { return; }
+
+      j(stickyView.el).css({
+        top: event.layerY,
+        left: event.layerX
+      });
+    }
+
+    j(stickyView.el)
+      .appendTo(".stickies")
+      .fadeIn(function() { 
+        j(this).css({ height: "auto" });
+      })
+      .css("zIndex", zIndexMax());
+
     event.preventDefault();
   },
 
@@ -131,9 +153,17 @@ var ShareMenuView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "toggleSubmenu", "makeBoardPublic", "lookupUsername", "destroyCollaboration");
+    _.bindAll(this, "render", "toggleSubmenu", "makeBoardPublic", "lookupUsername", "destroyCollaboration", "closeSubmenu");
 
     currentBoard.collaborators.bind("add", this.render);
+
+    j(document).bind("click", this.closeSubmenu);
+  },
+
+  closeSubmenu: function(event) {
+    if ( ! j(event.target).parents(".actions").length ) {
+      j(this.el).find(".share_menu:not(:animated)").fadeOut("fast");
+    }
   },
 
   destroyCollaboration: function(event) {
@@ -157,14 +187,19 @@ var ShareMenuView = Backbone.View.extend({
 
   lookupUsername: function(event) {
     if (event.keyCode == 13) {
-      var username = j(event.currentTarget).val()
+      var username = j(event.currentTarget).val().replace(/@/g, "")
         , valid = (username !== "" && username !== Quadro.nickname)
         , exists = currentBoard.collaborators.detect(function(i) { 
             return i.get("nickname").toLowerCase() == username.toLowerCase() 
           });
 
       if (!exists && valid) {
-        currentBoard.collaborators.create({ username: username });
+        currentBoard.collaborators.create({ username: username }, { 
+          error: function() {
+            console.log(this);
+            console.log(arguments);
+          }
+        });
       }
     }
   },
