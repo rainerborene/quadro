@@ -9,6 +9,13 @@ class Sticky
   embedded_in :board
 
   def self.count
+    Rails.cache.fetch(:stickies, :expires_in => 1.hour) do
+      count = 0
+      Board.fields("stickies").all.each do |item|
+        count += item.stickies.length
+      end
+      count
+    end
   end
 
   def self.all(board_id)
