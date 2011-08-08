@@ -2,9 +2,6 @@
  * Boards
  */
 
-$boards_width: 422px
-$boards_height: 380px
-
 .board_title
   position: fixed
   width: 200px
@@ -18,63 +15,25 @@ $boards_height: 380px
   z-index: 999
   +ellipsis
 
-.boards_window
-  .ui-widget-overlay
-    width: 100%
-    height: 100%
-    opacity: 0.8
+.boards-items
+  width: 288px
+  height: 200px
+  background: #fff
+  border: 1px solid #ccc
+  overflow-y: scroll
+  overflow-x: hidden
 
-  .ui-widget-overlay, .ui-widget-shadow, .ui-widget
-    z-index: 1000
-
-  .ui-widget, .ui-widget-shadow
-    position: absolute
-    width: $boards_width
-    height: $boards_height
-    top: 120px
-    left: 50%
-    margin-left: -211px
-
-  .ui-widget
-    background-color: #F7F7F7
-    margin-left: (($boards_width / 2) - 8) * -1
-    border: 0px
-
-  .ui-dialog-content
-    background: none
-    border: 0px
-
-  h3
-    font-size: 18px
-    text-shadow: #fff 0px 1px 0px
-    padding: 15px
-    color: #000
-    border-bottom: 1px solid #999
-    +background(linear-gradient(#efefef, #fff 2%, #ccc))
-
-  ul
-    height: 328px
-    overflow-y: scroll
-
-    li
-      padding: 15px
-      border-bottom: 1px solid #D1D1D1
-
-      &:hover a.destroy_board
-        display: inline-block
-
-  .open_board
-    color: #0B486B
-    font-weight: bold
+  li
+    padding: 0px 10px 
+    margin-left: 0px !important
+    line-height: 21px
+    text-shadow: none
     text-decoration: none
-    
-    &:hover
-      color: #777
-
-  .new_board
-    +replace-text-with-dimensions("add.png", 0px, 0px)
-    margin-right: 14px
-    float: right
+    color: #333
+  
+    &.selected
+      background: #3272db
+      color: #fff
 
 .remove_item
   display: none
@@ -88,3 +47,19 @@ $boards_height: 380px
   
   &:hover
     background-position: 0px -20px
+
+/**
+ * Icons
+ */
+
+.open-icon
+  padding-left: 32px !important
+  background: #f3f3f3 image-url("blue-folder.png") no-repeat 10px center !important
+
+.new-icon
+  padding-left: 32px !important
+  background: #f3f3f3 image-url("plus_circle.png") no-repeat 10px center !important
+
+.remove-icon
+  padding-left: 32px !important
+  background: #f3f3f3 image-url("cross_circle_frame.png") no-repeat 10px center !important

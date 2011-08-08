@@ -17,8 +17,4 @@ class Sticky
       count
     end
   end
-
-  def self.all(board_id)
-    Board.fields("stickies").all.map { |b| b.stickies }.flatten
-  end
 end

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Stickies • Quadro</title>
   <link href="http://fonts.googleapis.com/css?family=Just+Another+Hand" rel="stylesheet" type="text/css" />
-  <%= stylesheet_link_tag "jquery-ui", "application" %>
+  <%= stylesheet_link_tag "jquery-fallr", "application" %>
   <%= csrf_meta_tag %>
 </head>
 <body<% if signed_in? %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %>>

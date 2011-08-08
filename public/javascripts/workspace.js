@@ -37,10 +37,36 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   changeBoardTitle: function(event) {
-    var title = prompt("Enter a new title:");
-    if (j.trim(title) != "") {
-      currentBoard.set({ title: title }).save();
-    }
+    if ( j("#fallr:visible").length ) { return; }
+
+    j("#fallr").removeAttr("style");
+
+    j.fallr('show', {
+      closeKey: true,
+      closeOverlay: true,
+      position: '400px',
+      buttons: {
+        button1: { 
+          text: 'Continue',
+          onclick: function() {
+            var title = j(this).find('#new_title').val();
+            if (title != "") {
+              currentBoard.set({ title: title }).save();
+            }
+            j.fallr('hide');
+          }
+        },
+        button2: { text: 'Cancel' }
+      },
+      content: '<p>Enter a new title:</p><input type="text" id="new_title" /'+'>',
+      icon: 'form'
+    }, function() {
+      j("#new_title").keydown(function(event) {
+        if (event.keyCode == 13) {
+          j("#fallr-button-button1").trigger("click");
+        }
+      }).focus();
+    });
   },
 
   didChangeTitle: function(model, title) {
@@ -60,8 +86,7 @@ var WorkspaceView = Backbone.View.extend({
     event.preventDefault();
 
     if (_.isUndefined(this.boardsView)) {
-      this.boardsView = new BoardsView;
-      j(this.boardsView.render().el).prependTo("#app");
+      this.boardsView = new BoardsView().render();
     }
 
     this.boardsView.open();
