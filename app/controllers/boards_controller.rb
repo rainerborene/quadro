@@ -18,7 +18,8 @@ class BoardsController < ApplicationController
 
   def destroy
     unless current_user == @board.user
-      return render :json => { :success => false, :message => "You cannot delete a board that wasn't created by you." }, :status => 403
+      @board.collaborator_ids.delete_if { |i| i.to_s.eql? params[:id] }
+      return render :json => { :success => @board.save }
     end
 
     if current_user.boards.one?

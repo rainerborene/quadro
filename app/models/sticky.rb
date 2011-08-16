@@ -6,6 +6,7 @@ class Sticky
   key :position_x, Integer, :required => true
   key :position_y, Integer, :required => true
   key :color, String, :required => true, :default => "yellow"
+  key :z_index, Integer, :required => true, :default => 0
   embedded_in :board
 
   def self.count

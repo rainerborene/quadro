@@ -11,7 +11,7 @@
     <ul class="right">
       <li><div class="mini_loader"></div></li>
       <% if (Quadro.authenticated && !Quadro.readonly) { %>
-        <li>Hi, <%= Quadro.name %></li>
+        <li class="profile"><img src="<%= Quadro.profile_image %>" /> <%= Quadro.name %></li>
       <% } %>
       <li><a href="#feedback" class="feedback" title="Open feedback & support dialog">Feedback</a></li>
       <% if (Quadro.authenticated && !Quadro.readonly) { %>

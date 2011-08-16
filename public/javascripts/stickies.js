@@ -9,7 +9,8 @@ var Sticky = Backbone.Model.extend({
     content: "Click here to start writing something useful. You can also change the background color using the right mouse button.",
     position_x: 100,
     position_y: 100,
-    color: "yellow"
+    color: "yellow",
+    z_index: 0
   },
 
   url: function() {
@@ -56,12 +57,22 @@ var StickyView = Backbone.View.extend({
     "keypress .title": "didChangeTitle",
     "contextmenu": "openContextMenu",
     "dragstop": "updateStickyPosition",
-    "dragstart": "closeContextMenu"
-    
+    "dragstart": "closeContextMenu",
+    "click": "bringToFront"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "setContentEditable", "unsetContentEditable", "remove", "didChangeTitle", "openContextMenu", "closeContextMenu"); 
+    _.bindAll(this, "render", "setContentEditable", "unsetContentEditable", "remove", "didChangeTitle", "openContextMenu", "closeContextMenu", "bringToFront"); 
+  },
+
+  bringToFront: function(event) {
+    var curIndex = j(this.el).css("z-index")
+      , newIndex = zIndexMax();
+
+    if (parseInt(curIndex) != newIndex - 1) {
+      this.model.set({ "z_index": newIndex }).save();
+      j(this.el).css("zIndex", newIndex);
+    }
   },
 
   openContextMenu: function(event) {
@@ -140,7 +151,10 @@ var StickyView = Backbone.View.extend({
     j(this.el)
       .addClass(this.model.get("color"))
       .html(this.template(this.model.toJSON()))
-      .css("position", "absolute")
+      .css({
+        position: "absolute",
+        zIndex: this.model.get("z_index")
+      })
       .draggable({
         containment: "window",
         cancel: ".title, .content",
@@ -205,4 +219,3 @@ var StickyContextMenuView = {
   }
 
 };
-

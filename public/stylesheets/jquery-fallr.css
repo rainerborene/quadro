@@ -157,6 +157,7 @@
 #fallr input[type="text"],
 #fallr input[type="password"],
 #fallr textarea {
+    outline: 0;
     background: #fff;
     border: solid 1px #999;
     color: #777;

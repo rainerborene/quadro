@@ -35,6 +35,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
   def find_board
     @board = Board.where("$or" => [
       { :_id => BSON::ObjectId(params[:board_id] || params[:id]), :user_id => current_user.id }, 
