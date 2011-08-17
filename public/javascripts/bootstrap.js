@@ -81,6 +81,23 @@ function setSelection(div) {
   }, 1);
 }
 
+function isOverlapping(sticky) {
+  var stickies = j(".sticky").not(sticky)
+    , originOffset = sticky.offset()
+    , overlap = false;
+
+  stickies.each(function() {
+    var offset = j(this).offset();
+
+    if (Math.abs(offset.top - originOffset.top) <= j(this).outerHeight()
+     && Math.abs(offset.left - originOffset.left) <= j(this).outerWidth()) {
+        overlap = true;
+    }
+  });
+  
+  return overlap;
+}
+
 /**
  * Document ready
  */

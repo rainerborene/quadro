@@ -69,7 +69,7 @@ var StickyView = Backbone.View.extend({
     var curIndex = j(this.el).css("z-index")
       , newIndex = zIndexMax();
 
-    if (parseInt(curIndex) != newIndex - 1) {
+    if (parseInt(curIndex) != newIndex - 1 && isOverlapping(j(this.el))) {
       this.model.set({ "z_index": newIndex }).save();
       j(this.el).css("zIndex", newIndex);
     }
