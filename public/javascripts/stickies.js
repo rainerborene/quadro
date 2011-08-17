@@ -105,18 +105,41 @@ var StickyView = Backbone.View.extend({
   },
   
   setContentEditable: function(event) {
-    j(event.currentTarget).removeClass("unselectable").attr("contenteditable", "true");
+    var el = j(event.currentTarget);
+
+    if (el.text() == this.model.defaults.title || el.text() == this.model.defaults.content) {
+      el.text(""); 
+      setSelection(event.currentTarget);
+    }
+
+    el.removeClass("unselectable").attr("contenteditable", "true");
+
+    event.preventDefault();
   },
 
   unsetContentEditable: function(event) {
-    var content = [], title = j(this.el).find(".title").text();
+    var content = []
+      , title = j(this.el).find(".title").text()
+      , paragraphs = j(this.el).find(".content p");
 
     j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
-    j(this.el).find(".content p").each(function() {
-      content.push( j(this).text() );
-    });
 
-    content = content.join("\n");
+    if (paragraphs.length) {
+      paragraphs.each(function() { content.push( j(this).text() ); });
+      content = content.join("\n");
+    } else {
+      content = j(this.el).find(".content").text();
+    }
+
+    if (!j.trim(title).length) {
+      title = this.model.defaults.title;
+      j(this.el).find(".title").text(title); 
+    }
+
+    if (!j.trim(content).length) {
+      content = this.model.defaults.content;
+      j(this.el).find(".content").empty().append(j("<p/>").text(content));
+    }
 
     if (this.model.get("title") !== title || this.model.get("content") !== content) {
       this.model.set({ title: title, content: content }).save();

@@ -134,8 +134,8 @@ var BoardsView = Backbone.View.extend({
       content: j(this.render().el).clone(true),
       buttons: {
         button1: { className: 'new-icon', text: 'New', onclick: this.createBoard },
-        button3: { className: 'remove-icon', text: 'Delete', onclick: this.removeBoard },
-        button2: { className: 'open-icon', text: 'Open', onclick: this.openBoard }
+        button2: { className: 'open-icon', text: 'Open', onclick: this.openBoard },
+        button3: { className: 'remove-icon', text: 'Delete', onclick: this.removeBoard }
       }
     });
 

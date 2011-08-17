@@ -37,7 +37,14 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   changeBoardTitle: function(event) {
-    if ( j("#fallr:visible").length ) { return; }
+    if ( j("#fallr:visible").length ) { 
+      return; 
+    }
+
+    var template = [
+        '<p>Enter a new title:</p>'
+      , '<input type="text" id="new_title" class="editing" />'
+    ];
 
     j("#fallr").removeAttr("style");
 
@@ -58,7 +65,7 @@ var WorkspaceView = Backbone.View.extend({
         },
         button2: { text: 'Cancel' }
       },
-      content: '<p>Enter a new title:</p><input type="text" id="new_title" /'+'>',
+      content: template.join(""),
       icon: 'form'
     }, function() {
       j("#new_title").keydown(function(event) {
