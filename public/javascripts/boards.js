@@ -124,7 +124,7 @@ var BoardsView = Backbone.View.extend({
     if (j("#fallr:visible").length) return;
 
     j.fallr('show', {
-      zIndex: 999,
+      zIndex: parseInt(j(".actions").css("z-index")) + 1,
       closeKey: true,
       closeOverlay: true,
       icon: 'basket',

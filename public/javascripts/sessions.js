@@ -1,4 +1,4 @@
-// tj Holowaychuk's style
+// tj holowaychuk's style
 var j = jQuery;
 
 // app namespace

@@ -49,6 +49,7 @@ var WorkspaceView = Backbone.View.extend({
     j("#fallr").removeAttr("style");
 
     j.fallr('show', {
+      zIndex: parseInt(j(".actions").css("z-index")) - 2,
       closeKey: true,
       closeOverlay: true,
       position: '400px',
