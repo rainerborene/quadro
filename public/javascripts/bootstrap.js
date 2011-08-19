@@ -43,7 +43,15 @@ function formatContent(content) {
   var wrapper = j("<div/>");
 
   _.each(content.split("\n"), function(v) {
-    j("<p/>").text(v).appendTo(wrapper); 
+    var item = j("<p/>");
+
+    if (v == "") {
+      item.html("<br>");
+    } else {
+      item.text(v);
+    }
+
+    item.appendTo(wrapper); 
   });
   
   return wrapper.html();
