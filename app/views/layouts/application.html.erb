@@ -3,12 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Stickies • Quadro</title>
+  <title>Notes • Quadro</title>
   <%= stylesheet_link_tag "jquery-fallr", "application" %>
   <%= csrf_meta_tag %>
 </head>
-<body<% if signed_in? %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %>>
-  <div id="loading"></div>
+<body<% if signed_in? %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %> class="noise">
+  <% if signed_in? or @readonly %>
+    <div id="loading"></div>
+  <% end %>
+
   <div id="app"></div>
 
   <%= include_javascripts :libs, :templates, :core %>

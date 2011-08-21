@@ -130,12 +130,13 @@ j(function() {
     
     // Finally, load stickies.
     Stickies.trigger("reset");
+
+    j(window).load(function() {
+      j(document.body).removeClass("noise");
+      j("#loading").fadeOut();
+    });
   } else {
     Quadro.views.loginView = new LoginView().render();
     j(Quadro.views.loginView.el).prependTo("#app");
   }
-
-  j(window).load(function() {
-    j("#loading").fadeOut();
-  });
 });
