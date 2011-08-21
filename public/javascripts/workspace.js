@@ -106,13 +106,15 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   manipulateClipboard: function(event) {
-    var clipboardData = event.originalEvent.clipboardData
-      , content = clipboardData.getData("text/html") || clipboardData.getData("text/plain")
-      , data = j("<p/>").html(content).text();
+    var obj = event.target.tagName == "BR" 
+            ? j(event.target).parent() 
+            : j(event.target);
 
-    j(event.target).append(data);
-
-    event.preventDefault();
+    setTimeout(function() {
+      obj.find(":not(p,br)").each(function() {
+        j(this).replaceWith("<p>" + j(this).text() + "</p>");
+      });
+    }, 1);
   },
 
   addOne: function(sticky) {
