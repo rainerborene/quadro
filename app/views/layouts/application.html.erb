@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Notes • Quadro</title>
-  <%= stylesheet_link_tag "jquery-fallr", "application" %>
+  <%= stylesheet_link_tag "bootstrap", "application" %>
   <%= csrf_meta_tag %>
 </head>
 <body<% if signed_in? %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %> class="noise">

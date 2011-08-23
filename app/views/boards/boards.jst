@@ -1,5 +1,15 @@
-<ul class="boards-items">
-  <% _.each(boards, function(item) { %>
-    <%= item %>
-  <% }); %>
-</ul>
+<div class="modal">
+  <div class="modal-header">
+    <h3>Boards</h3>
+    <a href="#close" class="close">×</a>
+  </div>
+  <div class="modal-body">
+    <% _.each(boards, function(item) { %>
+      <%= item %>
+    <% }); %>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn primary">Open</a>
+  </div>
+</div>
+<div class="well"></div>

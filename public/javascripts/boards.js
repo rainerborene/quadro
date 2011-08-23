@@ -38,18 +38,19 @@ var BoardCollection = Backbone.Collection.extend({ model: Board })
 
 var BoardsView = Backbone.View.extend({
 
-  className: "boards-window",
-
   template: JST["boards/boards"],
+
+  className: "unselectable",
 
   events: {
     "click .new_board": "createBoard",
     "click .destroy_board": "removeBoard",
-    "click .boards-items li": "selectItem"
+    "click .boards-items li": "selectItem",
+    "click .close": "close"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "createBoard", "removeBoard", "selectItem");
+    _.bindAll(this, "render", "openBoard", "close", "createBoard", "removeBoard", "selectItem");
   },
 
   selectItem: function(event) {
@@ -121,30 +122,23 @@ var BoardsView = Backbone.View.extend({
   },
 
   open: function() {
-    if (j("#fallr:visible").length) return;
+    var el = j(this.el);
 
-    j.fallr('show', {
-      zIndex: parseInt(j(".actions").css("z-index")) + 1,
-      closeKey: true,
-      closeOverlay: true,
-      icon: 'basket',
-      width: '320px',
-      height: '280px',
-      position: 'center',
-      content: j(this.render().el).clone(true),
-      buttons: {
-        button1: { className: 'new-icon', text: 'New', onclick: this.createBoard },
-        button2: { className: 'open-icon', text: 'Open', onclick: this.openBoard },
-        button3: { className: 'remove-icon', text: 'Delete', onclick: this.removeBoard }
-      }
+    el.find(".well").fadeIn("fast", function() {
+      el.find(".modal").fadeIn("fast");
     });
 
-    j("#fallr").css({ width: "265px", padding: "15px" });
-    j("#fallr-buttons").css("position", "absolute");
+    return false;
   },
 
   close: function() {
-    j.fallr('hide');
+    var el = j(this.el);
+
+    el.find(".modal").fadeOut("fast", function() {
+      el.find(".well").fadeOut("fast");
+    });
+
+    return false;
   },
 
   render: function() {

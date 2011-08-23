@@ -1,21 +1,38 @@
 <a href="#share" class="share">Share</a>
-<div class="share_menu">
-  <h2>Sharing Settings</h2>
+<div class="popover below">
+  <div class="arrow"></div>
+  <div class="inner">
+    <h3 class="title">Sharing Settings</h3>
+    <div class="content">
+      <form>
+        <div class="clearfix">
+          <ol class="inputs-list">
+            <li>
+              <label>
+                <input type="checkbox" id="share-public" name="share-public" value="true" <% if (share_public) { %>checked="checked"<% } %> />
+                <span>Allow other people to read the notes.</span>
+              </label>
+              <a href="/share/<%= secret_token %>" class="public-address">quadroapp.com/share/<%= secret_token %></a>
+            </li>
+          </ol>
+        </div>
 
-  <div class="share_public_wrapper">
-    <input type="checkbox" id="share_public" name="share_public" value="true" <% if (share_public) { %>checked="checked"<% } %> />Make this public:
-    <a href="/share/<%= secret_token %>">quadroapp.com/share/<%= secret_token %></a>
-  </div> 
+        <div class="clearfix">
+          <div class="input-prepend">
+            <span class="add-on">@</span>
+            <input class="large" id="username" name="username" size="16" type="text" placeholder="invite your friends">
+          </div>
+        </div>
+      </form>
 
-  <div class="username_wrapper">
-    <input type="text" id="username" class="editing" placeholder="enter a twitter username and press enter" />
-  </div>
-
-  <div class="collaborators dark_scrollbars">
-    <% _.each(collaborators, function(item) { %>
-      <div class="user_item" data-id="<%= item.id %>">
-        <img src="<%= item.profile_image %>" width="20" height="20" /> <%= item.name %> <a href="#" class="remove_item destroy_relationship">Remove</a>
+      <div class="collaborators custom-scrollbar">
+        <% _.each(collaborators, function(item) { %>
+          <div class="user-item" data-id="<%= item.id %>">
+            <img src="<%= item.profile_image %>" width="20" height="20" /> <%= item.name %>
+            <button class="btn danger delete-collaboration">Delete</button>
+          </div>
+        <% }); %>
       </div>
-    <% }); %>
+    </div>
   </div>
 </div>

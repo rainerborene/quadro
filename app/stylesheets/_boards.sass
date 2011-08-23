@@ -2,64 +2,16 @@
  * Boards
  */
 
-.board_title
-  position: fixed
-  width: 200px
-  text-align: center
+.well
+  position: absolute
   top: 0px
-  left: 50%
-  margin-left: -100px
-  line-height: 32px
-  height: 32px
-  font-weight: bold
-  z-index: 9999999
-  +ellipsis
+  left: 0px
+  width: 100%
+  height: 100%
+  background-color: #888
+  opacity: 0.5
+  z-index: 999999999
 
-.boards-items
-  width: 288px
-  height: 200px
-  background: #fff
-  border: 1px solid #ccc
-  overflow-y: scroll
-  overflow-x: hidden
-
-  li
-    padding: 0px 10px 
-    margin-left: 0px !important
-    line-height: 21px
-    text-shadow: none
-    text-decoration: none
-    color: #333
-  
-    &.selected
-      background: #3272db
-      color: #fff
-
-.remove_item
+.modal
   display: none
-  width: 21px
-  height: 20px
-  background: image-url("destroy.png") no-repeat left top
-  text-indent: -9999px
-  overflow: hidden
-  float: right
-  outline: none
-  
-  &:hover
-    background-position: 0px -20px
-
-/**
- * Icons
- */
-
-.open-icon
-  padding-left: 32px !important
-  background: #f3f3f3 image-url("blue-folder.png") no-repeat 10px center !important
-
-.new-icon
-  padding-left: 32px !important
-  background: #f3f3f3 image-url("plus_circle.png") no-repeat 10px center !important
-
-.remove-icon
-  padding-left: 32px !important
-  background: #f3f3f3 image-url("cross_circle_frame.png") no-repeat 10px center !important
+  z-index: 9999999999

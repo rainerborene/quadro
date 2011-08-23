@@ -1,22 +1,21 @@
-@import "compass/reset"
 @import "compass/css3"
 @import "compass/utilities/general"
 @import "compass/typography/text/replacement"
 @import "compass/typography/text/ellipsis"
 @import "compass/typography/text/force-wrap"
 
-*
-  cursor: default
+// *
+  // cursor: default
 
 html, body
   width: 100%
   height: 100%
   overflow: hidden
+  background: #444 image-url("fabric.jpg") repeat left top
 
 body
+  font: 13px 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif
   color: #fff
-  font: 13px Helvetica Neue, Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif
-  background: #444 no-repeat left top
   -webkit-font-smoothing: antialiased
 
 #loading
@@ -28,14 +27,11 @@ body
   background: #444 image-url("ajax-loader.gif") no-repeat center center
   z-index: 99999999
 
-.unselectable, .colors, #fallr
+.unselectable, .colors
   -moz-user-select: -moz-none
   -khtml-user-select: none
   -webkit-user-select: none
   user-select: none
-
-.clearfix
-  +pie-clearfix
 
 .editing
   cursor: text

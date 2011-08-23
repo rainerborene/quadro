@@ -12,9 +12,7 @@ var WorkspaceView = Backbone.View.extend({
     "click .new": "createSticky",
     "click .boards": "openBoardsWindow",
     "click .feedback": "openUserVoice",
-    "click .board_title": "changeBoardTitle",
-    "mouseenter li > a": "menuHoverFx",
-    "mouseleave li > a": "menuLeaveFx"
+    "click .board_title": "changeBoardTitle"
   },
 
   initialize: function() {
@@ -34,6 +32,7 @@ var WorkspaceView = Backbone.View.extend({
 
   setReadonly: function() {
     j(this.el).undelegate(".board_title", "click");
+    j("html, body").css("overflow", "auto");
   },
 
   changeBoardTitle: function(event) {
@@ -82,19 +81,12 @@ var WorkspaceView = Backbone.View.extend({
     j(".boards_window").find("li[data-id=" + model.id + "] .title").text(title);
   },
 
-  menuHoverFx: function(event) {
-    j(event.currentTarget).animate({ color: "#fff" }, "fast");
-  },
-
-  menuLeaveFx: function(event) {
-    j(event.currentTarget).animate({ color: "#ccc" }, "fast");
-  },
-
   openBoardsWindow: function(event) {
     event.preventDefault();
 
     if (_.isUndefined(this.boardsView)) {
       this.boardsView = new BoardsView().render();
+      j(this.boardsView.el).appendTo("#app");
     }
 
     this.boardsView.open();
@@ -166,7 +158,7 @@ var WorkspaceView = Backbone.View.extend({
 
     if (!Quadro.readonly) {
       this.shareMenuView = new ShareMenuView().render();
-      j(this.el).find(".right").parent().before(this.shareMenuView.el);
+      j(this.el).find(".feedback").parent().before(this.shareMenuView.el);
     }
 
     return this;
@@ -178,13 +170,16 @@ var ShareMenuView = Backbone.View.extend({
 
   tagName: "li",
 
+  className: "share-menu",
+
   template: JST["boards/share"],
 
   events: {
     "click .share": "toggleSubmenu",
-    "click #share_public": "makeBoardPublic",
+    "click #share-public": "makeBoardPublic",
+    "click .delete-collaboration": "destroyCollaboration",
     "keypress #username": "lookupUsername",
-    "click .destroy_relationship": "destroyCollaboration"
+    "submit form": "cancelSubmit"
   },
 
   initialize: function() {
@@ -195,9 +190,14 @@ var ShareMenuView = Backbone.View.extend({
     j(document).bind("click", this.closeSubmenu);
   },
 
+  cancelSubmit: function(event) {
+    event.preventDefault();
+  },
+
   closeSubmenu: function(event) {
-    if ( ! j(event.target).parents(".actions").length ) {
-      j(this.el).find(".share_menu:not(:animated)").fadeOut("fast");
+    if ( ! j(event.target).parents(".topbar").length ) {
+      j(this.el).find(".popover:not(:animated)").fadeOut("fast");
+      j(this.el).removeClass("active");
     }
   },
 
@@ -222,7 +222,8 @@ var ShareMenuView = Backbone.View.extend({
 
   lookupUsername: function(event) {
     if (event.keyCode == 13) {
-      var username = j(event.currentTarget).val().replace(/@/g, "")
+      var input = j(event.currentTarget)
+        , username = input.val().replace(/@/g, "")
         , valid = (username !== "" && username !== Quadro.nickname)
         , exists = currentBoard.collaborators.detect(function(i) { 
             return i.get("nickname").toLowerCase() == username.toLowerCase() 
@@ -230,18 +231,25 @@ var ShareMenuView = Backbone.View.extend({
 
       if (!exists && valid) {
         currentBoard.collaborators.create({ username: username }, { 
-          error: function() {
-            console.log(this);
-            console.log(arguments);
+          error: function() { 
+            input
+              .css({ backgroundColor: "#D83A2E", color: "#ffffff" })
+              .animate({ backgroundColor: "#ffffff", color: "#808080" }, "slow")
+              .trigger("focus");
+          },
+          success: function() {
+            // TODO: Should scroll to bottom instead. (render timeout)
           }
         });
+
       }
     }
   },
 
   toggleSubmenu: function(event) {
     event.preventDefault();
-    j(this.el).find(".share_menu").fadeToggle("fast");
+    j(this.el).find(".popover").fadeToggle("fast");
+    j(this.el).toggleClass("active");
   },
 
   makeBoardPublic: function(event) {
@@ -250,13 +258,13 @@ var ShareMenuView = Backbone.View.extend({
   },
 
   render: function() {
-    var autoOpen = j(this.el).find(".share_menu:visible").length;
+    var autoOpen = j(this.el).find(".popover:visible").length;
 
     j(this.el).html(this.template(currentBoard.toJSON()));
 
     // that means was triggered from an event
     if (arguments.length && autoOpen) {
-      j(this.el).find(".share_menu").show();
+      j(this.el).find(".popover").show();
     }
 
     return this;

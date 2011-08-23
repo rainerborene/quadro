@@ -2,10 +2,6 @@
  * Sticky
  */
 
-.stickies
-  position: relative
-  clear: both
-
 .sticky 
   display: none
   position: absolute
@@ -19,8 +15,9 @@
 
   h2
     margin-bottom: 15px
+    font-weight: normal
 
-  h2, div
+  h2, div, p
     color: #333
     font-family: 'Just Another Hand', Helvetica, sans-serif
     font-size: 30px
@@ -54,3 +51,45 @@
 
 .gray
   +background(linear-gradient(#f2f2f2, #cfcfcf))
+
+/**
+ * Color picker
+ */
+
+.colors 
+  display: none
+  position: absolute
+  width: 100px
+  padding: 6px 0px
+  background: rgba(0,0,0,0.9)
+  list-style: none
+  margin: 0px
+  +border-radius(6px)
+  +single-box-shadow(rgba(0,0,0,0.5), 0px, 3px, 12px)
+
+  li
+    padding: 0px 20px
+    line-height: 19px
+    color: #fff
+    cursor: default
+    border-top: 1px solid transparent
+    border-bottom: 1px solid transparent
+
+    &:hover
+      color: #fff
+      border-top-color: #5a7aee
+      border-bottom-color: #1047ec
+      +background(linear-gradient(#6483f8, #2255f5))
+
+/**
+ * Buttons
+ */
+
+.remove
+  display: block
+  visibility: hidden
+  position: absolute
+  top: -12px
+  left: -15px
+  outline: none
+  +replace-text-with-dimensions("close_icon.png", 0px, 0px)
