@@ -202,9 +202,12 @@ var ShareMenuView = Backbone.View.extend({
           });
 
       if (!exists && valid) {
+        input.attr("disabled", "disabled");
+
         currentBoard.collaborators.create({ username: username }, { 
           error: function() { 
             input
+              .removeAttr("disabled")
               .css({ backgroundColor: "#D83A2E", color: "#ffffff" })
               .animate({ backgroundColor: "#ffffff", color: "#808080" }, "slow")
               .trigger("focus");
@@ -213,9 +216,11 @@ var ShareMenuView = Backbone.View.extend({
             that.render();
 
             var collaborators = j(".collaborators")
+              , username = j("#username")
               , scroll = Math.abs(collaborators[0].scrollHeight - collaborators.height());
 
             collaborators.animate({ scrollTop: scroll }, "slow");
+            username.removeAttr("disabled");
           }
         });
       }
