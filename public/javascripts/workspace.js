@@ -158,8 +158,6 @@ var ShareMenuView = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, "render", "toggleSubmenu", "makeBoardPublic", "lookupUsername", "destroyCollaboration", "closeSubmenu");
 
-    currentBoard.collaborators.bind("add", this.render);
-
     j(document).bind("click", this.closeSubmenu);
   },
 
@@ -195,7 +193,8 @@ var ShareMenuView = Backbone.View.extend({
 
   lookupUsername: function(event) {
     if (event.keyCode == 13) {
-      var input = j(event.currentTarget)
+      var that = this
+        , input = j(event.currentTarget)
         , username = input.val().replace(/@/g, "")
         , valid = (username !== "" && username !== Quadro.nickname)
         , exists = currentBoard.collaborators.detect(function(i) { 
@@ -211,10 +210,14 @@ var ShareMenuView = Backbone.View.extend({
               .trigger("focus");
           },
           success: function() {
-            // TODO: Should scroll to bottom instead. (render timeout)
+            that.render();
+
+            var collaborators = j(".collaborators")
+              , scroll = Math.abs(collaborators[0].scrollHeight - collaborators.height());
+
+            collaborators.animate({ scrollTop: scroll }, "slow");
           }
         });
-
       }
     }
   },
@@ -235,8 +238,7 @@ var ShareMenuView = Backbone.View.extend({
 
     j(this.el).html(this.template(currentBoard.toJSON()));
 
-    // that means was triggered from an event
-    if (arguments.length && autoOpen) {
+    if (autoOpen) {
       j(this.el).find(".popover").show();
     }
 
