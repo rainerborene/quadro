@@ -106,6 +106,10 @@ function isOverlapping(sticky) {
   return overlap;
 }
 
+function updateWindowTitle() {
+  document.title = (currentBoard.get("title") + " • Quadro");
+}
+
 /**
  * Document ready
  */
@@ -127,6 +131,8 @@ j(function() {
     if (Quadro.readonly) {
       Quadro.views.workspaceView.setReadonly();
     }
+
+    updateWindowTitle();
     
     // Finally, load stickies.
     Stickies.trigger("reset");

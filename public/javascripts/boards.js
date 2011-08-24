@@ -77,6 +77,7 @@ var BoardsView = Backbone.View.extend({
     if (title != null && title != "") {
       board = Boards.get(id);
       board.set({ title: title }).save();
+      updateWindowTitle();
     }
   },
 
@@ -91,7 +92,7 @@ var BoardsView = Backbone.View.extend({
       Stickies.fetch({
         success: function(collection, response) {
           j(".stickies").empty();
-          document.title = (currentBoard.get("title") + " • Quadro");
+          updateWindowTitle();
 
           collection.trigger("reset");
 
@@ -147,6 +148,8 @@ var BoardsView = Backbone.View.extend({
   open: function() {
     var el = j(this.el);
 
+    j(".boards").parent().addClass("active");
+
     el.find(".well").fadeIn("fast", function() {
       el.find(".modal").fadeIn("fast");
     });
@@ -159,6 +162,7 @@ var BoardsView = Backbone.View.extend({
 
     el.find(".modal").fadeOut("fast", function() {
       el.find(".well").fadeOut("fast");
+      j(".boards").parent().removeClass("active");
     });
 
     return false;
