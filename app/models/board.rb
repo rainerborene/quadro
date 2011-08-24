@@ -19,7 +19,7 @@ class Board
     super({
       :except => [ :collaborator_ids, :created_at, :updated_at, :stickies, :user_id ],
       :include => {
-        :user => { :only => [ :name, :profile_image] },
+        :user => { :only => [ :name, :profile_image, :nickname ] },
         :collaborators => { :except => [ :token, :secret_token, :uid, :provider, :created_at, :updated_at ] }
       }
     }.merge(options))
