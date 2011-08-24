@@ -52,7 +52,7 @@ var BoardsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "close", "createBoard", "removeBoard", "selectItem", "escKey");
+    _.bindAll(this, "render", "openBoard", "close", "createBoard", "removeBoard", "changeTitle", "selectItem", "escKey");
 
     j(document).bind("keyup", this.escKey);
   },
@@ -69,11 +69,14 @@ var BoardsView = Backbone.View.extend({
     }
   },
 
-  changeTitle: function() {
-    var title = prompt("Enter a new title:");
+  changeTitle: function(event) {
+    var title = prompt("Enter a new title:")
+      , id = j(event.currentTarget).attr("data-id")
+      , board = undefined;
     
     if (title != null && title != "") {
-      currentBoard.set({ title: title }).save();
+      board = Boards.get(id);
+      board.set({ title: title }).save();
     }
   },
 
