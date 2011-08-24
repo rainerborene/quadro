@@ -177,8 +177,9 @@ var BoardsView = Backbone.View.extend({
         left: (j(window).width() - 380) / 2
       })
       .draggable({ 
+        containment: "window" ,
         handle: ".modal-header",
-        containment: "window" 
+        cancel: ".close"
       });
 
     return this;

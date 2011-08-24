@@ -7,7 +7,8 @@
   <%= stylesheet_link_tag "bootstrap", "application" %>
   <%= csrf_meta_tag %>
 </head>
-<body<% if signed_in? %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %> class="noise">
+<body<% if signed_in? or @readonly %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %> class="noise">
+
   <% if signed_in? or @readonly %>
     <div id="loading"></div>
   <% end %>
@@ -17,8 +18,14 @@
   <%= include_javascripts :libs, :templates, :core %>
 
   <script>_.extend(Quadro, <%= current_user_session %>);</script>
-  <% if signed_in? %>
+
+  <% if @readonly %>
+  <script>Boards.reset(<%= raw @board.to_json %>);</script>
+  <% elsif signed_in? %>
   <script>Boards.reset(<%= raw current_user.every_boards.to_json %>);</script>
+  <% end %>
+
+  <% if signed_in? or @readonly %>
   <script>Stickies.reset(<%= raw @board.stickies.to_json %>);</script>
   <% end %>
 

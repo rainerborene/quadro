@@ -17,8 +17,9 @@ class Board
   def serializable_hash(options)
     options ||= {}
     super({
-      :except => [ :collaborator_ids, :created_at, :updated_at, :stickies ],
+      :except => [ :collaborator_ids, :created_at, :updated_at, :stickies, :user_id ],
       :include => {
+        :user => { :only => [ :name, :profile_image] },
         :collaborators => { :except => [ :token, :secret_token, :uid, :provider, :created_at, :updated_at ] }
       }
     }.merge(options))

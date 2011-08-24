@@ -23,6 +23,10 @@
   margin: 0px
   color: #333
 
+.modal-header
+  h3
+    cursor: default
+
 .modal-footer
   button
     width: 60px
@@ -32,7 +36,7 @@
   margin: 0px
   
   li
-    cursor: normal
+    cursor: default
     line-height: 27px
     border-top: 1px solid #fff
     border-bottom: 1px solid #fff
@@ -43,10 +47,28 @@
     font-weight: bold
     text-shadow: 0px 1px 0px rgba(0,0,0,0.5)
     padding-right: 20px
-    border-top-color: #1a6bb9
+    border-top-color: #3B92E3
     border-bottom-color: #5595d2
     text-indent: 20px
     +background-image(linear-gradient(bottom, #226ebb,#6ca5dd))
+
+    .status
+      color: #000
+      text-shadow: none
+
+  .meta
+    float: right
+
+    .status
+      font-size: 10px
+      font-weight: bold
+      text-transform: uppercase
+    
+    img
+      display: inline-block
+      margin-left: 5px
+      vertical-align: -5px
+      +border-radius(3px)
 
 .help
   font-size: 11px
