@@ -5,7 +5,6 @@ javascripts:
   libs:
     - public/javascripts/vendor/jquery.js
     - public/javascripts/vendor/jquery-ui.js
-    - public/javascripts/vendor/jquery-fallr.js
     - public/javascripts/vendor/underscore.js
     - public/javascripts/vendor/backbone.js
 

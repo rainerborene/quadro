@@ -4,12 +4,17 @@
     <a href="#close" class="close">×</a>
   </div>
   <div class="modal-body">
-    <% _.each(boards, function(item) { %>
-      <%= item %>
-    <% }); %>
+    <ul class="board-list">
+      <% _.each(boards, function(item) { %>
+        <%= item %>
+      <% }); %>
+    </ul>
+    <p class="help">Double click to edit the title, or select an item to open or remove.</p>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn primary">Open</a>
+    <button disabled="disabled" class="btn small primary open-board">Open</button>
+    <button disabled="disabled" class="btn small danger remove-board">Delete</button>
+    <button class="btn small create-board">New</button>
   </div>
 </div>
 <div class="well"></div>

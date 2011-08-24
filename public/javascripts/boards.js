@@ -43,28 +43,48 @@ var BoardsView = Backbone.View.extend({
   className: "unselectable",
 
   events: {
-    "click .new_board": "createBoard",
-    "click .destroy_board": "removeBoard",
-    "click .boards-items li": "selectItem",
-    "click .close": "close"
+    "click .create-board": "createBoard",
+    "click .remove-board": "removeBoard",
+    "click .open-board": "openBoard",
+    "click .board-list li": "selectItem",
+    "dblclick .board-list li": "changeTitle",
+    "click .close, .well": "close"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "close", "createBoard", "removeBoard", "selectItem");
+    _.bindAll(this, "render", "openBoard", "close", "createBoard", "removeBoard", "selectItem", "escKey");
+
+    j(document).bind("keyup", this.escKey);
   },
 
   selectItem: function(event) {
     j(event.currentTarget).siblings().removeClass("selected");
     j(event.currentTarget).addClass("selected");
+    j(this.el).find("button[disabled]").removeAttr("disabled");
+  },
+
+  escKey: function(event) {
+    if (event.keyCode == 27) {
+      this.close();
+    }
+  },
+
+  changeTitle: function() {
+    var title = prompt("Enter a new title:");
+    
+    if (title != null && title != "") {
+      currentBoard.set({ title: title }).save();
+    }
   },
 
   openBoard: function() {
-    var selected = j(".boards-items").find(".selected"), that = this;
+    var selected = j(".board-list").find(".selected"), that = this;
 
     if (selected.length) {
       var id = selected.data("id");
 
       currentBoard = Boards.get(id);
+      document.title = (currentBoard.get("title") + " • Quadro");
 
       Stickies.fetch({
         success: function(collection, response) {
@@ -92,21 +112,20 @@ var BoardsView = Backbone.View.extend({
 
         j(item)
           .css("display", "none")
-          .appendTo(".boards-items")
+          .appendTo(".board-list")
           .slideDown();
       }
     });
   },
 
-  removeBoard: function() {
-    var selected = j(".boards-items").find(".selected");
+  removeBoard: function(event) {
+    var selected = j(".board-list").find(".selected");
 
     if (selected.length) {
       var id = selected.data("id")
         , entry = Boards.get(id)
         , confirmed = confirm("Are you sure?");
 
-      // Finally, destroy entry on database
       if (confirmed) {
         entry.destroy({
           success: function(model, response) {
@@ -119,6 +138,8 @@ var BoardsView = Backbone.View.extend({
         });
       }
     }
+
+    event.preventDefault();
   },
 
   open: function() {
@@ -147,6 +168,16 @@ var BoardsView = Backbone.View.extend({
     });
 
     j(this.el).html(this.template({ boards: this.boards }));
+    j(this.el)
+      .find(".modal")
+      .css({
+        position: "absolute",
+        left: (j(window).width() - 380) / 2
+      })
+      .draggable({ 
+        handle: ".modal-header",
+        containment: "window" 
+      });
 
     return this;
   }

@@ -11,12 +11,11 @@ var WorkspaceView = Backbone.View.extend({
   events: {
     "click .new": "createSticky",
     "click .boards": "openBoardsWindow",
-    "click .feedback": "openUserVoice",
-    "click .board_title": "changeBoardTitle"
+    "click .feedback": "openUserVoice"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "changeBoardTitle");
+    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice");
 
     Stickies.bind("add", this.addOne);
     Stickies.bind("reset", this.addAll);
@@ -35,50 +34,8 @@ var WorkspaceView = Backbone.View.extend({
     j("html, body").css("overflow", "auto");
   },
 
-  changeBoardTitle: function(event) {
-    if ( j("#fallr:visible").length ) { 
-      return; 
-    }
-
-    var template = [
-        '<p>Enter a new title:</p>'
-      , '<input type="text" id="new_title" class="editing" />'
-    ];
-
-    j("#fallr").removeAttr("style");
-
-    j.fallr('show', {
-      zIndex: parseInt(j(".actions").css("z-index")) - 2,
-      closeKey: true,
-      closeOverlay: true,
-      position: '400px',
-      buttons: {
-        button1: { 
-          text: 'Continue',
-          onclick: function() {
-            var title = j(this).find('#new_title').val();
-            if (title != "") {
-              currentBoard.set({ title: title }).save();
-            }
-            j.fallr('hide');
-          }
-        },
-        button2: { text: 'Cancel' }
-      },
-      content: template.join(""),
-      icon: 'form'
-    }, function() {
-      j("#new_title").keydown(function(event) {
-        if (event.keyCode == 13) {
-          j("#fallr-button-button1").trigger("click");
-        }
-      }).focus();
-    });
-  },
-
   didChangeTitle: function(model, title) {
-    j(".board_title").text(title);
-    j(".boards_window").find("li[data-id=" + model.id + "] .title").text(title);
+    j(".board-list").find("li[data-id=" + model.id + "]").text(title);
   },
 
   openBoardsWindow: function(event) {
