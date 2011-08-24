@@ -5,8 +5,7 @@
 var Sticky = Backbone.Model.extend({
 
   defaults: {
-    title: "Untitled",
-    content: "Click here to start writing something useful. You can also change the background color using the right mouse button.",
+    content: "Untitled\n\nClick here to start writing something useful. You can also change the background color using the right mouse button.",
     position_x: 100,
     position_y: 100,
     color: "yellow",
@@ -52,9 +51,8 @@ var StickyView = Backbone.View.extend({
 
   events: {
     "click .remove": "remove",
-    "focus .title, .content": "setContentEditable",
-    "blur .title, .content": "unsetContentEditable",
-    "keypress .title": "didChangeTitle",
+    "focus .content": "setContentEditable",
+    "blur .content": "unsetContentEditable",
     "contextmenu": "openContextMenu",
     "dragstop": "updateStickyPosition",
     "dragstart": "closeContextMenu",
@@ -62,7 +60,7 @@ var StickyView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "setContentEditable", "unsetContentEditable", "remove", "didChangeTitle", "openContextMenu", "closeContextMenu", "bringToFront"); 
+    _.bindAll(this, "render", "setContentEditable", "unsetContentEditable", "remove", "openContextMenu", "closeContextMenu", "bringToFront"); 
   },
 
   bringToFront: function(event) {
@@ -84,11 +82,6 @@ var StickyView = Backbone.View.extend({
     StickyContextMenuView.close();
   },
 
-  // Prevents user from adding newlines to the title.
-  didChangeTitle: function(event) {
-    return event.which != 13;
-  },
-
   updateStickyPosition: function(event, ui) {
     var that = this;
 
@@ -107,7 +100,7 @@ var StickyView = Backbone.View.extend({
   setContentEditable: function(event) {
     var el = j(event.currentTarget);
 
-    if (el.text() == this.model.defaults.title || el.text() == this.model.defaults.content) {
+    if (el.text().replace(/\n+/, "") == this.model.defaults.content.replace(/\n+/, "")) {
       el.text(""); 
       setSelection(event.currentTarget);
     }
@@ -119,7 +112,6 @@ var StickyView = Backbone.View.extend({
 
   unsetContentEditable: function(event) {
     var content = []
-      , title = j(this.el).find(".title").text()
       , paragraphs = j(this.el).find(".content p");
 
     j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
@@ -131,18 +123,13 @@ var StickyView = Backbone.View.extend({
       content = j(this.el).find(".content").text();
     }
 
-    if (!j.trim(title).length) {
-      title = this.model.defaults.title;
-      j(this.el).find(".title").text(title); 
-    }
-
     if (!j.trim(content).length) {
       content = this.model.defaults.content;
       j(this.el).find(".content").empty().append(j("<p/>").text(content));
     }
 
-    if (this.model.get("title") !== title || this.model.get("content") !== content) {
-      this.model.set({ title: title, content: content }).save();
+    if (this.model.get("content") !== content) {
+      this.model.set({ content: content }).save();
     }
   },
 
@@ -180,7 +167,7 @@ var StickyView = Backbone.View.extend({
       })
       .draggable({
         containment: "window",
-        cancel: ".title, .content",
+        cancel: ".content",
         stack: ".sticky"
       });
 

@@ -1,7 +1,6 @@
 class Sticky
   include MongoMapper::EmbeddedDocument
 
-  key :title, String, :required => true
   key :content, String, :required => true
   key :position_x, Integer, :required => true
   key :position_y, Integer, :required => true

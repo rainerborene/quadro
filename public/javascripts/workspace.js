@@ -30,7 +30,6 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   setReadonly: function() {
-    j(this.el).undelegate(".board_title", "click");
     j("html, body").css("overflow", "auto");
   },
 
@@ -87,25 +86,42 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   createSticky: function(event) {
-    if (Quadro.readonly) { return; }
+    if (Quadro.readonly) { 
+      return; 
+    }
 
-    var stickyView = new StickyView({ model: new Sticky }).render();
+    var model = new Sticky()
+      , stickyView = new StickyView({ model: model }).render()
+      , zIndex = zIndexMax();
 
     if (event.type == "dblclick") {
-      if (event.target != document.body) { return; }
+      if (event.target != document.body) {
+        return; 
+      }
 
-      j(stickyView.el).css({
+      j(stickyView.el).css({ 
         top: event.layerY,
-        left: event.layerX
+        left: event.layerX 
+      });
+    } else {
+      j(stickyView.el).css({
+        left: (j(window).width() - 340) * Math.random(),
+        top: Math.max(60, parseInt((j(window).height() - 250) * Math.random()))
       });
     }
+    
+    model.set({
+      position_x: parseInt(j(stickyView.el).css("left")),
+      position_y: parseInt(j(stickyView.el).css("top")),
+      z_index: zIndex
+    });
 
     j(stickyView.el)
       .appendTo(".stickies")
+      .css("zIndex", zIndex)
       .fadeIn(function() { 
         j(this).css({ height: "auto" });
-      })
-      .css("zIndex", zIndexMax());
+      });
 
     event.preventDefault();
   },

@@ -87,12 +87,11 @@ var BoardsView = Backbone.View.extend({
       var id = selected.data("id");
 
       currentBoard = Boards.get(id);
-      document.title = (currentBoard.get("title") + " • Quadro");
 
       Stickies.fetch({
         success: function(collection, response) {
           j(".stickies").empty();
-          j(".board_title").text(currentBoard.get("title"));
+          document.title = (currentBoard.get("title") + " • Quadro");
 
           collection.trigger("reset");
 
