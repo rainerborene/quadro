@@ -150,9 +150,12 @@ var BoardsView = Backbone.View.extend({
 
     j(".boards").parent().addClass("active");
 
-    el.find(".well").fadeIn("fast", function() {
-      el.find(".modal").fadeIn("fast");
-    });
+    el
+      .find(".well")
+      .css("display", "none")
+      .fadeIn("fast", function() {
+        el.find(".modal").fadeIn("fast");
+      });
 
     return false;
   },
@@ -160,10 +163,12 @@ var BoardsView = Backbone.View.extend({
   close: function() {
     var el = j(this.el);
 
-    el.find(".modal").fadeOut("fast", function() {
-      el.find(".well").fadeOut("fast");
-      j(".boards").parent().removeClass("active");
-    });
+    el
+      .find(".modal")
+      .fadeOut("fast", function() {
+        el.find(".well").fadeOut("fast");
+        j(".boards").parent().removeClass("active");
+      });
 
     return false;
   },

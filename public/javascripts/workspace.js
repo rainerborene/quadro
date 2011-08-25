@@ -82,7 +82,7 @@ var WorkspaceView = Backbone.View.extend({
 
     setTimeout(function() {
       j(".sticky").css("height", "auto");
-    }, 2000);
+    }, 1);
   },
 
   createSticky: function(event) {
@@ -212,14 +212,17 @@ var ShareMenuView = Backbone.View.extend({
               .animate({ backgroundColor: "#ffffff", color: "#808080" }, "slow")
               .trigger("focus");
           },
-          success: function() {
-            that.render();
-
-            var collaborators = j(".collaborators")
+          success: function(model, attributes, xhr) {
+            var template = JST['boards/collaborator']
+              , collaborators = j(".collaborators")
               , username = j("#username")
-              , scroll = Math.abs(collaborators[0].scrollHeight - collaborators.height());
+              , item = j(template({ item: attributes }))
+              , scroll = Math.abs(collaborators[0].scrollHeight - collaborators.height()) - collaborators.scrollTop() + 25;
 
-            collaborators.animate({ scrollTop: scroll }, "slow");
+            item.css("display", "none");
+            collaborators.append(item).animate({ scrollTop: "+=" + scroll }, "slow");
+            item.fadeIn();
+
             username.removeAttr("disabled");
           }
         });
