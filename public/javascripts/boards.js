@@ -136,10 +136,10 @@ var BoardsView = Backbone.View.extend({
         , id = input.parent().attr("data-id")
         , el = j("<span/>", { "class": "item-title", text: title });
       
+
       var options = {
         success: function(model, attributes, xhr) {
           input.parent().attr("data-id", attributes.id);
-          input.removeAttr("disabled").replaceWith(el);
 
           if (attributes.id == currentBoard.id) {
             currentBoard.set({ title: attributes.title });
@@ -151,7 +151,7 @@ var BoardsView = Backbone.View.extend({
         }
       };
 
-      input.attr("disabled", "disabled");
+      input.replaceWith(el);
 
       if (id == "") {
         Boards.create({ title: title }, options);
