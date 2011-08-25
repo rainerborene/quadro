@@ -34,7 +34,7 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   didChangeTitle: function(model, title) {
-    j(".board-list").find("li[data-id=" + model.id + "]").text(title);
+    j(".board-list").find("li[data-id=" + model.id + "] .item-title").text(title);
   },
 
   openBoardsWindow: function(event) {

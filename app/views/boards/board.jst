@@ -1,6 +1,6 @@
 <li data-id="<%= this.id %>">
-  <%= this.title %>
-  <% if (this.user.name != Quadro.name) { %>
+  <span class="item-title"><%= this.title %></span>
+  <% if (this.user && this.user.name != Quadro.name) { %>
     <div class="meta">
       <span class="status">shared with you</span>
       <img src="<%= this.user.profile_image %>" width="20" height="20" title="<%= this.user.name %> @<%= this.user.nickname %>" />

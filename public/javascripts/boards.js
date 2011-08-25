@@ -43,7 +43,9 @@ var BoardsView = Backbone.View.extend({
   className: "unselectable",
 
   events: {
-    "click .create-board": "createBoard",
+    "click .new-board": "newBoard",
+    "blur input#board-title": "createBoard",
+    "keypress input#board-title": "createBoard",
     "click .remove-board": "removeBoard",
     "click .open-board": "openBoard",
     "click .board-list li": "selectItem",
@@ -52,7 +54,7 @@ var BoardsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "close", "createBoard", "removeBoard", "changeTitle", "selectItem", "escKey");
+    _.bindAll(this, "render", "openBoard", "close", "newBoard", "createBoard", "removeBoard", "changeTitle", "selectItem", "escKey");
 
     j(document).bind("keyup", this.escKey);
   },
@@ -69,18 +71,6 @@ var BoardsView = Backbone.View.extend({
     }
   },
 
-  changeTitle: function(event) {
-    var title = prompt("Enter a new title:")
-      , id = j(event.currentTarget).attr("data-id")
-      , board = undefined;
-    
-    if (title != null && title != "") {
-      board = Boards.get(id);
-      board.set({ title: title }).save();
-      updateWindowTitle();
-    }
-  },
-
   openBoard: function() {
     var selected = j(".board-list").find(".selected"), that = this;
 
@@ -93,9 +83,7 @@ var BoardsView = Backbone.View.extend({
         success: function(collection, response) {
           j(".stickies").empty();
           updateWindowTitle();
-
           collection.trigger("reset");
-
           that.close();
         }
       });
@@ -104,21 +92,73 @@ var BoardsView = Backbone.View.extend({
     }
   },
 
+  changeTitle: function(event) {
+    var input = j(this.make("input", { id: "board-title", maxlength: 28 }))
+      , item = j(event.currentTarget)
+      , id = item.attr("data-id");
+
+    input
+      .val(item.find(".item-title").text())
+      .bind("blur", this.createBoard)
+      .bind("keypress", this.createBoard);
+
+    item.find(".item-title").replaceWith(input);
+
+    input.focus();
+  },
+
+  newBoard: function(event) {
+    var template = JST['boards/board']()
+      , input = this.make("input", { id: "board-title", maxlength: 28 })
+      , item = j(template);
+
+    j(".board-list")
+      .find(".selected")
+      .removeClass("selected");
+
+    item
+      .css("display", "none")
+      .find(".item-title")
+      .replaceWith(input)
+    .end()
+      .appendTo(".board-list")
+      .trigger("click")
+      .slideDown();
+
+    item.find("input").focus();
+  },
+
+  // create or update
   createBoard: function(event) {
-    var title = prompt("Enter a title:");
+    if ((event.type == "keypress" && event.keyCode == "13") || event.type == "focusout") {
+      var input = j(event.currentTarget)
+        , title = input.val() || "Untitled"
+        , id = input.parent().attr("data-id")
+        , el = j("<span/>", { "class": "item-title", text: title });
+      
+      var options = {
+        success: function(model, attributes, xhr) {
+          input.parent().attr("data-id", attributes.id);
+          input.removeAttr("disabled").replaceWith(el);
 
-    if (title == "" || title == null) return;
+          if (attributes.id == currentBoard.id) {
+            currentBoard.set({ title: attributes.title });
+            updateWindowTitle();
+          }
+        },
+        error: function() {
+          input.parent().slideUp();
+        }
+      };
 
-    Boards.create({ title: title }, { 
-      success: function(model, response, xhr) {
-        var item = JST["boards/board"].call(model.toJSON());
+      input.attr("disabled", "disabled");
 
-        j(item)
-          .css("display", "none")
-          .appendTo(".board-list")
-          .slideDown();
+      if (id == "") {
+        Boards.create({ title: title }, options);
+      } else {
+        Boards.get(id).save({ title: title }, options);
       }
-    });
+    }
   },
 
   removeBoard: function(event) {
