@@ -43,5 +43,7 @@ class ApplicationController < ActionController::Base
     @board = Board.where("$or" => [
       { :_id => BSON::ObjectId(params[:board_id] || params[:id]), :user_id => current_user.id }, 
       { :_id => BSON::ObjectId(params[:board_id] || params[:id]), :collaborator_ids => { "$in" => [current_user.id] } } ]).first
+
+    not_found if @board.nil?
   end
 end
