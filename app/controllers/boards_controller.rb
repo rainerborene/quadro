@@ -18,7 +18,7 @@ class BoardsController < ApplicationController
 
   def destroy
     unless current_user == @board.user
-      @board.collaborator_ids.delete_if { |i| i.to_s.eql? params[:id] }
+      @board.collaborator_ids.delete_if { |i| i.eql? current_user.id }
       return render :json => { :success => @board.save }
     end
 

@@ -223,7 +223,7 @@ var ShareMenuView = Backbone.View.extend({
             collaborators.append(item).animate({ scrollTop: "+=" + scroll }, "slow");
             item.fadeIn();
 
-            username.removeAttr("disabled");
+            username.val("").removeAttr("disabled");
           }
         });
       }
