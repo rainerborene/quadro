@@ -44,8 +44,8 @@ var BoardsView = Backbone.View.extend({
 
   events: {
     "click .new-board": "newBoard",
-    "blur input#board-title": "createBoard",
-    "keypress input#board-title": "createBoard",
+    "blur .title-field": "saveWhenBlur",
+    "keypress .title-field": "saveWhenEnter",
     "click .remove-board": "removeBoard",
     "click .open-board": "openBoard",
     "click .board-list li": "selectItem",
@@ -54,7 +54,7 @@ var BoardsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "close", "newBoard", "createBoard", "removeBoard", "changeTitle", "selectItem", "escKey");
+    _.bindAll(this, "render", "openBoard", "close", "newBoard", "saveWhenBlur", "saveWhenEnter", "saveBoard", "removeBoard", "changeTitle", "selectItem", "escKey");
 
     j(document).bind("keyup", this.escKey);
   },
@@ -93,23 +93,20 @@ var BoardsView = Backbone.View.extend({
   },
 
   changeTitle: function(event) {
-    var input = j(this.make("input", { id: "board-title", maxlength: 28 }))
+    var input = j(this.make("input", { 'class': "title-field", maxlength: 28 }))
       , item = j(event.currentTarget)
       , id = item.attr("data-id");
 
-    input
-      .val(item.find(".item-title").text())
-      .bind("blur", this.createBoard)
-      .bind("keypress", this.createBoard);
-
+    input.val(item.find(".item-title").text());
     item.find(".item-title").replaceWith(input);
+    item.data("replaced", false);
 
     input.focus();
   },
 
   newBoard: function(event) {
     var template = JST['boards/board']()
-      , input = this.make("input", { id: "board-title", maxlength: 28 })
+      , input = this.make("input", { 'class': "title-field", maxlength: 28 })
       , item = j(template);
 
     j(".board-list")
@@ -128,36 +125,48 @@ var BoardsView = Backbone.View.extend({
     item.find("input").focus();
   },
 
+  saveWhenBlur: function(event) {
+    this.saveBoard(j(event.currentTarget));
+  },
+
+  saveWhenEnter: function(event) {
+    if (event.type == "keypress" && event.keyCode == "13") {
+      this.saveBoard(j(event.currentTarget));
+    }
+  },
+
   // create or update
-  createBoard: function(event) {
-    if ((event.type == "keypress" && event.keyCode == "13") || event.type == "focusout") {
-      var input = j(event.currentTarget)
-        , title = input.val() || "Untitled"
-        , id = input.parent().attr("data-id")
-        , el = j("<span/>", { "class": "item-title", text: title });
-      
+  saveBoard: function(input) {
+    var item = input.parent()
+      , title = input.val() || "Untitled"
+      , id = input.parent().attr("data-id")
+      , el = j("<span/>", { "class": "item-title", text: title });
 
-      var options = {
-        success: function(model, attributes, xhr) {
-          input.parent().attr("data-id", attributes.id);
+    if (input.parent().data("replaced")) {
+      return;
+    }
 
-          if (attributes.id == currentBoard.id) {
-            currentBoard.set({ title: attributes.title });
-            updateWindowTitle();
-          }
-        },
-        error: function() {
-          input.parent().slideUp();
+    var options = {
+      success: function(model, attributes, xhr) {
+        item.attr("data-id", attributes.id);
+
+        if (attributes.id == currentBoard.id) {
+          currentBoard.set({ title: attributes.title });
+          updateWindowTitle();
         }
-      };
-
-      input.replaceWith(el);
-
-      if (id == "") {
-        Boards.create({ title: title }, options);
-      } else {
-        Boards.get(id).save({ title: title }, options);
+      },
+      error: function() {
+        item.parent().slideUp();
       }
+    };
+
+    input.parent().data("replaced", true);
+    input.replaceWith(el);
+
+    if (id == "") {
+      Boards.create({ title: title }, options);
+    } else {
+      Boards.get(id).save({ title: title }, options);
     }
   },
 

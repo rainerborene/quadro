@@ -7,7 +7,7 @@
   <%= stylesheet_link_tag "bootstrap", "application" %>
   <%= csrf_meta_tag %>
 </head>
-<body<% if signed_in? or @readonly %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %> class="noise">
+<body<% if signed_in? or @readonly %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %>>
 
   <% if signed_in? or @readonly %>
     <div id="loading"></div>

@@ -138,7 +138,6 @@ j(function() {
     Stickies.trigger("reset");
 
     j(window).load(function() {
-      j(document.body).removeClass("noise");
       j("#loading").fadeOut();
     });
   } else {
