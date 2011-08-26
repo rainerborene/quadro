@@ -9,7 +9,7 @@ gem 'mongo_mapper', '>= 0.9.1'
 gem 'SystemTimer', '>= 1.2.0'
 gem 'omniauth', '>= 0.2.6'
 gem "twitter", "1.6.0"
-gem 'hoptoad_notifier'
+gem 'airbrake'
 
 group :development do
   gem 'ruby-debug', :platform => :ruby_18
