@@ -10,6 +10,8 @@ gem 'SystemTimer', '>= 1.2.0'
 gem 'omniauth', '>= 0.2.6'
 gem "twitter", "1.6.0"
 gem 'airbrake'
+gem 'beaconpush'
+gem 'json', :platform => :ruby_18
 
 group :development do
   gem 'ruby-debug', :platform => :ruby_18

@@ -8,7 +8,6 @@ javascripts:
     - public/javascripts/vendor/underscore.js
     - public/javascripts/vendor/backbone.js
 
-
   templates:
     - app/views/**/*.jst
 
@@ -17,4 +16,5 @@ javascripts:
     - public/javascripts/workspace.js
     - public/javascripts/stickies.js
     - public/javascripts/boards.js
+    - public/javascripts/messages.js
     - public/javascripts/bootstrap.js

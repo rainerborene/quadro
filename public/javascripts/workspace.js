@@ -127,17 +127,26 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   render: function() {
-    j(this.el).html(this.template());
+    this.shareMenuView = new ShareMenuView().render();
+    this.messagesView = new MessagesView().render();
 
-    if (!Quadro.readonly) {
-      this.shareMenuView = new ShareMenuView().render();
-      j(this.el).find(".feedback").parent().before(this.shareMenuView.el);
-    }
+    j(this.el)
+      .html(this.template())
+      .find(".feedback")
+        .parent()
+        .before(this.shareMenuView.el)
+    .end();
+
+    j(this.el).append(this.messagesView.el);
 
     return this;
   }
 
 });
+
+/**
+ * Sharing Settings
+ */
 
 var ShareMenuView = Backbone.View.extend({
 
@@ -242,14 +251,7 @@ var ShareMenuView = Backbone.View.extend({
   },
 
   render: function() {
-    var autoOpen = j(this.el).find(".popover:visible").length;
-
     j(this.el).html(this.template(currentBoard.toJSON()));
-
-    if (autoOpen) {
-      j(this.el).find(".popover").show();
-    }
-
     return this;
   }
 

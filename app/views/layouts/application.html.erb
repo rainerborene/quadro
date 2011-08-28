@@ -8,13 +8,15 @@
   <%= csrf_meta_tag %>
 </head>
 <body<% if signed_in? or @readonly %> data-readonly="<%= (@readonly || false).to_s %>" data-board-id="<%= @board.id %>" <% end %>>
-
   <% if signed_in? or @readonly %>
     <div id="loading"></div>
   <% end %>
 
   <div id="app"></div>
 
+  <% if signed_in? %>
+  <script src="http://cdn.beaconpush.com/clients/client-1.js" type="text/javascript"></script>
+  <% end %>
   <%= include_javascripts :libs, :templates, :core %>
 
   <script>_.extend(Quadro, <%= current_user_session %>);</script>

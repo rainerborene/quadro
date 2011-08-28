@@ -9,6 +9,7 @@ Quadro::Application.routes.draw do
   resources :boards, :except => [:new, :edit, :show] do
     resources :stickies, :except => [:new, :edit, :show]
     resources :collaborators, :only => [:create, :destroy]
+    resources :messages, :only => [:create]
   end
   
   # The priority is based upon order of creation:
