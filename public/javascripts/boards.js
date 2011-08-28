@@ -50,7 +50,7 @@ var BoardsView = Backbone.View.extend({
     "click .open-board": "openBoard",
     "click .board-list li": "selectItem",
     "dblclick .board-list li": "changeTitle",
-    "click .close, .well": "close"
+    "click .close, .overlay": "close"
   },
 
   initialize: function() {
@@ -200,7 +200,7 @@ var BoardsView = Backbone.View.extend({
     j(".boards").parent().addClass("active");
 
     el
-      .find(".well")
+      .find(".overlay")
       .css("display", "none")
       .fadeIn("fast", function() {
         el.find(".modal").fadeIn("fast");
@@ -215,7 +215,7 @@ var BoardsView = Backbone.View.extend({
     el
       .find(".modal")
       .fadeOut("fast", function() {
-        el.find(".well").fadeOut("fast");
+        el.find(".overlay").fadeOut("fast");
         j(".boards").parent().removeClass("active");
       });
 
