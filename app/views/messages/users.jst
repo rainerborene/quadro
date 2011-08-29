@@ -1,0 +1,8 @@
+<ul class="logged-users">
+  <% members.each(function(member) { %>
+    <li>
+      <img src="<%= member.info.profile_image %>" />
+      <%= member.info.name %>
+    </li>
+  <% }); %>
+</ul>

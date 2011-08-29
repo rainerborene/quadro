@@ -29,6 +29,13 @@ class User
     results.sort_by(&:title)
   end
 
+  def own?(secret_token)
+    Board.where("$or" => [
+      { :secret_token => secret_token, :user_id => self.id }, 
+      { :secret_token => secret_token, :collaborator_ids => { "$in" => [self.id] } } 
+    ]).any?
+  end
+
   def serializable_hash(options={})
     super({ 
       :except => [ :token, :secret_token, :uid, :provider, :created_at, :updated_at ]

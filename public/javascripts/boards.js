@@ -85,10 +85,11 @@ var BoardsView = Backbone.View.extend({
           updateWindowTitle();
           collection.trigger("reset");
           that.close();
+          Quadro.views.messagesView.clear().connect();
         }
       });
 
-      Quadro.views.workspaceView.shareMenuView.render(true);
+      Quadro.views.shareMenuView.render();
     }
   },
 

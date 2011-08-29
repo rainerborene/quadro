@@ -14,8 +14,8 @@
 
   <div id="app"></div>
 
-  <% if signed_in? %>
-  <script src="http://cdn.beaconpush.com/clients/client-1.js" type="text/javascript"></script>
+  <% if signed_in? and not @readonly %>
+  <script src="http://js.pusherapp.com/1.9/pusher.min.js" type="text/javascript"></script>
   <% end %>
   <%= include_javascripts :libs, :templates, :core %>
 

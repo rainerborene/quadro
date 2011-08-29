@@ -27,6 +27,9 @@ var WorkspaceView = Backbone.View.extend({
     // http://developer.apple.com/library/mac/#documentation/AppleApplications/Conceptual/SafariJSProgTopics/Tasks/CopyAndPaste.html
     j(document).bind("paste", this.manipulateClipboard);
     j(document).bind("dblclick", this.createSticky);
+
+    Quadro.views.shareMenuView = new ShareMenuView();
+    Quadro.views.messagesView = new MessagesView();
   },
 
   setReadonly: function() {
@@ -127,17 +130,15 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   render: function() {
-    this.shareMenuView = new ShareMenuView().render();
-    this.messagesView = new MessagesView().render();
+    j(this.el).html(this.template());
 
-    j(this.el)
-      .html(this.template())
-      .find(".feedback")
-        .parent()
-        .before(this.shareMenuView.el)
-    .end();
+    if (!Quadro.readonly) {
+      Quadro.views.shareMenuView.render();
+      Quadro.views.messagesView.render();
 
-    j(this.el).append(this.messagesView.el);
+      j(this.el).find(".feedback").parent().before(Quadro.views.shareMenuView.el);
+      j(this.el).append(Quadro.views.messagesView.el);
+    }
 
     return this;
   }
