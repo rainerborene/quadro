@@ -11,14 +11,28 @@
     +replace-text-with-dimensions("logo.png", 0px, 0px)
 
   p
-    margin-top: 40px
     font-size: 14px
     text-shadow: 0px 1px 1px #000
-  
+
   em
     font-style: normal
     font-weight: bold
     color: #55bbff
+
+  .counting
+    margin-top: 40px
+
+  p.sponsor
+    font-size: 11px
+    font-weight: bold
+    color: lighten(#363A40, 40%)
+    
+    a
+      color: lighten(#363A40, 60%)
+      
+      &:hover
+        color: lighten(#363A40, 80%)
+        text-decoration: none
 
 .twitter_button
   display: block

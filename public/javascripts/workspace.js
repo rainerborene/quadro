@@ -29,7 +29,7 @@ var WorkspaceView = Backbone.View.extend({
     j(document).bind("dblclick", this.createSticky);
 
     Quadro.views.shareMenuView = new ShareMenuView();
-    Quadro.views.messagesView = new MessagesView();
+    Quadro.views.notificationView = new NotificationView();
   },
 
   setReadonly: function() {
@@ -134,10 +134,10 @@ var WorkspaceView = Backbone.View.extend({
 
     if (!Quadro.readonly) {
       Quadro.views.shareMenuView.render();
-      Quadro.views.messagesView.render();
+      Quadro.views.notificationView.render();
 
       j(this.el).find(".feedback").parent().before(Quadro.views.shareMenuView.el);
-      j(this.el).append(Quadro.views.messagesView.el);
+      j(this.el).append(Quadro.views.notificationView.el);
     }
 
     return this;

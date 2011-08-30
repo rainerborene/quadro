@@ -16,5 +16,5 @@ javascripts:
     - public/javascripts/workspace.js
     - public/javascripts/stickies.js
     - public/javascripts/boards.js
-    - public/javascripts/messages.js
+    - public/javascripts/notifications.js
     - public/javascripts/bootstrap.js

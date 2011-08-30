@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :configure_twitter
+  before_filter :setup_twitter
   helper_method :signed_in?, :current_user, :pick
 
   def signed_in?
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     filtered
   end
 
-  def configure_twitter
+  def setup_twitter
     if signed_in?
       Twitter.configure do |config|
         config.oauth_token = current_user.token
