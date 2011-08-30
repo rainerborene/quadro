@@ -9,7 +9,7 @@ javascripts:
     - public/javascripts/vendor/backbone.js
 
   templates:
-    - app/views/**/*.jst
+    - app/templates/**/*.jst
 
   core:
     - public/javascripts/sessions.js
