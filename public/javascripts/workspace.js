@@ -187,6 +187,8 @@ var ShareMenuView = Backbone.View.extend({
       , id = el.data("id")
       , model = currentBoard.collaborators.get(id);
 
+    j(event.currentTarget).attr("disabled", "disabled");
+
     model.destroy({
       success: function() {
         el.fadeOut("fast", function() {

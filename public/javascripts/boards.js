@@ -85,7 +85,6 @@ var BoardsView = Backbone.View.extend({
           updateWindowTitle();
           collection.trigger("reset");
           that.close();
-          Quadro.views.messagesView.clear().connect();
         }
       });
 
