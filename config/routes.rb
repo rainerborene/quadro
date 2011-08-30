@@ -5,12 +5,11 @@ Quadro::Application.routes.draw do
   match "/share/:id" => "home#share", :via => :get
   match "/auth/twitter/callback" => "sessions#create"
   match "/logout" => "sessions#destroy", :as => :logout
-  match "/pusher/auth" => "messages#auth", :via => :post
+  match "/pusher/auth" => "pusher#auth", :via => :post
 
   resources :boards, :except => [:new, :edit, :show] do
     resources :stickies, :except => [:new, :edit, :show]
     resources :collaborators, :only => [:create, :destroy]
-    resources :messages, :only => [:create]
   end
   
   # The priority is based upon order of creation:
