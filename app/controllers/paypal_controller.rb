@@ -18,8 +18,8 @@ class PaypalController < ApplicationController
 
   def thank_you
     ppr = PayPal::Recurring.new({
-      :token       => params[:token]
-      :payer_id    => params[:PayerID]
+      :token       => params[:token],
+      :payer_id    => params[:PayerID],
       :amount      => "4.00",
       :description => "Quadro - Monthly Subscription"
     })
@@ -39,6 +39,5 @@ class PaypalController < ApplicationController
 
   def get_subscription
     # should create one subscription for the logged user
-    #
   end
 end
