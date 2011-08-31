@@ -2,7 +2,7 @@
  * Pusher
  */
 
-if (location.hostname.match(/(quadro.dev|localhost)/)) {
+if (location.hostname.match(/(quadro.dev|localhost)/) && !_.isUndefined(Pusher)) {
   Pusher.log = function(message) {
     if (window.console && window.console.log) {
       window.console.log(message);
@@ -20,12 +20,14 @@ var NotificationView = Backbone.View.extend({
 
   template: JST['notifications/notification'],
 
+  pool: [],
+
   events: {
     "click .close": "close"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "open", "close", "redraw");
+    _.bindAll(this, "render", "open", "openWithMessage", "close", "redraw");
     j(window).bind("resize", this.redraw);
   },
 
@@ -35,25 +37,41 @@ var NotificationView = Backbone.View.extend({
   },
 
   openWithMessage: function(message, type) {
-    j(this.el)
-      .find("p")
-        .text(message)
-    .end()
-      .removeClass("error")
-      .removeClass("warning")
-      .addClass(type || "warning")
-    end();
-
+    this.pool.push({ message: message, type: type || "warning" });
     this.open();
   },
 
   open: function() {
-    j(this.el).slideDown(); 
-    setTimeout(this.close, 2000);
+    if (j(this.el).is(":visible")) {
+      return;
+    }
+
+    var item = this.pool.shift();
+
+    if (!_.isUndefined(item)) {
+      j(this.el)
+        .find("p")
+          .html(item.message)
+      .end()
+        .removeClass("error")
+        .removeClass("warning")
+        .removeClass("info")
+        .addClass(item.type);
+
+      j(this.el).slideDown("slow"); 
+
+      this.timeoutId = setTimeout(this.close, 4000);
+    }
   },
 
-  close: function() {
-    j(this.el).slideUp();
+  close: function(event) {
+    if (!_.isUndefined(event)) {
+      event.preventDefault();
+    }
+
+    clearTimeout(this.timeoutId);
+
+    j(this.el).slideUp("slow", this.open);
   },
 
   render: function() {
@@ -64,3 +82,11 @@ var NotificationView = Backbone.View.extend({
 
 });
 
+/**
+ * Helpers
+ */
+
+function showMessage(message, type) {
+  var notificationView = Quadro.views.notificationView;
+  return notificationView.openWithMessage(message, type);
+}

@@ -16,12 +16,12 @@ j.ajaxPrefilter(function(options, originalOptions, jxhr) {
 j.ajaxSetup({
   beforeSend: function() {
     if ( j(".workspace:visible").length ) {
-      j(".mini_loader").css("visibility", "visible");
+      j(".mini-loader").css("display", "block");
     }
   },
   complete: function() {
     if ( j(".workspace:visible").length ) {
-      j(".mini_loader").css("visibility", "hidden");
+      j(".mini-loader").css("display", "none");
     }
   }
 });
@@ -116,8 +116,8 @@ function updateWindowTitle() {
 
 j(function() {
   _.extend(Quadro, {
-    readonly: j(document.body).data("readonly"),
-    board_id: j(document.body).data("board-id")
+    readonly: j("#app").data("readonly"),
+    board_id: j("#app").data("board-id")
   });
 
   if (Quadro.authenticated || Quadro.readonly) {

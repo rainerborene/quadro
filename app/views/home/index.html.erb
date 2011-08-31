@@ -1,0 +1,21 @@
+<%= content_tag(:div, nil, :id => "loading") if signed_in? or @readonly %>
+<%= content_tag(:div, nil, { :id => "app" }.merge(app_data)) %>
+
+<%= javascript_include_tag("http://js.pusherapp.com/1.9/pusher.min.js") if signed_in? and not @readonly %>
+<%= include_javascripts :libs, :templates, :core %>
+
+<%= content_tag :script, :type => Mime::JS do %>
+  <%= raw("_.extend(Quadro, #{current_user_session});") %>
+  <%= raw("Boards.reset(#{@board.to_json});") if @readonly %>
+  <%= raw("Boards.reset(#{current_user.every_boards.to_json});") if signed_in? and not @readonly %>
+  <%= raw("Stickies.reset(#{@board.stickies.to_json});") if signed_in? or @readonly %>
+<% end %>
+
+<script>
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/uh18fLNg6k8sqXIu19TdQ.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>

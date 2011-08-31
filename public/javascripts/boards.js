@@ -71,13 +71,16 @@ var BoardsView = Backbone.View.extend({
     }
   },
 
-  openBoard: function() {
-    var selected = j(".board-list").find(".selected"), that = this;
+  openBoard: function(event) {
+    var selected = j(".board-list").find(".selected")
+      , button = j(event.currentTarget)
+      , that = this;
 
     if (selected.length) {
       var id = selected.data("id");
 
       currentBoard = Boards.get(id);
+      button.attr("disabled", "disabled");
 
       Stickies.fetch({
         success: function(collection, response) {
@@ -85,6 +88,7 @@ var BoardsView = Backbone.View.extend({
           updateWindowTitle();
           collection.trigger("reset");
           that.close();
+          button.removeAttr("disabled");
         }
       });
 
@@ -171,7 +175,8 @@ var BoardsView = Backbone.View.extend({
   },
 
   removeBoard: function(event) {
-    var selected = j(".board-list").find(".selected");
+    var selected = j(".board-list").find(".selected")
+      , button = j(event.currentTarget);
 
     if (selected.length) {
       var id = selected.data("id")
@@ -179,9 +184,12 @@ var BoardsView = Backbone.View.extend({
         , confirmed = confirm("Are you sure?");
 
       if (confirmed) {
+        button.attr("disabled", "disabled");
+
         entry.destroy({
           success: function(model, response) {
             selected.slideUp();
+            button.removeAttr("disabled");
           },
           error: function(model, xhr, callbacks) {
             var response = JSON.parse(xhr.responseText);
