@@ -8,4 +8,7 @@ class HomeController < ApplicationController
     @readonly = true
     render :action => "index"
   end
+
+  def plans
+  end
 end
