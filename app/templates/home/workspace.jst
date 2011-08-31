@@ -25,5 +25,8 @@
   </div>
 <% } %>
 <div class="stickies"></div>
-<div class="mini-loader"></div>
-<div class="quick-view"></div>
+
+<% if (Quadro.readonly == false) { %>
+  <div class="mini-loader"></div>
+  <div class="quick-view"></div>
+<% } %>
