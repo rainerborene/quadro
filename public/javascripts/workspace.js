@@ -2,6 +2,8 @@
  * Views
  */
 
+// http://developer.apple.com/library/mac/#documentation/AppleApplications/Conceptual/SafariJSProgTopics/Tasks/CopyAndPaste.html
+
 var WorkspaceView = Backbone.View.extend({
 
   className: "workspace",
@@ -11,11 +13,12 @@ var WorkspaceView = Backbone.View.extend({
   events: {
     "click .new": "createSticky",
     "click .boards": "openBoardsWindow",
-    "click .feedback": "openUserVoice"
+    "click .feedback": "openUserVoice",
+    "click .quick-view": "toggleQuickView"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice");
+    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "toggleQuickView");
 
     Stickies.bind("add", this.addOne);
     Stickies.bind("reset", this.addAll);
@@ -24,12 +27,24 @@ var WorkspaceView = Backbone.View.extend({
 
     StickyContextMenuView.initialize();
 
-    // http://developer.apple.com/library/mac/#documentation/AppleApplications/Conceptual/SafariJSProgTopics/Tasks/CopyAndPaste.html
     j(document).bind("paste", this.manipulateClipboard);
     j(document).bind("dblclick", this.createSticky);
 
     Quadro.views.shareMenuView = new ShareMenuView();
     Quadro.views.notificationView = new NotificationView();
+  },
+
+  toggleQuickView: function(event) {
+    var button = j(event.currentTarget)
+      , topbar = j(this.el).find(".topbar");
+
+    if (topbar.position().top < 0) {
+      button.animate({ opacity: 0.2 });
+      topbar.stop().animate({ top: 0 });
+    } else {
+      topbar.stop().animate({ top: (topbar.height() + 4) * -1 });
+      button.animate({ opacity: 0.5 });
+    }
   },
 
   setReadonly: function() {
@@ -41,11 +56,17 @@ var WorkspaceView = Backbone.View.extend({
   },
 
   openBoardsWindow: function(event) {
+    var el = j(event.currentTarget);
+
     event.preventDefault();
 
     if (_.isUndefined(this.boardsView)) {
       this.boardsView = new BoardsView().render();
       j(this.boardsView.el).appendTo("#app");
+    }
+
+    if (el.parent().next().hasClass("active")) {
+      el.parent().next().find("a").trigger("click");
     }
 
     this.boardsView.open();

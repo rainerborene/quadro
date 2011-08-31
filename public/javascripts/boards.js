@@ -87,8 +87,8 @@ var BoardsView = Backbone.View.extend({
           j(".stickies").empty();
           updateWindowTitle();
           collection.trigger("reset");
-          that.close();
           button.removeAttr("disabled");
+          that.close();
         }
       });
 

@@ -83,6 +83,25 @@ a.unlink
     font-size: 11px
     padding: 3px 10px
 
+.mini-loader
+  display: none
+  position: absolute
+  width: 16px
+  height: 16px
+  z-index: 99999999
+  bottom: 20px
+  right: 20px
+  background: image-url("mini-loader.gif") no-repeat left top
+
+.quick-view
+  display: block
+  cursor: pointer
+  position: absolute
+  +replace-text-with-dimensions("quick_view.png", 0px, 0px)
+  bottom: 5px
+  left: 10px
+  opacity: 0.2
+
 /**
  * Scrollbars
  */
