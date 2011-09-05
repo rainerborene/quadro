@@ -38,12 +38,15 @@ var WorkspaceView = Backbone.View.extend({
     var button = j(event.currentTarget)
       , topbar = j(this.el).find(".topbar");
 
-    if (topbar.position().top < 0) {
+    if (topbar.css("display") == "none") {
       button.animate({ opacity: 0.2 });
-      topbar.stop().animate({ top: 0 });
+      topbar.stop().css("display", "block").animate({ top: 0 });
       j.cookie('__quick_view', 'false');
     } else {
-      topbar.stop().animate({ top: (topbar.height() + 4) * -1 });
+      topbar.stop().animate({ top: (topbar.height() + 4) * -1 }, function() {
+        j(this).css("display", "none");
+      });
+
       button.animate({ opacity: 0.5 });
       j.cookie('__quick_view', 'true');
     }
@@ -156,8 +159,8 @@ var WorkspaceView = Backbone.View.extend({
     j(this.el).html(this.template());
 
     if (j.cookie('__quick_view') == 'true') {
-      j(this.el).find(".topbar").css("top", -45);
       j(this.el).find(".quick-view").css("opacity", 0.5);
+      j(this.el).find(".topbar").css({ display: "none", top: -45 });
     }
 
     if (!Quadro.readonly) {

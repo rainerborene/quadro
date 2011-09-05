@@ -130,7 +130,7 @@ j(function() {
 
     if (Quadro.readonly) {
       Quadro.views.workspaceView.setReadonly();
-    }
+    } 
 
     updateWindowTitle();
     
@@ -141,6 +141,7 @@ j(function() {
       j("#loading").fadeOut();
     });
   } else {
+    j("html, body").css("overflow", "auto");
     Quadro.views.loginView = new LoginView().render();
     j(Quadro.views.loginView.el).prependTo("#app");
   }

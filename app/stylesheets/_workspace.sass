@@ -17,12 +17,8 @@
 
 .logo a
   padding: 0px !important
-  margin-left: 0px !important
-  margin-right: 10px
-  
-  img
-    display: block
-    margin-top: 9px
+  margin: 8px 5px 0px 0px !important
+  +replace-text-with-dimensions("mini-logo.png", 0px, 0px)
 
 .profile
   img
@@ -37,7 +33,7 @@ a.unlink
 
   &:hover
     color: #BFBFBF !important
-    background: none
+    background-color: transparent
 
 .share-menu
   .popover
@@ -86,12 +82,14 @@ a.unlink
 .mini-loader
   display: none
   position: absolute
+  padding: 5px
   width: 16px
   height: 16px
   z-index: 99999999
-  bottom: 20px
+  bottom: 12px
   right: 20px
-  background: image-url("mini-loader.gif") no-repeat left top
+  background: darken(#34383e, 5%) image-url("mini-loader.gif") no-repeat center center
+  +border-radius(3px)
 
 .quick-view
   display: block
@@ -101,6 +99,7 @@ a.unlink
   bottom: 5px
   left: 10px
   opacity: 0.2
+  z-index: 99999999
 
 /**
  * Scrollbars
