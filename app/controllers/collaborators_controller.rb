@@ -21,13 +21,14 @@ class CollaboratorsController < ApplicationController
       end
     end
 
-    @board.collaborators << user
-    @board.save
+    @board.push(:collaborator_ids => user._id)
+    @board.reload
     render :json => user
   end
 
   def destroy
-   @board.collaborator_ids.delete_if { |i| i.to_s.eql? params[:id] }
-   render :json => { :success => @board.save }
+    @board.pull(:collaborator_ids => BSON::ObjectId(params[:id]) )
+    @board.reload
+    render :json => { :success => true }
   end
 end
