@@ -120,29 +120,28 @@ j(function() {
     board_id: j("#app").data("board-id")
   });
 
-  if (Quadro.authenticated || Quadro.readonly) {
-    // Load board
-    currentBoard = Boards.get(Quadro.board_id) || Boards.first();
-    
-    // Render workspace views
-    Quadro.views.workspaceView = new WorkspaceView().render();
-    j(Quadro.views.workspaceView.el).prependTo("#app");
-
-    if (Quadro.readonly) {
-      Quadro.views.workspaceView.setReadonly();
-    } 
-
-    updateWindowTitle();
-    
-    // Finally, load stickies.
-    Stickies.trigger("reset");
-
-    j(window).load(function() {
-      j("#loading").fadeOut();
-    });
-  } else {
-    j("html, body").css("overflow", "auto");
-    Quadro.views.loginView = new LoginView().render();
-    j(Quadro.views.loginView.el).prependTo("#app");
+  if (!Quadro.authenticated && !Quadro.readonly) {
+    Backbone.localStorage();
+    Stickies.fetch();
   }
+
+  // Load board
+  currentBoard = Boards.get(Quadro.board_id) || new Board();
+  
+  // Render workspace views
+  Quadro.views.workspaceView = new WorkspaceView().render();
+  j(Quadro.views.workspaceView.el).prependTo("#app");
+
+  if (Quadro.readonly) {
+    Quadro.views.workspaceView.setReadonly();
+  } 
+
+  updateWindowTitle();
+  
+  // Finally, load stickies.
+  Stickies.trigger("reset");
+
+  j(window).load(function() {
+    j("#loading").fadeOut();
+  });
 });

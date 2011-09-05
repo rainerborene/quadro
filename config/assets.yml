@@ -8,12 +8,12 @@ javascripts:
     - public/javascripts/vendor/jquery-ui.js
     - public/javascripts/vendor/underscore.js
     - public/javascripts/vendor/backbone.js
+    - public/javascripts/vendor/backbone-localstorage.js
 
   templates:
     - app/templates/**/*.jst
 
   core:
-    - public/javascripts/sessions.js
     - public/javascripts/workspace.js
     - public/javascripts/stickies.js
     - public/javascripts/boards.js

@@ -31,7 +31,7 @@ var Sticky = Backbone.Model.extend({
 
 });
 
-var StickyCollection = Backbone.Collection.extend({ model: Sticky })
+var StickyCollection = Backbone.Collection.extend({ model: Sticky, localStorage: new Store("stickies") })
   , Stickies = window.Stickies = new StickyCollection;
 
 Stickies.url = function() {

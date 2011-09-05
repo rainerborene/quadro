@@ -1,8 +1,12 @@
+// tj holowaychuk's style
+var j = jQuery;
+
+// app namespace
+var Quadro = { views: {} };
+
 /**
  * Views
  */
-
-// http://developer.apple.com/library/mac/#documentation/AppleApplications/Conceptual/SafariJSProgTopics/Tasks/CopyAndPaste.html
 
 var WorkspaceView = Backbone.View.extend({
 
@@ -14,11 +18,12 @@ var WorkspaceView = Backbone.View.extend({
     "click .new": "createSticky",
     "click .boards": "openBoardsWindow",
     "click .feedback": "openUserVoice",
-    "click .quick-view": "toggleQuickView"
+    "click .quick-view": "toggleQuickView",
+    "click .profile": "openDropdown"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "toggleQuickView");
+    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "toggleQuickView", "openDropdown");
 
     Stickies.bind("add", this.addOne);
     Stickies.bind("reset", this.addAll);
@@ -32,6 +37,11 @@ var WorkspaceView = Backbone.View.extend({
 
     Quadro.views.shareMenuView = new ShareMenuView();
     Quadro.views.notificationView = new NotificationView();
+  },
+
+  openDropdown: function(event) {
+    event.preventDefault();
+    j(event.currentTarget).parent().toggleClass("open");
   },
 
   toggleQuickView: function(event) {
@@ -123,6 +133,8 @@ var WorkspaceView = Backbone.View.extend({
       , stickyView = new StickyView({ model: model }).render()
       , zIndex = zIndexMax();
 
+    model.collection = Stickies;
+
     if (event.type == "dblclick") {
       if (event.target != document.body) {
         return; 
@@ -163,7 +175,7 @@ var WorkspaceView = Backbone.View.extend({
       j(this.el).find(".topbar").css({ display: "none", top: -45 });
     }
 
-    if (!Quadro.readonly) {
+    if (Quadro.readonly == false || Quadro.authenticated) {
       Quadro.views.shareMenuView.render();
       Quadro.views.notificationView.render();
 

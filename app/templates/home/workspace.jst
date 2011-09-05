@@ -1,30 +1,39 @@
-<% if (Quadro.readonly == false) { %>
+<% if (Quadro.readonly != true) { %>
   <div class="topbar unselectable">
     <div class="fill">
       <div class="container">
         <h3 class="logo"><a class="unlink">Quadro</a></h3>
         <ul>
           <li><a href="#new" class="new">New Note</a></li>
-          <li><a href="#boards" class="boards">Boards</a></li>
+          <% if (Quadro.authenticated) {  %>
+            <li><a href="#boards" class="boards">Boards</a></li>
+          <% } %>
           <li><a href="#feedback" class="feedback">Feedback</a></li>
         </ul>
         <ul class="nav secondary-nav">
-          <li>
-            <a class="profile unlink">
-              <img src="<%= Quadro.profile_image %>" /> <%= Quadro.name %>
-            </a>
-          </li>
-          <li>
-            <a href="/signout">Sign out</a>
-          </li>
+          <% if (Quadro.authenticated) { %>
+            <li class="dropdown">
+              <a href="#" class="profile dropdown-toggle"><img src="<%= Quadro.profile_image %>" /> <%= Quadro.name %></a>
+
+              <ul class="dropdown-menu">
+                <li><a href="#billing">Billing</a></li>
+                <li><a href="/signout">Sign out</a></li>
+              </ul>
+            </li>
+          <% } else { %>
+            <li>
+              <a href="/auth/twitter" title="Login">Login</a>
+            </li>
+          <% } %>
         </ul>
       </div>
     </div>
   </div>
 <% } %>
+
 <div class="stickies"></div>
 
-<% if (Quadro.readonly == false) { %>
+<% if (Quadro.readonly != true) { %>
   <div class="mini-loader"></div>
   <div class="quick-view"></div>
 <% } %>

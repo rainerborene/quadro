@@ -11,7 +11,8 @@ var Board = Backbone.Model.extend({
 
   defaults: {
     title: "Untitled",
-    share_public: false
+    share_public: false,
+    secret_token: guid()
   },
 
   initialize: function() {
