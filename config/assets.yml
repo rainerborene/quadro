@@ -4,6 +4,7 @@ template_function: _.template
 javascripts:
   libs:
     - public/javascripts/vendor/jquery.js
+    - public/javascripts/vendor/jquery.cookie.js
     - public/javascripts/vendor/jquery-ui.js
     - public/javascripts/vendor/underscore.js
     - public/javascripts/vendor/backbone.js
