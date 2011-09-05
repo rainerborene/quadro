@@ -1,8 +1,8 @@
-PAYPAL_CONFIG = YAML.load_file("#{Rails.root}/config/paypal.yml")[Rails.env].symbolize_keys
+paypal_config = YAML.load_file("#{Rails.root}/config/paypal.yml")[Rails.env].symbolize_keys
 
 PayPal::Recurring.configure do |config|
-  config.sandbox = PAYPAL_CONFIG[:sandbox]
-  config.username = PAYPAL_CONFIG[:username]
-  config.password = PAYPAL_CONFIG[:password]
-  config.signature = PAYPAL_CONFIG[:signature]
+  config.sandbox = paypal_config[:sandbox]
+  config.username = paypal_config[:username]
+  config.password = paypal_config[:password]
+  config.signature = paypal_config[:signature]
 end

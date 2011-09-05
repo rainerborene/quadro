@@ -2,18 +2,15 @@ Quadro::Application.routes.draw do
  
   root :to => "home#index"
 
-  match "/plans" => "home#plans", :via => :get
   match "/share/:id" => "home#share", :via => :get
-
   match "/auth/twitter/callback" => "sessions#create"
+  match "/pusher/auth" => "pusher#auth", :via => :post
   match "/signout" => "sessions#destroy", :as => :signout
 
-  match "paypal/checkout" => "paypal#checkout"
-  match "paypal/thank_you" => "paypal#thank_you"
-  match "paypal/canceled" => "paypal#canceled"
-  match "paypal/ipn" => "paypal#ipn"
-
-  match "/pusher/auth" => "pusher#auth", :via => :post
+  match "/paypal/checkout" => "paypal#checkout"
+  match "/paypal/thank_you" => "paypal#thank_you"
+  match "/paypal/canceled" => "paypal#canceled"
+  match "/paypal/ipn" => "paypal#ipn"
 
   resources :boards, :except => [:new, :edit, :show] do
     resources :stickies, :except => [:new, :edit, :show]
