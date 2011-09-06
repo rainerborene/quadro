@@ -33,6 +33,6 @@ class StickiesController < ApplicationController
   private
 
   def picked_attributes
-    pick params, :content, :position_x, :position_y, :color, :z_index
+    pick params, :content, :left, :top, :width, :height, :color, :z_index
   end
 end

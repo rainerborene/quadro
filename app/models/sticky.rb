@@ -2,8 +2,10 @@ class Sticky
   include MongoMapper::EmbeddedDocument
 
   key :content, String, :required => true
-  key :position_x, Integer, :required => true
-  key :position_y, Integer, :required => true
+  key :left, Integer, :required => true
+  key :top, Integer, :required => true
+  key :width, Integer, :required => true, :default => 300
+  key :height, Integer, :required => true, :default => 200
   key :color, String, :required => true, :default => "yellow"
   key :z_index, Integer, :required => true, :default => 0
   embedded_in :board

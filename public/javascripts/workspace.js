@@ -110,10 +110,16 @@ var WorkspaceView = Backbone.View.extend({
     var el = j(stickyView.el)
       .appendTo(".stickies")
       .css({
-        top: sticky.get("position_y"),
-        left: sticky.get("position_x")
-      })
-      .show();
+        top: sticky.get("top"),
+        left: sticky.get("left")
+      });
+
+    el.find(".content").andSelf().css({
+      width: sticky.get("width"),
+      height: sticky.get("height")
+    });
+
+    el.show();
   },
 
   addAll: function() {
@@ -152,8 +158,8 @@ var WorkspaceView = Backbone.View.extend({
     }
     
     model.set({
-      position_x: parseInt(j(stickyView.el).css("left")),
-      position_y: parseInt(j(stickyView.el).css("top")),
+      top: j(stickyView.el).position().top,
+      left: j(stickyView.el).position().left,
       z_index: zIndex
     });
 

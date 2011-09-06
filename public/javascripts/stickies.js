@@ -6,8 +6,10 @@ var Sticky = Backbone.Model.extend({
 
   defaults: {
     content: "Untitled\n\nClick here to start writing something useful. You can also change the background color using the right mouse button.",
-    position_x: 100,
-    position_y: 100,
+    top: 100,
+    left: 100,
+    width: 300,
+    height: 200,
     color: "yellow",
     z_index: 0
   },
@@ -45,7 +47,7 @@ Stickies.url = function() {
 
 var StickyView = Backbone.View.extend({
 
-  className: "sticky",
+  className: "sticky unselectable",
 
   template: JST["stickies/sticky"],
 
@@ -86,8 +88,8 @@ var StickyView = Backbone.View.extend({
     var that = this;
 
     this.model.set({
-      position_x: ui.offset.left,
-      position_y: ui.offset.top
+      top: ui.offset.top,
+      left: ui.offset.left
     }).save({}, {
       error: function(model, xhr) {
         if (xhr.statusText !== "abort") {
@@ -106,6 +108,7 @@ var StickyView = Backbone.View.extend({
     }
 
     el.removeClass("unselectable").attr("contenteditable", "true");
+    j(this.el).removeClass("unselectable");
 
     event.preventDefault();
   },
@@ -115,6 +118,7 @@ var StickyView = Backbone.View.extend({
       , paragraphs = j(this.el).find(".content p");
 
     j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
+    j(this.el).addClass("unselectable");
 
     if (paragraphs.length) {
       paragraphs.each(function() { content.push( j(this).text() ); });
@@ -158,6 +162,8 @@ var StickyView = Backbone.View.extend({
   },
 
   render: function() {
+    var that = this;
+
     j(this.el)
       .addClass(this.model.get("color"))
       .html(this.template(this.model.toJSON()))
@@ -169,10 +175,27 @@ var StickyView = Backbone.View.extend({
         containment: "window",
         cancel: ".content",
         stack: ".sticky"
+      })
+      .resizable({
+        handles: "se",
+        minHeight: 200,
+        minWidth: 300,
+        resize: function(event, ui) {
+          j(ui.element).find(".content").css({
+            width: ui.size.width,
+            height: ui.size.height
+          });
+        },
+        stop: function(event, ui) {
+          that.model.set({
+            width: ui.size.width,
+            height: ui.size.height
+          }).save();
+        }
       });
 
-    if (Quadro.readonly) {
-      j(this.el).unbind();
+    if (Quadro.readonly == true) {
+      j(this.el).removeClass("unselectable").unbind();
       j(this.el).find(".remove").remove();
       j(this.el).find(".content").removeClass("unselectable");
     } 
