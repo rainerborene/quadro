@@ -10,11 +10,7 @@ class User
   key :secret_token, String
   timestamps!
 
-  one :subscription
   many :boards
-
-  def paid_until(date)
-  end
 
   def update_with_omniauth(auth)
     update_attributes!({

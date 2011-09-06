@@ -11,7 +11,6 @@ gem 'omniauth', '>= 0.2.6'
 gem 'twitter', '1.6.0'
 gem 'airbrake'
 gem 'pusher', :require => 'pusher'
-gem 'paypal-recurring', :require => 'paypal/recurring'
 
 group :development do
   gem 'ruby-debug', :platform => :ruby_18
