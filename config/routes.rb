@@ -4,6 +4,7 @@ Quadro::Application.routes.draw do
 
   match "/share/:id" => "home#share", :via => :get
   match "/auth/twitter/callback" => "sessions#create"
+  match "/auth/failure" => "sessions#failure"
   match "/pusher/auth" => "pusher#auth", :via => :post
   match "/signout" => "sessions#destroy", :as => :signout
 

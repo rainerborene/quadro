@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def setup_twitter
-    if signed_in?
+    unless current_user.nil?
       Twitter.configure do |config|
         config.oauth_token = current_user.token
         config.oauth_token_secret = current_user.secret_token

@@ -22,6 +22,10 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  def failure
+    render :text => "Something went wrong. Why don't you try again?"
+  end
+
   def destroy
     session[:user_id] = nil
     redirect_to root_url

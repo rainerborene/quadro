@@ -10,7 +10,7 @@ class User
   key :secret_token, String
   timestamps!
 
-  many :boards
+  many :boards, :dependent => :destroy
 
   def update_with_omniauth(auth)
     update_attributes!({
