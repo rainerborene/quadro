@@ -124,10 +124,6 @@ var WorkspaceView = Backbone.View.extend({
 
   addAll: function() {
     Stickies.each(this.addOne);
-
-    setTimeout(function() {
-      j(".sticky").css("height", "auto");
-    }, 1);
   },
 
   createSticky: function(event) {
