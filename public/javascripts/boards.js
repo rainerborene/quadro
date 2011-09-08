@@ -63,7 +63,7 @@ var BoardsView = Backbone.View.extend({
   selectItem: function(event) {
     j(event.currentTarget).siblings().removeClass("selected");
     j(event.currentTarget).addClass("selected");
-    j(this.el).find("button[disabled]").removeAttr("disabled");
+    this.$("button[disabled]").removeAttr("disabled");
   },
 
   escKey: function(event) {
@@ -98,11 +98,11 @@ var BoardsView = Backbone.View.extend({
   },
 
   changeTitle: function(event) {
-    var input = j(this.make("input", { 'class': "title-field", maxlength: 28 }))
+    var input = this.make("input", { "class": "title-field", maxlength: 28 })
       , item = j(event.currentTarget)
       , id = item.attr("data-id");
 
-    input.val(item.find(".item-title").text());
+    input.value = item.find(".item-title").text();
     item.find(".item-title").replaceWith(input);
     item.data("replaced", false);
 
@@ -111,7 +111,7 @@ var BoardsView = Backbone.View.extend({
 
   newBoard: function(event) {
     var template = JST['boards/board']()
-      , input = this.make("input", { 'class': "title-field", maxlength: 28 })
+      , input = this.make("input", { "class": "title-field", maxlength: 28 })
       , item = j(template);
 
     j(".board-list")
@@ -145,7 +145,7 @@ var BoardsView = Backbone.View.extend({
     var item = input.parent()
       , title = input.val() || "Untitled"
       , id = input.parent().attr("data-id")
-      , el = j("<span/>", { "class": "item-title", text: title });
+      , el = this.make("span", { "class": "item-title" }, title);
 
     if (input.parent().data("replaced")) {
       return;
@@ -237,13 +237,11 @@ var BoardsView = Backbone.View.extend({
     });
 
     j(this.el).html(this.template({ boards: this.boards }));
-    j(this.el)
-      .find(".modal")
-      .css({
+
+    this.$(".modal").css({
         position: "absolute",
         left: (j(window).width() - 380) / 2
-      })
-      .draggable({ 
+      }).draggable({ 
         containment: "window" ,
         handle: ".modal-header",
         cancel: ".close"
