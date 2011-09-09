@@ -5,7 +5,7 @@
 var Sticky = Backbone.Model.extend({
 
   defaults: {
-    content: "Untitled\n\nClick here to start writing something useful. You can also change the background color using the right mouse button.",
+    content: "Getting Started\n\nJust click and start writing. Choose different note colors using the right mouse button upon the note.",
     top: 100,
     left: 100,
     width: 300,

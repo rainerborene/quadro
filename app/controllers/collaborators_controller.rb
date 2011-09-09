@@ -21,6 +21,8 @@ class CollaboratorsController < ApplicationController
       end
     end
 
+    Delayed::Job.enqueue DirectMessageJob.new("#{current_user.name} just shared some notes with you. http://quadroapp.com", user.uid)
+
     @board.push(:collaborator_ids => user._id)
     @board.reload
     render :json => user
