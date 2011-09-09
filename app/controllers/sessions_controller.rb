@@ -1,5 +1,3 @@
-require "twitter_job"
-
 class SessionsController < ApplicationController
   def create
     auth = request.env["omniauth.auth"]
