@@ -22,7 +22,7 @@ class CollaboratorsController < ApplicationController
     end
 
     message = "#{current_user.name} just shared a space titled \"#{@board.title}\" with #{@board.stickies_count} post-its with you. http://quadroapp.com"
-    Delayed::Job.enqueue DirectMessageJob.new(message, user.uid, user.token, user.secret_token)
+    Delayed::Job.enqueue DirectMessageJob.new(message, user.uid, current_user.token, current_user.secret_token)
 
     @board.push(:collaborator_ids => user._id)
     @board.reload
