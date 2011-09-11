@@ -5,8 +5,9 @@ class TweetingJob < Struct.new(:message, :token, :secret)
   end
 end
 
-class DirectMessageJob < Struct.new(:message, :user_id)
+class DirectMessageJob < Struct.new(:message, :uid, :token, :secret)
   def perform
-    Twitter.direct_message_create(user_id.to_i, message)
+    twitter = Twitter::Client.new({ :oauth_token => token, :oauth_token_secret => secret })
+    twitter.direct_message_create(uid.to_i, message)
   end
 end
