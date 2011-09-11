@@ -14,7 +14,8 @@ class Sticky
   before_destroy :clear_stickies_count_cache
 
   def clear_stickies_count_cache
-    board.set({ :stickies_count_cache => nil })
+    board.set({ :stickies_count_cache => nil }).reload
+    reload
   end
 
   def self.count

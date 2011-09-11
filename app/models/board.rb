@@ -17,6 +17,7 @@ class Board
   def stickies_count
     if send(:stickies_count_cache).nil?
       set({ :stickies_count_cache => stickies.count })
+      reload
     end
 
     send(:stickies_count_cache)
