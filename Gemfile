@@ -9,7 +9,6 @@ gem 'SystemTimer', '>= 1.2.0'
 gem 'omniauth', '>= 0.2.6'
 gem 'twitter', '1.6.0'
 gem 'airbrake'
-gem 'pusher', :require => 'pusher'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
 

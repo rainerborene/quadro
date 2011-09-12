@@ -1,16 +1,4 @@
 /**
- * Pusher
- */
-
-if (location.hostname.match(/(quadro.dev|localhost)/) && typeof(Pusher) != "undefined") {
-  Pusher.log = function(message) {
-    if (window.console && window.console.log) {
-      window.console.log(message);
-    }
-  };
-}
-
-/**
  * Views
  */
 

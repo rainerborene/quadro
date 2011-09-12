@@ -1,7 +1,6 @@
 <%= content_tag(:div, nil, :id => "loading") %>
 <%= content_tag(:div, nil, { :id => "app" }.merge(app_data)) %>
 
-<%= javascript_include_tag("http://js.pusherapp.com/1.9/pusher.min.js") if signed_in? and not @readonly %>
 <%= include_javascripts :libs, :templates, :core %>
 
 <%= content_tag :script, :type => Mime::JS do %>
