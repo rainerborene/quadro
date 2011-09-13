@@ -46,7 +46,7 @@ var WorkspaceView = Backbone.View.extend({
 
   toggleQuickView: function(event) {
     var button = j(event.currentTarget)
-      , topbar = j(this.el).find(".topbar");
+      , topbar = this.$(".topbar");
 
     if (topbar.css("display") == "none") {
       button.animate({ opacity: 0.2 });
@@ -173,15 +173,15 @@ var WorkspaceView = Backbone.View.extend({
     j(this.el).html(this.template());
 
     if (j.cookie('__quick_view') == 'true') {
-      j(this.el).find(".quick-view").css("opacity", 0.5);
-      j(this.el).find(".topbar").css({ display: "none", top: -45 });
+      this.$(".quick-view").css("opacity", 0.5);
+      this.$(".topbar").css({ display: "none", top: -45 });
     }
 
     if (Quadro.readonly == false || Quadro.authenticated) {
       Quadro.views.shareMenuView.render();
       Quadro.views.notificationView.render();
 
-      j(this.el).find(".feedback").parent().before(Quadro.views.shareMenuView.el);
+      this.$(".feedback").parent().before(Quadro.views.shareMenuView.el);
       j(this.el).append(Quadro.views.notificationView.el);
     }
 
@@ -222,7 +222,7 @@ var ShareMenuView = Backbone.View.extend({
 
   closeSubmenu: function(event) {
     if ( ! j(event.target).parents(".topbar").length ) {
-      j(this.el).find(".popover:not(:animated)").fadeOut("fast");
+      this.$(".popover:not(:animated)").fadeOut("fast");
       j(this.el).removeClass("active");
     }
   },
@@ -289,7 +289,7 @@ var ShareMenuView = Backbone.View.extend({
 
   toggleSubmenu: function(event) {
     event.preventDefault();
-    j(this.el).find(".popover").fadeToggle("fast");
+    this.$(".popover").fadeToggle("fast");
     j(this.el).toggleClass("active");
   },
 

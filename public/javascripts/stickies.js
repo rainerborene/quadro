@@ -124,12 +124,12 @@ var StickyView = Backbone.View.extend({
       paragraphs.each(function() { content.push( j(this).text() ); });
       content = content.join("\n");
     } else {
-      content = j(this.el).find(".content").text();
+      content = this.$(".content").text();
     }
 
     if (!j.trim(content).length) {
       content = this.model.defaults.content;
-      j(this.el).find(".content").empty().append(j("<p/>").text(content));
+      this.$(".content").empty().append(j("<p/>").text(content));
     }
 
     if (this.model.get("content") !== content) {
@@ -196,8 +196,8 @@ var StickyView = Backbone.View.extend({
 
     if (Quadro.readonly == true) {
       j(this.el).removeClass("unselectable").unbind();
-      j(this.el).find(".remove").remove();
-      j(this.el).find(".content").removeClass("unselectable");
+      this.$(".remove").remove();
+      this.$(".content").removeClass("unselectable");
     } 
 
     if ( j(".sticky:last").hasClass("even") == false ) {
