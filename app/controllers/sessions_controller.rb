@@ -3,11 +3,11 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.new
 
-    # if user.new?
-    #   credentials = auth["credentials"]
-    #   message = "Want to save your notes online but don't know where? Check this out http://quadroapp.com"
-    #   Delayed::Job.enqueue TweetingJob.new(message, credentials["token"], credentials["secret"])
-    # end
+    if user.new?
+      credentials = auth["credentials"]
+      message = "Want to save your notes online but don't know where? Check this out http://quadroapp.com"
+      Delayed::Job.enqueue TweetingJob.new(message, credentials["token"], credentials["secret"])
+    end
 
     user.update_with_omniauth(auth)
     session[:user_id] = user.id.to_s
