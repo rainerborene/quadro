@@ -196,9 +196,9 @@ var StickyView = Backbone.View.extend({
 
     if (Quadro.readonly == true) {
       j(this.el).removeClass("unselectable").unbind();
-      this.$(".remove").remove();
+      this.$(".remove, .ui-resizable-handle").remove();
       this.$(".content").removeClass("unselectable");
-    } 
+    }
 
     if ( j(".sticky:last").hasClass("even") == false ) {
       j(this.el).addClass("even");
