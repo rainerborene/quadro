@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.new
 
-    if user.new?
+    if user.new? and ENV["SOCIAL_MESSENGER"] == "yes"
       credentials = auth["credentials"]
       message = "Want to save your notes online but don't know where? Check this out http://quadroapp.com"
       Delayed::Job.enqueue TweetingJob.new(message, credentials["token"], credentials["secret"])
