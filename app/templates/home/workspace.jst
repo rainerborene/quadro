@@ -2,17 +2,17 @@
   <div class="topbar unselectable">
     <div class="fill">
       <div class="container">
-        <h3 class="logo"><a class="unlink">Quadro</a></h3>
+        <a class="logo brand">Quadro</a>
         <ul>
           <li><a href="#new" class="new">New Note</a></li>
           <% if (Quadro.authenticated) {  %>
-            <li><a href="#boards" class="boards">Boards</a></li>
+            <li><a href="#boards" class="boards" data-controls-modal="boards-modal" data-backdrop="true" data-keyboard="true">Boards</a></li>
           <% } %>
           <li><a href="#feedback" class="feedback">Feedback</a></li>
         </ul>
         <ul class="nav secondary-nav">
           <% if (Quadro.authenticated) { %>
-            <li class="dropdown">
+            <li class="dropdown" data-dropdown="dropdown">
               <a href="#" class="profile dropdown-toggle"><img src="<%= Quadro.profile_image %>" /> <%= Quadro.name %></a>
 
               <ul class="dropdown-menu">

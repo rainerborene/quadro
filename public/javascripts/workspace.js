@@ -18,12 +18,11 @@ var WorkspaceView = Backbone.View.extend({
     "click .new": "createSticky",
     "click .boards": "openBoardsWindow",
     "click .feedback": "openUserVoice",
-    "click .quick-view": "toggleQuickView",
-    "click .profile": "openDropdown"
+    "click .quick-view": "toggleQuickView"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "toggleQuickView", "openDropdown");
+    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "toggleQuickView");
 
     Stickies.bind("add", this.addOne);
     Stickies.bind("reset", this.addAll);
@@ -37,11 +36,6 @@ var WorkspaceView = Backbone.View.extend({
 
     Quadro.views.shareMenuView = new ShareMenuView();
     Quadro.views.notificationView = new NotificationView();
-  },
-
-  openDropdown: function(event) {
-    event.preventDefault();
-    j(event.currentTarget).parent().toggleClass("open");
   },
 
   toggleQuickView: function(event) {
@@ -73,18 +67,11 @@ var WorkspaceView = Backbone.View.extend({
   openBoardsWindow: function(event) {
     var el = j(event.currentTarget);
 
-    event.preventDefault();
-
-    if (_.isUndefined(this.boardsView)) {
-      this.boardsView = new BoardsView().render();
-      j(this.boardsView.el).appendTo("#app");
-    }
-
     if (el.parent().next().hasClass("active")) {
       el.parent().next().find("a").trigger("click");
     }
 
-    this.boardsView.open();
+    event.preventDefault();
   },
 
   openUserVoice: function(event) {
@@ -183,6 +170,11 @@ var WorkspaceView = Backbone.View.extend({
 
       this.$(".feedback").parent().before(Quadro.views.shareMenuView.el);
       j(this.el).append(Quadro.views.notificationView.el);
+    }
+
+    if (_.isUndefined(this.boardsView)) {
+      this.boardsView = new BoardsView().render();
+      j(this.boardsView.el).appendTo("#app");
     }
 
     return this;

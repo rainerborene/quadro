@@ -1,20 +1,17 @@
-<div class="modal">
-  <div class="modal-header">
-    <h3>Boards</h3>
-    <a href="#close" class="close">×</a>
-  </div>
-  <div class="modal-body">
-    <ul class="board-list">
-      <% _.each(boards, function(item) { %>
-        <%= item %>
-      <% }); %>
-    </ul>
-    <p class="help-block"><strong>Note:</strong> Double click to edit the title.</p>
-  </div>
-  <div class="modal-footer">
-    <button disabled="disabled" class="btn small primary open-board">Open</button>
-    <button disabled="disabled" class="btn small danger remove-board">Delete</button>
-    <button class="btn small new-board">New</button>
-  </div>
+<div class="modal-header">
+  <a href="#close" class="close">×</a>
+  <h3>Boards</h3>
 </div>
-<div class="overlay"></div>
+<div class="modal-body">
+  <ul class="board-list">
+    <% _.each(boards, function(item) { %>
+      <%= item %>
+    <% }); %>
+  </ul>
+  <p class="help-block"><strong>Note:</strong> Double click to edit the title.</p>
+</div>
+<div class="modal-footer">
+  <button disabled="disabled" class="btn small primary open-board">Open</button>
+  <button disabled="disabled" class="btn small danger remove-board">Delete</button>
+  <button class="btn small new-board">New</button>
+</div>

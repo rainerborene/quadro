@@ -39,9 +39,11 @@ var BoardCollection = Backbone.Collection.extend({ model: Board })
 
 var BoardsView = Backbone.View.extend({
 
-  template: JST["boards/boards"],
+  id: "boards-modal",
 
-  className: "unselectable",
+  className: "modal unselectable hide fade",
+
+  template: JST["boards/boards"],
 
   events: {
     "click .new-board": "newBoard",
@@ -51,25 +53,16 @@ var BoardsView = Backbone.View.extend({
     "click .open-board": "openBoard",
     "click .board-list li": "selectItem",
     "dblclick .board-list li": "changeTitle",
-    "click .close, .overlay": "close"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "close", "newBoard", "saveWhenBlur", "saveWhenEnter", "saveBoard", "removeBoard", "changeTitle", "selectItem", "escKey");
-
-    j(document).bind("keyup", this.escKey);
+    _.bindAll(this, "render", "openBoard", "newBoard", "saveWhenBlur", "saveWhenEnter", "saveBoard", "removeBoard", "changeTitle", "selectItem");
   },
 
   selectItem: function(event) {
     j(event.currentTarget).siblings().removeClass("selected");
     j(event.currentTarget).addClass("selected");
     this.$("button[disabled]").removeAttr("disabled");
-  },
-
-  escKey: function(event) {
-    if (event.keyCode == 27) {
-      this.close();
-    }
   },
 
   openBoard: function(event) {
@@ -89,7 +82,7 @@ var BoardsView = Backbone.View.extend({
           updateWindowTitle();
           collection.trigger("reset");
           button.removeAttr("disabled");
-          that.close();
+          j(that.el).modal(true).hide();
         }
       });
 
@@ -218,34 +211,12 @@ var BoardsView = Backbone.View.extend({
     return false;
   },
 
-  close: function() {
-    var el = j(this.el);
-
-    el
-      .find(".modal")
-      .fadeOut("fast", function() {
-        el.find(".overlay").fadeOut("fast");
-        j(".boards").parent().removeClass("active");
-      });
-
-    return false;
-  },
-
   render: function() {
     this.boards = Boards.map(function(b) {
       return JST["boards/board"].call(b.toJSON());
     });
 
     j(this.el).html(this.template({ boards: this.boards }));
-
-    this.$(".modal").css({
-        position: "absolute",
-        left: (j(window).width() - 380) / 2
-      }).draggable({ 
-        containment: "window" ,
-        handle: ".modal-header",
-        cancel: ".close"
-      });
 
     return this;
   }

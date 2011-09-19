@@ -9,6 +9,8 @@ javascripts:
     - public/javascripts/vendor/underscore.js
     - public/javascripts/vendor/backbone.js
     - public/javascripts/vendor/backbone-localstorage.js
+    - public/javascripts/vendor/bootstrap-dropdown.js
+    - public/javascripts/vendor/bootstrap-modal.js
 
   templates:
     - app/templates/**/*.jst
