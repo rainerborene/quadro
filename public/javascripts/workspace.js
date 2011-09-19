@@ -16,13 +16,14 @@ var WorkspaceView = Backbone.View.extend({
 
   events: {
     "click .new": "createSticky",
-    "click .boards": "openBoardsWindow",
+    "click .boards": "openBoardsModal",
+    "click .share": "openSharePopover",
     "click .feedback": "openUserVoice",
     "click .quick-view": "toggleQuickView"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "createSticky", "addOne", "addAll", "manipulateClipboard", "openBoardsWindow", "openUserVoice", "toggleQuickView");
+    _.bindAll(this, "render",  "addOne", "addAll", "manipulateClipboard");
 
     Stickies.bind("add", this.addOne);
     Stickies.bind("reset", this.addAll);
@@ -33,9 +34,12 @@ var WorkspaceView = Backbone.View.extend({
 
     j(document).bind("paste", this.manipulateClipboard);
     j(document).bind("dblclick", this.createSticky);
+  },
 
-    Quadro.views.shareMenuView = new ShareMenuView();
-    Quadro.views.notificationView = new NotificationView();
+  openSharePopover: function(event) {
+    this.shareView.toggle();
+    j(event.currentTarget).parent().toggleClass("active");
+    event.preventDefault();
   },
 
   toggleQuickView: function(event) {
@@ -64,7 +68,7 @@ var WorkspaceView = Backbone.View.extend({
     j(".board-list").find("li[data-id=" + model.id + "] .item-title").text(title);
   },
 
-  openBoardsWindow: function(event) {
+  openBoardsModal: function(event) {
     var el = j(event.currentTarget);
 
     if (el.parent().next().hasClass("active")) {
@@ -164,17 +168,14 @@ var WorkspaceView = Backbone.View.extend({
       this.$(".topbar").css({ display: "none", top: -45 });
     }
 
-    if (Quadro.readonly == false || Quadro.authenticated) {
-      Quadro.views.shareMenuView.render();
-      Quadro.views.notificationView.render();
-
-      this.$(".feedback").parent().before(Quadro.views.shareMenuView.el);
-      j(this.el).append(Quadro.views.notificationView.el);
-    }
-
     if (_.isUndefined(this.boardsView)) {
       this.boardsView = new BoardsView().render();
       j(this.boardsView.el).appendTo("#app");
+    }
+
+    if (_.isUndefined(this.shareView)) {
+      this.shareView = new ShareView().render();
+      j(this.shareView.el).appendTo("#app");
     }
 
     return this;
@@ -186,37 +187,35 @@ var WorkspaceView = Backbone.View.extend({
  * Sharing Settings
  */
 
-var ShareMenuView = Backbone.View.extend({
+var ShareView = Backbone.View.extend({
 
-  tagName: "li",
-
-  className: "share-menu",
+  className: "share-view popover below hide",
 
   template: JST["boards/share"],
 
   events: {
-    "click .share": "toggleSubmenu",
-    "click #share-public": "makeBoardPublic",
+    "click #share-public": "togglePublished",
     "click .delete-collaboration": "destroyCollaboration",
     "keypress #username": "lookupUsername",
-    "submit form": "cancelSubmit"
+    "submit form": "preventSubmit"
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "toggleSubmenu", "makeBoardPublic", "lookupUsername", "destroyCollaboration", "closeSubmenu");
+    _.bindAll(this, "render", "toggle", "togglePublished", "lookupUsername", "destroyCollaboration", "closePopover");
 
-    j(document).bind("click", this.closeSubmenu);
+    j(document).bind("click", this.closePopover);
   },
 
-  cancelSubmit: function(event) {
+  preventSubmit: function(event) {
     event.preventDefault();
   },
 
-  closeSubmenu: function(event) {
-    if ( ! j(event.target).parents(".topbar").length ) {
-      this.$(".popover:not(:animated)").fadeOut("fast");
-      j(this.el).removeClass("active");
-    }
+  closePopover: function(event) {
+    if ( ! j(event.target).parents(".topbar, .share-view").length 
+        && j(this.el).is(":not(:animated)") ) {
+           j(this.el).fadeOut("fast");
+           j(".share").parent().removeClass("active");
+        }
   },
 
   destroyCollaboration: function(event) {
@@ -279,19 +278,18 @@ var ShareMenuView = Backbone.View.extend({
     }
   },
 
-  toggleSubmenu: function(event) {
-    event.preventDefault();
-    this.$(".popover").fadeToggle("fast");
-    j(this.el).toggleClass("active");
+  toggle: function() {
+    j(this.el).fadeToggle("fast");
   },
 
-  makeBoardPublic: function(event) {
+  togglePublished: function(event) {
     var checked = event.currentTarget.checked;
     currentBoard.set({ share_public: checked }).save();
   },
 
   render: function() {
     j(this.el).html(this.template(currentBoard.toJSON()));
+    
     return this;
   }
 

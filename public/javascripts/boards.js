@@ -56,7 +56,7 @@ var BoardsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "openBoard", "newBoard", "saveWhenBlur", "saveWhenEnter", "saveBoard", "removeBoard", "changeTitle", "selectItem");
+    _.bindAll(this, "render", "saveBoard");
   },
 
   selectItem: function(event) {

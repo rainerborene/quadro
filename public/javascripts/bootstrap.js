@@ -128,7 +128,7 @@ j(function() {
   // Load board
   currentBoard = Boards.get(Quadro.board_id) || new Board();
   
-  // Render workspace views
+  // Render calls
   Quadro.views.workspaceView = new WorkspaceView().render();
   j(Quadro.views.workspaceView.el).prependTo("#app");
 

@@ -15,7 +15,7 @@ var NotificationView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "open", "openWithMessage", "close", "redraw");
+    _.bindAll(this, "render", "open", "openWithMessage", "redraw");
     j(window).bind("resize", this.redraw);
   },
 

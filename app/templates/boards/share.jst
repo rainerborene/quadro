@@ -1,35 +1,32 @@
-<a href="#share" class="share">Share</a>
-<div class="popover below">
-  <div class="arrow"></div>
-  <div class="inner">
-    <h3 class="title">Sharing Settings</h3>
-    <div class="content">
-      <form>
-        <div class="clearfix">
-          <ol class="inputs-list">
-            <li>
-              <label>
-                <input type="checkbox" id="share-public" name="share-public" value="true" <% if (share_public) { %>checked="checked"<% } %> />
-                <span>Allow other people to read my notes.</span>
-              </label>
-              <a href="/share/<%= secret_token %>" class="public-address">quadroapp.com/share/<%= secret_token %></a>
-            </li>
-          </ol>
-        </div>
-
-        <div class="clearfix">
-          <div class="input-prepend">
-            <span class="add-on">@</span>
-            <input class="large" id="username" name="username" size="16" type="text" placeholder="invite your friends">
-          </div>
-        </div>
-      </form>
-
-      <div class="collaborators custom-scrollbar">
-        <% _.each(collaborators, function(item) { %>
-          <%= JST['boards/collaborator']({ item: item }) %>
-        <% }); %>
+<div class="arrow"></div>
+<div class="inner">
+  <h3 class="title">Sharing Settings</h3>
+  <div class="content">
+    <form>
+      <div class="clearfix">
+        <ol class="inputs-list">
+          <li>
+            <label>
+              <input type="checkbox" id="share-public" name="share-public" value="true" <% if (share_public) { %>checked="checked"<% } %> />
+              <span>Allow other people to read my notes.</span>
+            </label>
+            <a href="/share/<%= secret_token %>" class="public-address">quadroapp.com/share/<%= secret_token %></a>
+          </li>
+        </ol>
       </div>
+
+      <div class="clearfix">
+        <div class="input-prepend">
+          <span class="add-on">@</span>
+          <input class="large" id="username" name="username" size="16" type="text" placeholder="invite your friends">
+        </div>
+      </div>
+    </form>
+
+    <div class="collaborators custom-scrollbar">
+      <% _.each(collaborators, function(item) { %>
+        <%= JST['boards/collaborator']({ item: item }) %>
+      <% }); %>
     </div>
   </div>
 </div>

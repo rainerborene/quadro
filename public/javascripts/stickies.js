@@ -62,7 +62,7 @@ var StickyView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "setContentEditable", "unsetContentEditable", "remove", "openContextMenu", "closeContextMenu", "bringToFront"); 
+    _.bindAll(this, "render");
   },
 
   bringToFront: function(event) {
@@ -208,6 +208,10 @@ var StickyView = Backbone.View.extend({
   }
 
 });
+
+/**
+ * TODO: THIS SHOULD BE REFACTORED!
+ */
 
 var StickyContextMenuView = {
 
