@@ -3,6 +3,17 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'factory_girl'
 
+OmniAuth.config.test_mode = true
+OmniAuth.config.add_mock(:twitter, {
+  :uid => '321897510',
+  :provider => 'twitter',
+  :credentials => { :token => "token", :secret => "secret" },
+  :user_info => {
+    :name => 'Jen Hawkins',
+    :nickname => 'jenhawkins',
+    :image => 'http://t3.gstatic.com/images?q=tbn:ANd9GcT5NiW1pPVujOmmiP58PAh8Sq0pLFPzucOj1FNhHwtQBk_WqmMmoEl2uFbA' }
+})
+
 class ActiveSupport::TestCase
   # Drop all collections after each test case.
   def teardown
