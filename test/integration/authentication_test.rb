@@ -27,4 +27,5 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
     assert_equal @response.body, "Something went wrong. Why don't you try again?"
   end
+
 end

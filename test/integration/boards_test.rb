@@ -44,6 +44,18 @@ class BoardsTest < ActionDispatch::IntegrationTest
         assert assigns(:current_user).boards.one?, "User must have at least one board"
       end
     end
+
+    should "be able to remove himself as collaborator" do
+      as_logged do
+        shared_board = Factory :board
+        shared_board.push :collaborator_ids => assigns(:current_user)._id
+        shared_board.reload
+
+        delete "/boards/#{shared_board.id}"
+        assert shared_board.user.boards.any?, "Ensures that the shared board isn't deleted"
+        assert assigns(:board).collaborator_ids.empty?, "User is no longer a collaborator"
+      end
+    end
   end
 
 end
