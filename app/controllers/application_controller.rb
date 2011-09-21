@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless signed_in?
-      render(:json => { :error => "Access denied." }, :status => 403) unless signed_in?
+      render(:json => { :error => "Access denied." }, :status => :forbidden)
       false
     end
   end

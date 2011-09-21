@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
   end
 
   def failure
-    render :text => "Something went wrong. Why don't you try again?"
+    render :text => "Something went wrong. Why don't you try again?", :status => :bad_request
   end
 
   def destroy

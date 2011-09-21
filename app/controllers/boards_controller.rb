@@ -7,8 +7,8 @@ class BoardsController < ApplicationController
   end
 
   def create
-    board = current_user.boards.create! pick params, :title
-    render :json => board
+    @board = current_user.boards.create! pick params, :title
+    render :json => @board, :status => :created
   end
 
   def update
@@ -23,7 +23,9 @@ class BoardsController < ApplicationController
     end
 
     if current_user.boards.one?
-      render :json => { :success => false, :message => "You must have at least one board registered." }, :status => 500
+      render :json => { :success => false,
+          :message => "You must have at least one board registered." },
+          :status => :internal_server_error
     else
       render :json => { :success => @board.destroy }
     end

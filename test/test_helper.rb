@@ -29,4 +29,11 @@ class ActiveSupport::TestCase
       super
     end
   end
+
+  def as_logged
+    open_session do |session|
+      get_via_redirect "/auth/twitter"
+      yield
+    end
+  end
 end
