@@ -7,19 +7,19 @@ class StickiesController < ApplicationController
   end
 
   def create
-    sticky = Sticky.new picked_attributes
-    @board.stickies << sticky
+    @sticky = Sticky.new picked_attributes
+    @board.stickies << @sticky
     @board.save
-    render :json => sticky
+    render :json => @sticky
   end
 
   def update
-    sticky = @board.stickies.find(params[:id])
+    @sticky = @board.stickies.find(params[:id])
 
-    if sticky and sticky.update_attributes! picked_attributes
-      render :json => sticky
+    if @sticky and @sticky.update_attributes! picked_attributes
+      render :json => @sticky
     else
-      render :json => { :success => false }, :status => 500
+      render :json => { :success => false }, :status => :internal_server_error
     end
   end
 

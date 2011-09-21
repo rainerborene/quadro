@@ -33,7 +33,9 @@ class ActiveSupport::TestCase
   def as_logged
     open_session do |session|
       get_via_redirect "/auth/twitter"
-      yield
+      yield if block_given?
     end
   end
+
+  alias :require_authentication :as_logged
 end

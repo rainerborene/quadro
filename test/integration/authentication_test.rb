@@ -20,12 +20,12 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
       assert_nil session[:user_id]
       assert_response :redirect
     end
-  end
 
-  test "should get failure message when credentials are invalid" do
-    get "/auth/failure"
-    assert_response :bad_request
-    assert_equal @response.body, "Something went wrong. Why don't you try again?"
+    should "receive a failure message when credentials are invalid" do
+      get "/auth/failure"
+      assert_response :bad_request
+      assert_equal @response.body, "Something went wrong. Why don't you try again?"
+    end
   end
 
 end
