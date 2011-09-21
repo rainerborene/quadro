@@ -12,11 +12,12 @@ gem 'airbrake'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
 
-group :development do
+group :development, :test do
   gem 'ruby-debug', :platform => :ruby_18
   gem 'ruby-debug19', :require => 'ruby-debug', :platform => :ruby_19
 end
 
 group :test do
   gem 'factory_girl_rails', '~> 1.2'
+  gem 'turn'
 end
