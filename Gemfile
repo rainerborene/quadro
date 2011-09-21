@@ -18,6 +18,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'shoulda-context', '~> 1.0.0.beta1'
   gem 'factory_girl_rails', '~> 1.2'
   gem 'turn'
 end
