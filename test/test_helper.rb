@@ -39,8 +39,7 @@ class ActiveSupport::TestCase
 
   alias :require_authentication :as_logged
 
-  # I need to extract some test helpers from the remarkable 
-  # plugin and use a similar syntax of shoulda macros.
+  # TODO: Need to extract some test helpers from the remarkable gem.
   class << self
     def should_validate_presence_of(attr)
       should "require #{attr} to be set" do

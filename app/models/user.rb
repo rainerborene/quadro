@@ -8,6 +8,7 @@ class User
   key :profile_image, String, :required => true
   key :token, String
   key :secret_token, String
+  key :latest_open, ObjectId
   timestamps!
 
   many :boards, :dependent => :destroy

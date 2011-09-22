@@ -3,6 +3,8 @@ class StickiesController < ApplicationController
   before_filter :find_board
 
   def index
+    @current_user.set({ :latest_open => @board.id })
+    @current_user.reload
     render :json => @board.stickies
   end
 

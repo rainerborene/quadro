@@ -27,8 +27,8 @@ class StickiesTest < ActionDispatch::IntegrationTest
 
     should "be able to update a sticky" do
       sticky = @board.stickies.first
-      put "/boards/#{@board.id}/stickies/#{sticky.id}", :content => "After Hawaii went to Can Cun"
-      assert_equal assigns(:sticky).content, "After Hawaii went to Can Cun"
+      put "/boards/#{@board.id}/stickies/#{sticky.id}", :content => "After Hawaii went to Cancun"
+      assert_equal assigns(:sticky).content, "After Hawaii went to Cancun"
       assert_equal assigns(:sticky)._id, sticky._id
       assert_response :success
     end
@@ -38,6 +38,23 @@ class StickiesTest < ActionDispatch::IntegrationTest
       delete "/boards/#{@board.id}/stickies/#{sticky.id}"
       assert assigns(:board).stickies.empty?
       assert_response :success
+    end
+
+    should "set latest open attribute of user when retrieving stickies" do
+      board = Factory :board, :user => assigns(:current_user)
+
+      get "/boards/#{board.id}/stickies"
+      assert_equal assigns(:current_user).latest_open, board.id, 
+        "Set latest open attribute to the requested board"
+      assert_equal assigns(:board)._id, board._id, 
+        "Loaded board should be the one pulled from lastest open attribute"
+      assert board.destroy
+
+      get "/"
+      assert_nil assigns(:current_user).latest_open, 
+        "User should have the latest attribute set to nil if he doesn't own it"
+      assert_equal assigns(:current_user).boards.first, @board,
+        "Otherwise, the first board should be considered"
     end
 
     should "not be able to retrieve stickies from other person" do
