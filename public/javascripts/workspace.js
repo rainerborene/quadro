@@ -201,8 +201,7 @@ var ShareView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "toggle", "togglePublished", "lookupUsername", "destroyCollaboration", "closePopover");
-
+    _.bindAll(this, "render", "toggle", "closePopover");
     j(document).bind("click", this.closePopover);
   },
 

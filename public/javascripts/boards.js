@@ -86,7 +86,7 @@ var BoardsView = Backbone.View.extend({
         }
       });
 
-      Quadro.views.shareMenuView.render();
+      Quadro.views.workspaceView.shareView.render();
     }
   },
 
@@ -201,8 +201,7 @@ var BoardsView = Backbone.View.extend({
 
     j(".boards").parent().addClass("active");
 
-    el
-      .find(".overlay")
+    el.find(".overlay")
       .css("display", "none")
       .fadeIn("fast", function() {
         el.find(".modal").fadeIn("fast");
@@ -212,11 +211,12 @@ var BoardsView = Backbone.View.extend({
   },
 
   render: function() {
-    this.boards = Boards.map(function(b) {
-      return JST["boards/board"].call(b.toJSON());
-    });
+    var template = JST["boards/board"]
+      , boards = Boards.map(function(i) { 
+          return template.call(i.toJSON());
+        });
 
-    j(this.el).html(this.template({ boards: this.boards }));
+    j(this.el).html(this.template({ boards: boards }));
 
     return this;
   }
