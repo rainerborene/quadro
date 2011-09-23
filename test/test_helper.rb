@@ -3,6 +3,8 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'factory_girl'
 
+Shoulda.autoload_macros Rails.root.to_s
+
 OmniAuth.config.test_mode = true
 OmniAuth.config.add_mock(:twitter, {
   :uid => '321897510',
@@ -30,39 +32,12 @@ class ActiveSupport::TestCase
     end
   end
 
-  def as_logged
+  def require_authentication
     open_session do |session|
       get_via_redirect "/auth/twitter"
       yield if block_given?
     end
   end
 
-  alias :require_authentication :as_logged
-
-  # TODO: Need to extract some test helpers from the remarkable gem.
-  class << self
-    def should_validate_presence_of(attr)
-      should "require #{attr} to be set" do
-        subject.send("#{attr}=", nil)
-        assert subject.invalid?
-      end
-    end
-
-    def should_guarantee_value_of(attr, value)
-      should "set #{attr} to #{value} by default" do
-        assert_equal subject.send(attr), value
-        assert subject.valid?
-      end
-    end
-
-    def should_has_many(attr, options={})
-      through = options[:in]
-      description = "has many #{attr}"
-      description << " through #{through}" unless through.nil?
-      should(description) do
-        assert_kind_of Array, subject.send(through || attr)
-        assert_not_nil subject.send(attr)
-      end
-    end
-  end
+  alias_method :as_logged, :require_authentication
 end
