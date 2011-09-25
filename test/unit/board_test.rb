@@ -4,14 +4,13 @@ class BoardTest < ActiveSupport::TestCase
   context "A board instance" do
     subject { Factory.build :board }
 
-    should_validate_presence_of :title
-    should_guarantee_value_of :share_public, false
-    should_has_many :collaborators, :in => :collaborator_ids
-    should_has_many :stickies
+    should_be_valid Board
 
-    should "be valid when new" do
-      assert_kind_of Board, subject
-      assert subject.valid?
-    end
+    should_validate_presence_of :title
+    should_have_key :collaborator_ids, Array
+    should_have_key :stickies_count_cache, Integer
+    should_have_default_value :share_public, false
+
+    should_have_attr_protected :user_id
   end
 end
