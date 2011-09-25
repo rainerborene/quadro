@@ -45,16 +45,16 @@ class StickiesTest < ActionDispatch::IntegrationTest
 
       get "/boards/#{board.id}/stickies"
       assert_equal assigns(:current_user).latest_open, board.id, 
-        "Set latest open attribute to the requested board"
+        "The latest open attribute must be set to the requested board"
       assert_equal assigns(:board)._id, board._id, 
-        "Loaded board should be the one pulled from lastest open attribute"
+        "The loaded board should be the one pulled from latest open attribute"
       assert board.destroy
 
       get "/"
       assert_nil assigns(:current_user).latest_open, 
         "User should have the latest attribute set to nil if he doesn't own it"
       assert_equal assigns(:current_user).boards.first, @board,
-        "Otherwise, the first board should be considered"
+        "The first board should be considered"
     end
 
     should "not be able to retrieve stickies from other person" do

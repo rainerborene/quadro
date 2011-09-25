@@ -16,7 +16,7 @@ class BoardsTest < ActionDispatch::IntegrationTest
       post "/boards", :title => "Testing Roadmap"
       assert_not_nil assigns(:board)
       assert !assigns(:board).new_record?
-      assert_equal assigns(:board).to_json, @response.body, "Should return only the JSON format"
+      assert_equal assigns(:board).to_json, @response.body, "Response body didn't match"
       assert_response :created
     end
 
@@ -45,8 +45,8 @@ class BoardsTest < ActionDispatch::IntegrationTest
       shared_board.reload
 
       delete "/boards/#{shared_board.id}"
-      assert shared_board.user.boards.any?, "Ensures that the shared board isn't deleted"
-      assert assigns(:board).collaborator_ids.empty?, "User is no longer a collaborator"
+      assert shared_board.user.boards.any?, "Boards collection must not be empty"
+      assert assigns(:board).collaborator_ids.empty?, "User must not be collaborating"
     end
   end
 
