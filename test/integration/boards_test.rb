@@ -49,5 +49,19 @@ class BoardsTest < ActionDispatch::IntegrationTest
       assert assigns(:board).collaborator_ids.empty?, "User must not be collaborating"
     end
   end
+  
+  context "A visitor" do
+    subject { Factory :board, :share_public => true }
+
+    should "be able to access a shared board" do
+      get "/share/#{subject.secret_token}"
+      board = assigns(:board)
+      assert_not_nil assigns(:board)
+      assert assigns(:board).share_public
+      assert assigns(:readonly)
+      assert_response :success
+      assert_tag :title, :content => "#{board.title} • Quadro"
+    end
+  end
 
 end

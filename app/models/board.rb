@@ -14,6 +14,10 @@ class Board
   belongs_to :user
   attr_protected :user_id
 
+  def to_s
+    title
+  end
+
   def stickies_count
     if send(:stickies_count_cache).nil?
       set({ :stickies_count_cache => stickies.count })
@@ -34,4 +38,3 @@ class Board
     }.merge(options))
   end
 end
-
