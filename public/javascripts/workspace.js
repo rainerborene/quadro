@@ -30,8 +30,6 @@ var WorkspaceView = Backbone.View.extend({
 
     Boards.bind("change:title", this.didChangeTitle);
 
-    StickyContextMenuView.initialize();
-
     j(document).bind("paste", this.manipulateClipboard);
     j(document).bind("dblclick", this.createSticky);
   },

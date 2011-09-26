@@ -136,8 +136,6 @@ j(function() {
     Quadro.views.workspaceView.setReadonly();
   } 
 
-  updateWindowTitle();
-  
   // Finally, load stickies.
   Stickies.trigger("reset");
 

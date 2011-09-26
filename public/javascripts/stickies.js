@@ -210,33 +210,24 @@ var StickyView = Backbone.View.extend({
 });
 
 /**
- * TODO: THIS SHOULD BE REFACTORED!
+ * Context Menu
  */
 
-var StickyContextMenuView = {
+var ContextMenu = Backbone.View.extend({
 
-  availableColors: ["blue", "green", "pink", "purple", "gray"],
+  tagName: "ul",
+
+  className: "colors",
 
   template: JST['stickies/colors'],
-  
-  initialize: function() {
-    _.bindAll(this, "changeColor", "close");
 
-    this.el = j(this.template()).prependTo("#app");
-    this.el.find("li").bind("click", this.changeColor);
-
-    j(document).bind("click", this.close);
+  events: {
+    "click li": "changeColor"
   },
 
-  changeColor: function(event) {
-    var that = this, color = j(event.currentTarget).data("color");
-
-    _.each(this.availableColors, function(color) {
-      j(that.sticky.el).removeClass(color);
-    });
-
-    this.sticky.model.set({ color: color }).save();
-    j(this.sticky.el).addClass(this.sticky.model.get("color"));
+  initialize: function() {
+    _.bindAll(this, "render", "close");
+    j(document).bind("click", this.close);
   },
 
   context: function(sticky) {
@@ -245,15 +236,35 @@ var StickyContextMenuView = {
   },
 
   open: function(x, y) {
-    this.el.css({
+    j(this.el).css({
       top: y,
       left: x,
       zIndex: 998
     }).fadeIn(1);
   },
 
+  changeColor: function(event) {
+    var colors = ["blue", "green", "pink", "purple", "gray"]
+      , color = j(event.currentTarget).data("color")
+      , that = this;
+
+    _.each(colors, function(c) {
+      j(that.sticky.el).removeClass(c);
+    });
+
+    this.sticky.model.set({ color: color }).save();
+    j(this.sticky.el).addClass(this.sticky.model.get("color"));
+  },
+
   close: function() {
-    this.el.fadeOut("fast");
+    j(this.el).fadeOut("fast");
+  },
+
+  render: function() {
+    j(this.el).html(this.template()).prependTo("#app");
+    return this;
   }
 
-};
+});
+
+var StickyContextMenuView = new ContextMenu().render();
