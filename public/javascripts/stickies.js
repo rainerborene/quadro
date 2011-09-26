@@ -1,4 +1,14 @@
 /**
+ * Extensions
+ */
+
+_.mixin({
+  capitalize : function(string) {
+    return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+  }
+});
+
+/**
  * Models
  */
 
@@ -219,8 +229,6 @@ var ContextMenu = Backbone.View.extend({
 
   className: "colors",
 
-  template: JST['stickies/colors'],
-
   events: {
     "click li": "changeColor"
   },
@@ -243,12 +251,12 @@ var ContextMenu = Backbone.View.extend({
     }).fadeIn(1);
   },
 
-  changeColor: function(event) {
-    var colors = ["blue", "green", "pink", "purple", "gray"]
-      , color = j(event.currentTarget).data("color")
-      , that = this;
+  colors: ["yellow", "blue", "green", "pink", "purple", "gray"],
 
-    _.each(colors, function(c) {
+  changeColor: function(event) {
+    var color = j(event.currentTarget).data("color"), that = this;
+
+    _.each(this.colors, function(c) {
       j(that.sticky.el).removeClass(c);
     });
 
@@ -261,7 +269,15 @@ var ContextMenu = Backbone.View.extend({
   },
 
   render: function() {
-    j(this.el).html(this.template()).prependTo("#app");
+    var that = this;
+    
+    _.each(this.colors, function(c) {
+      var li = that.make("li", { "data-color": c }, _(c).capitalize());
+      $(li).appendTo(that.el);
+    });
+
+    j(this.el).prependTo("#app");
+
     return this;
   }
 
