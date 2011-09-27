@@ -20,5 +20,35 @@ class UserTest < ActiveSupport::TestCase
       subject.boards.create!(:title => "Untitled")
       assert subject.boards.any?
     end
+
+    should "update attributes using OmniAuth hash schema" do
+      auth = OmniAuth.config.mock_auth[:twitter]
+      subject.update_with_omniauth(auth)
+      assert_equal subject.uid, auth["uid"]
+      assert_equal subject.provider, auth["provider"]
+      assert_equal subject.name, auth["user_info"]["name"]
+      assert_equal subject.nickname, auth["user_info"]["nickname"]
+      assert_equal subject.profile_image, auth["user_info"]["image"]
+      assert_equal subject.token, auth["credentials"]["token"]
+      assert_equal subject.secret_token, auth["credentials"]["secret"]
+    end
+
+    should "fetch all boards including shared" do
+      subject.boards.create! Factory.attributes_for(:board)
+
+      shared_board = Factory :board
+      shared_board.push(:collaborator_ids => subject._id)
+      shared_board.reload
+
+      assert_equal subject.all_boards.size, 2
+      assert subject.all_boards.include? shared_board
+      assert subject.all_boards.include? subject.boards.first
+    end
+
+    should "be able to check if user owns a board through the secret token" do
+      board = Factory :board, :user => subject
+      assert subject.own? board.secret_token
+      assert !subject.own?("2ddecde")
+    end
   end
 end

@@ -6,7 +6,7 @@
 <%= content_tag :script, :type => Mime::JS do %>
   <%= raw("_.extend(Quadro, #{current_user_session});") %>
   <%= raw("Boards.reset(#{@board.to_json});") if @readonly %>
-  <%= raw("Boards.reset(#{current_user.every_boards.to_json});") if signed_in? and not @readonly %>
+  <%= raw("Boards.reset(#{current_user.all_boards.to_json});") if signed_in? and not @readonly %>
   <%= raw("Stickies.reset(#{@board.stickies.to_json});") if signed_in? or @readonly %>
 <% end %>
 

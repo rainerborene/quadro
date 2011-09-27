@@ -25,7 +25,7 @@ class User
     })
   end
 
-  def every_boards
+  def all_boards
     results = Board.all(:collaborator_ids => [_id]) | self.boards
     results.sort_by(&:title)
   end
