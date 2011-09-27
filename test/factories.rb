@@ -10,7 +10,7 @@ FactoryGirl.define do
 
   factory :board do
     title "Untitled"
-    association :user
+    user
   end
 
   factory :sticky do

@@ -2,7 +2,7 @@ require 'test_helper'
  
 class UserTest < ActiveSupport::TestCase
   context "A user instance" do
-    subject { Factory.build :user }
+    subject { Factory :user }
 
     should_be_valid User
 
@@ -14,7 +14,11 @@ class UserTest < ActiveSupport::TestCase
     should_have_key :token, String
     should_have_key :secret_token, String
     should_have_key :latest_open, ObjectId
-
     should_have_default_value :provider, "twitter"
+
+    should "has many boards" do
+      subject.boards.create!(:title => "Untitled")
+      assert subject.boards.any?
+    end
   end
 end
