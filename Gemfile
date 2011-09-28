@@ -20,5 +20,7 @@ end
 group :test do
   gem 'shoulda-context', '~> 1.0.0.beta1'
   gem 'factory_girl_rails', '~> 1.2'
-  gem 'turn'
+  gem 'guard-test'
+  gem 'growl_notify'
+  gem 'rb-fsevent', :require => false
 end
