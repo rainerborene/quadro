@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
     if user.new? and ENV["SOCIAL_MESSENGER"] == "yes"
       credentials = auth["credentials"]
-      message = "I'm using @quadroapp to store my notes on the cloud."
+      message = "I'm using @quadroapp to store post-its on the cloud."
       Delayed::Job.enqueue TweetingJob.new(message, credentials["token"], credentials["secret"])
     end
 

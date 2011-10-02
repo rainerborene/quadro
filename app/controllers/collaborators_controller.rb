@@ -22,7 +22,7 @@ class CollaboratorsController < ApplicationController
     end
 
     if ENV["SOCIAL_MESSENGER"] == "yes"
-      message = "#{current_user.name} just shared a space with notes with you. Go to http://quadroapp.com and sign in."
+      message = "I've just shared some notes with you on @quadroapp. Go to http://quadroapp.com and sign in."
       Delayed::Job.enqueue DirectMessageJob.new(message, @user.uid, current_user.token, current_user.secret_token)
     end
 
