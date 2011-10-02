@@ -11,6 +11,7 @@ gem 'twitter', '1.6.0'
 gem 'airbrake'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
+gem 'thin'
 
 group :development, :test do
   gem 'ruby-debug', :platform => :ruby_18
