@@ -97,20 +97,25 @@ function isOverlapping(sticky) {
     , originY = originOffset.top + sticky.outerHeight()
     , overlap = false;
 
-
   stickies.each(function() {
     var targetOffset = j(this).offset()
       , targetX = targetOffset.left + j(this).outerWidth()
       , targetY = targetOffset.top + j(this).outerHeight();
 
+    if (targetOffset.left > originX || targetX < originOffset.left) {
+      return;
+    } else if (targetOffset.top > originY || targetY < originOffset.top) {
+      return;
+    }
+
     if (originOffset.left < targetX
      && originX > originOffset.left
      && originOffset.top < targetY
-     && originY > originOffset.top) {
+     && originY > targetOffset.top) {
         overlap = true;
      }
   });
-  
+
   return overlap;
 }
 
