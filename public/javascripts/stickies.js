@@ -80,7 +80,7 @@ var StickyView = Backbone.View.extend({
       , newIndex = zIndexMax();
 
     if (parseInt(curIndex) != newIndex - 1 && isOverlapping(j(this.el))) {
-      this.model.set({ "z_index": newIndex }).save();
+      this.model.set({ z_index: newIndex }).save();
       j(this.el).css("zIndex", newIndex);
     }
   },
@@ -111,6 +111,8 @@ var StickyView = Backbone.View.extend({
   
   setContentEditable: function(event) {
     var el = j(event.currentTarget);
+
+    this.bringToFront();
 
     if (el.text().replace(/\n+/, "") == this.model.defaults.content.replace(/\n+/, "")) {
       el.text(""); 

@@ -89,18 +89,26 @@ function setSelection(div) {
   }, 1);
 }
 
+// Credits: http://silentmatt.com/rectangle-intersection/
 function isOverlapping(sticky) {
   var stickies = j(".sticky").not(sticky)
     , originOffset = sticky.offset()
+    , originX = originOffset.left + sticky.outerWidth()
+    , originY = originOffset.top + sticky.outerHeight()
     , overlap = false;
 
-  stickies.each(function() {
-    var offset = j(this).offset();
 
-    if (Math.abs(offset.top - originOffset.top) <= j(this).outerHeight()
-     && Math.abs(offset.left - originOffset.left) <= j(this).outerWidth()) {
+  stickies.each(function() {
+    var targetOffset = j(this).offset()
+      , targetX = targetOffset.left + j(this).outerWidth()
+      , targetY = targetOffset.top + j(this).outerHeight();
+
+    if (originOffset.left < targetX
+     && originX > originOffset.left
+     && originOffset.top < targetY
+     && originY > originOffset.top) {
         overlap = true;
-    }
+     }
   });
   
   return overlap;
