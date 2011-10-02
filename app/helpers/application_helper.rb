@@ -1,6 +1,6 @@
 module ApplicationHelper
   def current_user_session
-    output = { :authenticated => signed_in?, }
+    output = { :authenticated => signed_in? }
     output.merge!(current_user.serializable_hash) if signed_in?
     output.to_json.html_safe
   end
