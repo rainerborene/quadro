@@ -12,6 +12,11 @@ class Board
   many :stickies
 
   belongs_to :user
+
+  ensure_index :user_id
+  ensure_index :secret_token
+  ensure_index :collaborator_ids
+
   attr_protected :user_id
 
   def to_s
