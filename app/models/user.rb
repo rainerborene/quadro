@@ -39,7 +39,7 @@ class User
   end
 
   def notified?(notification)
-    !Notification.where(notification).fields("_id").first.nil?
+    !User.fields("id").first({ :id => id, :notifications => notification }).nil?
   end
 
   def serializable_hash(options={})

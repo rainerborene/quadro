@@ -35,7 +35,10 @@ class CollaboratorsController < ApplicationController
       Delayed::Job.enqueue DirectMessageJob.new(message, @user.uid, current_user.token, current_user.secret_token)
     end
 
-    current_user.notifications.create(notification) unless current_user.notified? notification
+    unless current_user.notified? notification
+      current_user.push(:notifications => notification)
+      current_user.reload
+    end
 
     @board.push(:collaborator_ids => @user._id)
     @board.reload
