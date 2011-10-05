@@ -35,6 +35,7 @@ class CollaboratorsTest < ActionDispatch::IntegrationTest
       assert_response :created
 
       post "/boards/#{@board.id}/collaborators", :username => @willie.nickname
+      assert assigns(:current_user).notifications.one?
       assert assigns(:board).collaborator_ids.one?
       assert_response :unprocessable_entity
     end
