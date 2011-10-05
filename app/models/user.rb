@@ -12,6 +12,7 @@ class User
   timestamps!
 
   many :boards, :dependent => :destroy
+  many :notifications
 
   def update_with_omniauth(auth)
     update_attributes!({
@@ -35,6 +36,10 @@ class User
       { :secret_token => secret_token, :user_id => self.id }, 
       { :secret_token => secret_token, :collaborator_ids => { "$in" => [self.id] } } 
     ]).any?
+  end
+
+  def notified?(notification)
+    !Notification.where(notification).fields("_id").first.nil?
   end
 
   def serializable_hash(options={})

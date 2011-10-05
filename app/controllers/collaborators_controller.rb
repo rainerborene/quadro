@@ -17,18 +17,29 @@ class CollaboratorsController < ApplicationController
           :profile_image => twitter_user.profile_image_url
         })
       rescue Twitter::NotFound => ex
-        return render :json => { :message => "No user matches for specified terms" }, :status => 404
+        return render :json => { :message => "No user matches for specified terms" }, :status => :not_found
       end
     end
 
-    if ENV["SOCIAL_MESSENGER"] == "yes"
+    if @board.collaborator_ids.find { |c| c.eql? @user.id }
+      return render :json => { :success => false }, :status => :unprocessable_entity
+    end
+
+    notification = { 
+      :receiver => @user._id,
+      :resource => @board._id,
+      :action => :collaboration }
+
+    if ENV["SOCIAL_MESSENGER"] and not current_user.notified? notification
       message = "I've just shared some notes with you on @quadroapp. Go to http://quadroapp.com and sign in."
       Delayed::Job.enqueue DirectMessageJob.new(message, @user.uid, current_user.token, current_user.secret_token)
     end
 
+    current_user.notifications.create(notification) unless current_user.notified? notification
+
     @board.push(:collaborator_ids => @user._id)
     @board.reload
-    render :json => @user
+    render :json => @user, :status => :created
   end
 
   def destroy
