@@ -19,7 +19,7 @@ class User
       :uid => auth["uid"],
       :provider => auth["provider"],
       :name => auth["user_info"]["name"],
-      :nickname => auth["user_info"]["nickname"],
+      :nickname => auth["user_info"]["nickname"].downcase,
       :profile_image => auth["user_info"]["image"],
       :token => auth["credentials"]["token"],
       :secret_token => auth["credentials"]["secret"]

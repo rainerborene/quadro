@@ -21,7 +21,7 @@ class StickiesController < ApplicationController
     if @sticky and @sticky.update_attributes! picked_attributes
       render :json => @sticky
     else
-      render :json => { :success => false }, :status => :internal_server_error
+      render :json => { :success => false }, :status => :unprocessable_entity
     end
   end
 
