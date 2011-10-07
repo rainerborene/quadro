@@ -44,7 +44,7 @@ var Sticky = Backbone.Model.extend({
 });
 
 var StickyCollection = Backbone.Collection.extend({ model: Sticky, localStorage: new Store("stickies") })
-  , Stickies = window.Stickies = new StickyCollection;
+  , Stickies = new StickyCollection;
 
 Stickies.url = function() {
   return "/boards/" + currentBoard.id + "/stickies";
@@ -125,19 +125,28 @@ var StickyView = Backbone.View.extend({
     event.preventDefault();
   },
 
-  unsetContentEditable: function(event) {
-    var content = []
-      , paragraphs = j(this.el).find(".content p");
-
-    j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
-    j(this.el).addClass("unselectable");
+  formatParagraphs: function() {
+    var paragraphs = j(this.el).find(".content p")
+      , content = [];
 
     if (paragraphs.length) {
-      paragraphs.each(function() { content.push( j(this).text() ); });
+      paragraphs.each(function() { 
+        content.push( j(this).text() ); 
+      });
+
       content = content.join("\n");
     } else {
       content = this.$(".content").text();
     }
+
+    return content;
+  },
+
+  unsetContentEditable: function(event) {
+    var content = this.formatParagraphs();
+
+    j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
+    j(this.el).addClass("unselectable");
 
     if (!j.trim(content).length) {
       content = this.model.defaults.content;
