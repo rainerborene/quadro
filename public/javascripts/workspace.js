@@ -28,8 +28,6 @@ var WorkspaceView = Backbone.View.extend({
     Stickies.bind("add", this.addOne);
     Stickies.bind("reset", this.addAll);
 
-    Boards.bind("change:title", this.didChangeTitle);
-
     j(document).bind("paste", this.manipulateClipboard);
     j(document).bind("dblclick", this.createSticky);
   },
@@ -60,10 +58,6 @@ var WorkspaceView = Backbone.View.extend({
 
   setReadonly: function() {
     j("html, body").css("overflow", "auto");
-  },
-
-  didChangeTitle: function(model, title) {
-    j(".board-list").find("li[data-id=" + model.id + "] .item-title").text(title);
   },
 
   openBoardsModal: function(event) {

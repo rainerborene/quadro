@@ -56,7 +56,14 @@ var BoardsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "render", "saveBoard");
+    _.bindAll(this, "render", "saveBoard", "hasDestroyed");
+
+    Boards.bind("destroy", this.hasDestroyed);
+  },
+
+  hasDestroyed: function(model, collection, xhr) {
+    this.$("li[data-id=" + model.id + "]").delay(500).slideUp();
+    this.$(".remove-board").removeAttr("disabled");
   },
 
   selectItem: function(event) {
@@ -181,10 +188,6 @@ var BoardsView = Backbone.View.extend({
         button.attr("disabled", "disabled");
 
         entry.destroy({
-          success: function(model, response) {
-            selected.slideUp();
-            button.removeAttr("disabled");
-          },
           error: function(model, xhr, callbacks) {
             var response = JSON.parse(xhr.responseText);
             alert(response.message);
