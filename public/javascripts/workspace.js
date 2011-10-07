@@ -139,8 +139,8 @@ var WorkspaceView = Backbone.View.extend({
     }
     
     model.set({
-      top: j(stickyView.el).position().top,
-      left: j(stickyView.el).position().left,
+      top: parseInt(j(stickyView.el).css("top")),
+      left: parseInt(j(stickyView.el).css("left")),
       z_index: zIndex
     });
 

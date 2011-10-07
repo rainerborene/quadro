@@ -124,10 +124,10 @@ function updateWindowTitle() {
 }
 
 /**
- * Document ready
+ * Initialization
  */
 
-j(function() {
+Quadro.initialize = function() {
   _.extend(Quadro, {
     readonly: j("#app").data("readonly"),
     board_id: j("#app").data("board-id")
@@ -151,8 +151,21 @@ j(function() {
 
   // Finally, load stickies.
   Stickies.trigger("reset");
+};
 
-  j(window).load(function() {
-    j("#loading").fadeOut();
+/**
+ * Document ready
+ */
+
+j(function() {
+  Quadro.initialize();
+ 
+  j(window).bind({
+    load: function() {
+      j("#loading").fadeOut();
+    },
+    beforeunload: function() {
+      j(".sticky").find(".content").trigger("blur", { async: false });
+    }
   });
 });

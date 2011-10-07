@@ -142,7 +142,7 @@ var StickyView = Backbone.View.extend({
     return content;
   },
 
-  unsetContentEditable: function(event) {
+  unsetContentEditable: function(event, options) {
     var content = this.formatParagraphs();
 
     j(event.currentTarget).addClass("unselectable").attr("contenteditable", "false");
@@ -154,7 +154,7 @@ var StickyView = Backbone.View.extend({
     }
 
     if (this.model.get("content") !== content) {
-      this.model.set({ content: content }).save();
+      this.model.set({ content: content }).save({}, options);
     }
   },
 
