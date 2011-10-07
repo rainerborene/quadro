@@ -126,7 +126,7 @@ var StickyView = Backbone.View.extend({
   },
 
   formatParagraphs: function() {
-    var paragraphs = j(this.el).find(".content p")
+    var paragraphs = j(this.el).find(".content > p")
       , content = [];
 
     if (paragraphs.length) {

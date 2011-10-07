@@ -81,9 +81,11 @@ var WorkspaceView = Backbone.View.extend({
             : j(event.target);
 
     setTimeout(function() {
-      obj.find(":not(p,br)").each(function() {
-        j(this).replaceWith("<p>" + j(this).text() + "</p>");
-      });
+      if (obj.hasClass("content")) {
+        obj.find(":not(p,br)").each(function() {
+          j(this).replaceWith("<p>" + j(this).text() + "</p>");
+        });
+      }
     }, 1);
   },
 
