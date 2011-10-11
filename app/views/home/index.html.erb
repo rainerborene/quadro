@@ -1,7 +1,7 @@
 <%= content_tag(:div, nil, :id => "loading") %>
 <%= content_tag(:div, nil, { :id => "app" }.merge(app_data)) %>
 
-<%= include_javascripts :libs, :templates, :core %>
+<%= javascript_include_tag "application" %>
 
 <%= content_tag :script, :type => Mime::JS do %>
   <%= raw("_.extend(Quadro, #{current_user_session});") %>
