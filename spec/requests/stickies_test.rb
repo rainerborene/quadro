@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class StickiesTest < ActionDispatch::IntegrationTest
-
-  context "A logged user" do
+  describe "A logged user" do
     setup do
       require_authentication
       @board = assigns(:board)
@@ -10,7 +9,7 @@ class StickiesTest < ActionDispatch::IntegrationTest
       @board.save
     end
 
-    should "be able to create a sticky" do
+    it "should be able to create a sticky" do
       sticky = Factory.build :sticky, :content => "I traveled to Hawaii"
       assert assigns(:board).stickies.one?
       post "/boards/#{@board.id}/stickies", sticky.attributes.except(:_id)
@@ -18,14 +17,14 @@ class StickiesTest < ActionDispatch::IntegrationTest
       assert_response :success
     end
 
-    should "be able to retrieve stickies" do
+    it "should be able to retrieve stickies" do
       get "/boards/#{@board.id}/stickies"
       assert assigns(:board).stickies.any?
       assert_equal assigns(:board).stickies.to_json, @response.body
       assert_response :success
     end
 
-    should "be able to update a sticky" do
+    it "should be able to update a sticky" do
       sticky = @board.stickies.first
       put "/boards/#{@board.id}/stickies/#{sticky.id}", :content => "After Hawaii went to Cancun"
       assert_equal assigns(:sticky).content, "After Hawaii went to Cancun"
@@ -33,14 +32,14 @@ class StickiesTest < ActionDispatch::IntegrationTest
       assert_response :success
     end
 
-    should "be able to destroy a sticky" do
+    it "should be able to destroy a sticky" do
       sticky = @board.stickies.first
       delete "/boards/#{@board.id}/stickies/#{sticky.id}"
       assert assigns(:board).stickies.empty?
       assert_response :success
     end
 
-    should "set latest open attribute of user when retrieving stickies" do
+    it "should set latest open attribute of user when retrieving stickies" do
       board = Factory :board, :user => assigns(:current_user)
 
       get "/boards/#{board.id}/stickies"
@@ -57,12 +56,11 @@ class StickiesTest < ActionDispatch::IntegrationTest
         "The first board should be considered"
     end
 
-    should "not be able to retrieve stickies from other person" do
+    it "should not be able to retrieve stickies from other person" do
       board = Factory :board
       assert_raise ActionController::RoutingError do
         get_via_redirect "/boards/#{board.id}/stickies"
       end
     end
   end
-
 end

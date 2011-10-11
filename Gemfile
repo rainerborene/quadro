@@ -22,14 +22,17 @@ group :assets do
 end
 
 group :development, :test do
+  gem 'rspec-rails'
   gem 'ruby-debug', :platform => :ruby_18
   gem 'ruby-debug19', :require => 'ruby-debug', :platform => :ruby_19
 end
 
 group :test do
-  gem 'shoulda-context', '~> 1.0.0.beta1'
   gem 'factory_girl_rails', '~> 1.2'
-  gem 'guard-test'
-  gem 'growl_notify'
-  gem 'rb-fsevent', :require => false
+  gem 'guard-rspec'
+
+  if RUBY_PLATFORM =~ /darwin/i
+    gem 'growl_notify' 
+    gem 'rb-fsevent', :require => false
+  end
 end

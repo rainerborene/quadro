@@ -1,22 +1,21 @@
 require 'test_helper'
 
 class CollaboratorsTest < ActionDispatch::IntegrationTest
-
-  context "A board instance" do
-    setup do
+  describe "A board instance" do
+    before do
       require_authentication
       @board = assigns(:board)
       @willie = Factory :user, :name => "Pirate Willie", :nickname => "willie"
     end
 
-    should "be able to be shared with Pirate Willie" do
+    it "should be able to be shared with Pirate Willie" do
       post "/boards/#{@board.id}/collaborators", :username => @willie.nickname
       assert_not_nil assigns(:user), "User should be created"
       assert_contains assigns(:board).collaborator_ids, assigns(:user)._id
       assert_response :created
     end
 
-    should "be able to be unshared with Pirate Willie" do
+    it "should be able to be unshared with Pirate Willie" do
       @board.push(:collaborator_ids => @willie._id)
       @board.reload
       delete "/boards/#{@board.id}/collaborators/#{@willie.id}"
@@ -24,7 +23,7 @@ class CollaboratorsTest < ActionDispatch::IntegrationTest
       assert_response :success
     end
 
-    should "notify user only once" do
+    it "should notify user only once" do
       notification = { :receiver => @willie._id, :resource => @board._id, :action => :collaboration }
       other_notification = notification.merge({ :resource => FactoryGirl.create(:board)._id })
 
@@ -40,5 +39,4 @@ class CollaboratorsTest < ActionDispatch::IntegrationTest
       assert_response :unprocessable_entity
     end
   end
-
 end
