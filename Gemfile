@@ -1,17 +1,25 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.9'
-gem 'jammit', '0.6.3'
-gem 'compass', '>= 0.11.5'
-gem 'bson_ext', '1.3.1'
+gem 'rails', '3.1.1'
+gem 'rack', '1.3.3'
+gem 'bson_ext', '>= 1.4.0'
 gem 'mongo_mapper', '0.9.2'
-gem 'SystemTimer', '>= 1.2.0'
+gem 'SystemTimer', '>= 1.2.0', :platform => :ruby_18
 gem 'omniauth', '>= 0.2.6'
 gem 'twitter', '1.6.0'
 gem 'airbrake'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
 gem 'thin'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'ejs'
+  gem 'sass-rails', '~> 3.1.4'
+  gem 'uglifier'
+  gem 'compass', '~> 0.12.alpha'
+end
 
 group :development, :test do
   gem 'ruby-debug', :platform => :ruby_18
