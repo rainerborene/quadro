@@ -7,7 +7,7 @@ gem 'mongo_mapper', '0.9.2'
 gem 'SystemTimer', '>= 1.2.0', :platform => :ruby_18
 gem 'omniauth', '>= 0.2.6'
 gem 'twitter', '1.6.0'
-gem 'airbrake'
+gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
 gem 'ejs'
