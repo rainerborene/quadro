@@ -1,26 +1,26 @@
-require 'test_helper'
+require 'spec_helper'
 
-class CollaboratorsTest < ActionDispatch::IntegrationTest
+describe BoardsController do
   describe "A board instance" do
     before do
-      require_authentication
+      get_via_redirect "/auth/twitter"
       @board = assigns(:board)
       @willie = Factory :user, :name => "Pirate Willie", :nickname => "willie"
     end
 
     it "should be able to be shared with Pirate Willie" do
       post "/boards/#{@board.id}/collaborators", :username => @willie.nickname
-      assert_not_nil assigns(:user), "User should be created"
-      assert_contains assigns(:board).collaborator_ids, assigns(:user)._id
-      assert_response :created
+      assigns(:user).should_not be_nil
+      assigns(:board).collaborator_ids.should include assigns(:user)._id
+      response.response_code.should equal 201
     end
 
     it "should be able to be unshared with Pirate Willie" do
       @board.push(:collaborator_ids => @willie._id)
       @board.reload
       delete "/boards/#{@board.id}/collaborators/#{@willie.id}"
-      assert assigns(:board).collaborator_ids.empty?
-      assert_response :success
+      assigns(:board).collaborator_ids.should be_empty
+      response.response_code.should equal 200
     end
 
     it "should notify user only once" do
@@ -28,15 +28,15 @@ class CollaboratorsTest < ActionDispatch::IntegrationTest
       other_notification = notification.merge({ :resource => FactoryGirl.create(:board)._id })
 
       post "/boards/#{@board.id}/collaborators", :username => @willie.nickname
-      assert assigns(:current_user).notifications.any?
-      assert assigns(:current_user).notified? notification
-      assert !assigns(:current_user).notified?(other_notification)
-      assert_response :created
+      assigns(:current_user).notifications.should_not be_empty
+      assigns(:current_user).should be_notified(notification)
+      assigns(:current_user).should_not be_notified(other_notification)
+      response.response_code.should equal 201
 
       post "/boards/#{@board.id}/collaborators", :username => @willie.nickname
-      assert assigns(:current_user).notifications.one?
-      assert assigns(:board).collaborator_ids.one?
-      assert_response :unprocessable_entity
+      assigns(:current_user).should have(1).notifications
+      assigns(:board).should have(1).collaborators
+      response.response_code.should equal 422
     end
   end
 end

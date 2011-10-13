@@ -15,12 +15,12 @@ describe SessionsController do
   it "should be able to logout regardless of session" do
     get "/signout"
     session[:user_id].should be_nil
-    assert_response :redirect
+    response.should redirect_to(root_path)
   end
 
   it "should receive a failure message when credentials are invalid" do
     get "/auth/failure"
-    assert_response :bad_request
-    @response.body.should eql "Something went wrong. Why don't you try again?"
+    response.response_code.should equal 400
+    response.body.should eql "Something went wrong. Why don't you try again?"
   end
 end
