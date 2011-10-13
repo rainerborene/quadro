@@ -10,17 +10,12 @@ gem 'twitter', '1.6.0'
 gem 'airbrake'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
+gem 'ejs'
+gem 'sass-rails', '~> 3.1.4'
+gem 'uglifier'
+gem 'compass', '~> 0.12.alpha'
 gem 'foreman'
 gem 'thin'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'ejs'
-  gem 'sass-rails', '~> 3.1.4'
-  gem 'uglifier'
-  gem 'compass', '~> 0.12.alpha'
-end
 
 group :development, :test do
   gem 'rspec-rails'
