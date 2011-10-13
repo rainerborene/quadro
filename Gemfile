@@ -10,6 +10,7 @@ gem 'twitter', '1.6.0'
 gem 'airbrake'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
+gem 'foreman'
 gem 'thin'
 
 # Gems used only for assets and not required
