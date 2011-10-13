@@ -30,9 +30,5 @@ end
 group :test do
   gem 'factory_girl_rails', '~> 1.2'
   gem 'guard-rspec'
-
-  if RUBY_PLATFORM =~ /darwin/i
-    gem 'growl_notify' 
-    gem 'rb-fsevent', :require => false
-  end
+  gem 'growl_notify'
 end
