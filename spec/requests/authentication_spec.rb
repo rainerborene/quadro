@@ -23,4 +23,14 @@ describe "Sessions" do
     response.status.should be(400)
     response.body.should eql "Something went wrong. Why don't you try again?"
   end
+
+  describe "Sign in with Twitter", :js => true do
+    it "should sign in when clicked" do
+      visit root_path
+      click_on "Sign in with Twitter"
+      page.should have_css("a.profile img")
+      page.should have_content("Jen Hawkins")
+      page.should have_content("Sign out")
+    end
+  end
 end
