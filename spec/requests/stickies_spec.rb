@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe StickiesController do
+describe "Stickies" do
   describe "A logged user" do
     before do
       get_via_redirect "/auth/twitter"
@@ -55,9 +55,7 @@ describe StickiesController do
     it "should not be able to view stickies from other person" do
       board = Factory :board
 
-      lambda { 
-        get_via_redirect board_stickies_path(board.id) 
-      }.should raise_error(ActionController::RoutingError)
+      lambda { get board_stickies_path(board.id) }.should raise_error
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BoardsController do
+describe "Collaborators" do
   describe "A board instance" do
     before do
       get_via_redirect "/auth/twitter"

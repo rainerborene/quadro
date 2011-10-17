@@ -8,6 +8,8 @@ require 'capybara/rspec'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+Capybara.javascript_driver = :selenium
+
 OmniAuth.config.test_mode = true
 OmniAuth.config.add_mock(:twitter, {
   :uid => '321897510',

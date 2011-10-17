@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController do
+describe "Sessions" do
   before do
     OmniAuth.config.mock_auth[:twitter]
   end

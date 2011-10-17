@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
 
-describe BoardsController do
+describe "Boards" do
   describe "A logged user" do
     before { get_via_redirect "/auth/twitter" }
 
@@ -62,7 +62,7 @@ describe BoardsController do
       assigns(:readonly).should be_true
       response.status.should be(200)
       response.should render_template("index")
-      response.body.should have_content("#{assigns(:board).title} • Quadro")
+      response.body.should include("#{assigns(:board).title} • Quadro")
     end
   end
 end

@@ -3,6 +3,11 @@ require 'spec_helper'
 describe User do
   subject { Factory :user }
 
+  it { should validate_presence_of :uid }
+  it { should validate_presence_of :name }
+  it { should validate_presence_of :nickname }
+  it { should validate_presence_of :profile_image }
+
   it "should has many boards" do
     subject.boards.create!(:title => "Untitled")
     subject.should have(1).boards
