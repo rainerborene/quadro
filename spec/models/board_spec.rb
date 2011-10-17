@@ -8,10 +8,6 @@ describe Board do
     subject.should_not be_valid
   end
 
-  it "should have user attribute protected" do
-    subject.protected_attributes.should include :user_id
-  end
-
   it "should has many collaborators" do
     subject.collaborators.push Factory :user
     subject.save.should be_true
@@ -26,5 +22,13 @@ describe Board do
 
   it "should belongs to a user" do
     subject.user.should be_an_instance_of User
+  end
+
+  it "should have user attribute protected" do
+    subject.protected_attributes.should include :user_id
+  end
+
+  it "should not be shared by default" do
+    subject.share_public.should be_false
   end
 end

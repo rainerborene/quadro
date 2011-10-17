@@ -21,7 +21,7 @@ describe Sticky do
     subject.errors.get(:left).should_not be_nil
   end
 
-  it "should instantiate the object with default values" do
+  it "should be instantiated with default values" do
     model = Sticky.new
     model.width.should eql 300
     model.height.should eql 200

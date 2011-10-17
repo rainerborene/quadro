@@ -32,7 +32,7 @@ describe User do
     subject.all_boards.should include subject.boards.first
   end
 
-  it "should be able to check if user owns a board through the secret token" do
+  it "should check if he owns a board through a secret token" do
     board = Factory :board, :user => subject
     subject.own?(board.secret_token).should be_true
     subject.own?("2ddecde").should_not be_true
