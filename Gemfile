@@ -5,8 +5,8 @@ gem 'rack', '1.3.3'
 gem 'bson_ext', '>= 1.4.0'
 gem 'mongo_mapper', '0.9.2'
 gem 'SystemTimer', '>= 1.2.0', :platform => :ruby_18
-gem 'omniauth', '>= 0.2.6'
-gem 'twitter', '1.6.0'
+gem 'omniauth', '>= 0.3.0'
+gem 'twitter', '1.7.2'
 gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
 gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
@@ -28,4 +28,5 @@ group :test do
   gem 'guard-rspec'
   gem 'growl_notify'
   gem 'capybara'
+  gem 'launchy', '~> 2.0.4'
 end
