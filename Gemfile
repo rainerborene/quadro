@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
-# gem 'rack', '1.3.3'
+gem 'rack', '1.3.3'
 gem 'bson_ext', '>= 1.4.0'
 gem 'mongo_mapper', '0.9.2'
 gem 'SystemTimer', '>= 1.2.0', :platform => :ruby_18

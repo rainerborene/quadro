@@ -1,4 +1,4 @@
-if Rails.version.to_f >= 3.1 and Rails.application.config.assets.enabled
+if Rails.env.test? and Rails.version.to_f >= 3.1 and Rails.application.config.assets.enabled
   require 'capybara/util/save_and_open_page'
   module Capybara
     class << self
