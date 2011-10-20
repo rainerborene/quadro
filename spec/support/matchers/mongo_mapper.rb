@@ -29,3 +29,20 @@ RSpec::Matchers.define :belongs_to do |attribute|
     model.send(attribute).instance_of? attribute.to_s.classify.constantize
   end
 end
+
+RSpec::Matchers.define :has_many do |collection, options|
+  match do |model|
+    options ||= {}
+    reflection = model.class.associations[collection]
+    valid = !reflection.nil?
+    
+    if valid and options.has_key? :in
+      valid = reflection.proxy_class == MongoMapper::Plugins::Associations::InArrayProxy
+      valid = valid && reflection.options[:in] == options[:in]
+    end
+
+    valid
+  end
+
+  description { "should have many #{collection}" }
+end

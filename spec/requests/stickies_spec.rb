@@ -10,9 +10,9 @@ describe "Stickies" do
     end
 
     it "should be able to create a sticky" do
-      sticky = Factory.build :sticky, :content => "I traveled to Hawaii"
+      sticky = Factory.attributes_for :sticky, :content => "I traveled to Hawaii"
       assigns(:board).should have(1).stickies
-      post board_stickies_path(@board.id), sticky.attributes.except(:_id)
+      post board_stickies_path(@board.id), sticky
       assigns(:board).should have(2).stickies
       response.status.should be(200)
     end
@@ -54,7 +54,6 @@ describe "Stickies" do
 
     it "should not be able to view stickies from other person" do
       board = Factory :board
-
       lambda { get board_stickies_path(board.id) }.should raise_error
     end
   end

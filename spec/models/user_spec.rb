@@ -7,11 +7,7 @@ describe User do
   it { should validate_presence_of :name }
   it { should validate_presence_of :nickname }
   it { should validate_presence_of :profile_image }
-
-  it "should has many boards" do
-    subject.boards.create!(:title => "Untitled")
-    subject.should have(1).boards
-  end
+  it { should has_many :boards }
 
   it "should update attributes using OmniAuth hash schema" do
     auth = OmniAuth.config.mock_auth[:twitter]
