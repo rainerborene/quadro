@@ -13,6 +13,18 @@ describe "Boards modal", :js => true do
       page.should have_content(item.title)
     end
   end
+  
+  it "should hide modal when clicked on overlay mask or icon" do
+    click_on "Boards"
+    find(".modal-backdrop").click
+    page.should have_css("#boards-modal", :visible => false)
+  end
+
+  it "should hide modal when clicked on close icon" do
+    click_on "Boards"
+    find(".close").click
+    page.should have_css("#boards-modal", :visible => false)
+  end
 
   it "should replace text with input tag on double click" do
     # open modal and edit title
@@ -24,6 +36,33 @@ describe "Boards modal", :js => true do
     find("li.selected input").set("Modified title")
     javascript = %Q{$('li.selected input').trigger("blur")}
     page.execute_script(javascript)
-    page.should have_content("Modified title")
+    find("li.selected span.item-title").should have_content("Modified title")
+  end
+
+  it "should create an entry when clicked on new button" do
+    click_on "Boards"
+    click_on "New"
+
+    find("li.selected input").set("Kangaroo Jack")
+    javascript = %Q{$('li.selected input').trigger("blur")}
+    page.execute_script(javascript)
+    find("li.selected span.item-title").should have_content("Kangaroo Jack")
+
+    Board.find_by_title("Kangaroo Jack").should_not be_nil
+  end
+
+  it "should load stickies and close modal when clicked on open" do
+    click_on "Boards"
+
+    page.should have_css(".open-board[disabled]")
+    page.should have_css(".remove-board[disabled]")
+
+    find(".board-list li:first-child").click
+
+    page.should_not have_css(".open-board[disabled]")
+    page.should_not have_css(".remove-board[disabled]")
+
+    click_button "Open"
+    page.should have_css("#boards-modal", :visible => false)
   end
 end
