@@ -47,8 +47,6 @@ describe "Boards modal", :js => true do
     javascript = %Q{$('li.selected input').trigger("blur")}
     page.execute_script(javascript)
     find("li.selected span.item-title").should have_content("Kangaroo Jack")
-
-    Board.find_by_title("Kangaroo Jack").should_not be_nil
   end
 
   it "should load stickies and close modal when clicked on open" do
@@ -59,8 +57,8 @@ describe "Boards modal", :js => true do
 
     find(".board-list li:first-child").click
 
-    page.should_not have_css(".open-board[disabled]")
-    page.should_not have_css(".remove-board[disabled]")
+    page.should have_no_css(".open-board[disabled]")
+    page.should have_no_css(".remove-board[disabled]")
 
     click_button "Open"
     page.should have_css("#boards-modal", :visible => false)

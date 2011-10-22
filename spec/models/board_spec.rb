@@ -8,8 +8,5 @@ describe Board do
   it { should belongs_to :user }
   it { should has_many(:collaborators, :in => :collaborator_ids) }
   it { should has_many(:stickies) }
-
-  it "should not be shared by default" do
-    subject.share_public.should be_false
-  end
+  its(:share_public) { should be_false }
 end

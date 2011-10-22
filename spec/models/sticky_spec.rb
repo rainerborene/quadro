@@ -1,17 +1,16 @@
 require 'spec_helper'
  
 describe Sticky do
-  subject { Factory.build :sticky }
+  subject { Sticky.new }
 
   it { should validate_presence_of :content }
   it { should validate_presence_of :top }
   it { should validate_presence_of :left }
 
-  it "should be instantiated with default values" do
-    model = Sticky.new
-    model.width.should eql 300
-    model.height.should eql 200
-    model.color.should eql "yellow"
-    model.z_index.should eql 0
+  describe "when just created" do
+    its(:width) { should eq(300) }
+    its(:height) { should eq(200) }
+    its(:color) { should eql "yellow" }
+    its(:z_index) { should eq(0) }
   end
 end

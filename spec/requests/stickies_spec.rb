@@ -39,22 +39,24 @@ describe "Stickies" do
       response.status.should be(200)
     end
 
-    it "should set latest open attribute of user when retrieving stickies" do
-      board = Factory :board, :user => assigns(:current_user)
+    context "when retrieving stickies" do
+      it "should set latest open attribute of current user" do
+        board = Factory :board, :user => assigns(:current_user)
 
-      get board_stickies_path(board.id)
-      assigns(:current_user).latest_open.should eql board.id
-      assigns(:board)._id.should eql board._id
-      board.destroy.should be_true
+        get board_stickies_path(board.id)
+        assigns(:current_user).latest_open.should eql board.id
+        assigns(:board)._id.should eql board._id
+        board.destroy.should be_true
 
-      get root_path
-      assigns(:current_user).latest_open.should be_nil
-      assigns(:current_user).boards.first.should eql @board
-    end
+        get root_path
+        assigns(:current_user).latest_open.should be_nil
+        assigns(:current_user).boards.first.should eql @board
+      end
 
-    it "should not be able to view stickies from other person" do
-      board = Factory :board
-      lambda { get board_stickies_path(board.id) }.should raise_error
+      it "should not be able to view without permission" do
+        board = Factory :board
+        lambda { get board_stickies_path(board.id) }.should raise_error
+      end
     end
   end
 end

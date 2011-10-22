@@ -18,10 +18,12 @@ describe "Sessions" do
     response.should redirect_to(root_path)
   end
 
-  it "should receive a failure message when credentials are invalid" do
-    get auth_failure_path
-    response.status.should be(400)
-    response.body.should eql "Something went wrong. Why don't you try again?"
+  context "when credentials are invalid" do 
+    it "should receive a failure message " do
+      get auth_failure_path
+      response.status.should be(400)
+      response.body.should eql "Something went wrong. Why don't you try again?"
+    end
   end
 
   describe "Sign in with Twitter", :js => true do

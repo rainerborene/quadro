@@ -18,15 +18,20 @@ end
 
 RSpec::Matchers.define :have_key do |attribute, type|
   match do |model|
-    model.respond_to?(attribute) && model.class.keys[attribute.to_s] == ::MongoMapper::Plugins::Keys::Key.new(attribute, type)
+    model.respond_to?(attribute) && model.class.keys[attribute.to_s] == MongoMapper::Plugins::Keys::Key.new(attribute, type)
   end
 
   description { "should have #{attribute} attribute with #{type} type." }
 end
 
-RSpec::Matchers.define :belongs_to do |attribute|
+RSpec::Matchers.define :belongs_to do |collection|
   match do |model|
-    model.send(attribute).instance_of? attribute.to_s.classify.constantize
+    reflection = model.class.associations[collection]
+    belongs_association?(reflection.class) && reflection.name.eql?(collection)
+  end
+
+  def belongs_association?(klass)
+    klass.eql? MongoMapper::Plugins::Associations::BelongsToAssociation
   end
 end
 

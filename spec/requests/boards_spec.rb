@@ -55,7 +55,7 @@ describe "Boards" do
   describe "A visitor" do
     subject { Factory :board, :share_public => true }
 
-    it "should be able to access a shared board" do
+    it "should be able to access a public board" do
       get share_board_path(subject.secret_token)
       assigns(:board).secret_token.should eql subject.secret_token
       assigns(:board).share_public.should be_true
