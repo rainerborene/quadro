@@ -5,7 +5,7 @@ describe "Boards modal", :js => true do
 
   let(:current_user) { User.first }
 
-  it "should open modal when clicked on Boards button" do
+  it "should open modal when clicked on boards" do
     page.should have_css("#boards-modal", :visible => false)
     click_on "Boards"
     page.should have_css("#boards-modal", :visible => true)
@@ -14,7 +14,7 @@ describe "Boards modal", :js => true do
     end
   end
   
-  it "should hide modal when clicked on overlay mask or icon" do
+  it "should hide modal when clicked on overlay mask" do
     click_on "Boards"
     find(".modal-backdrop").click
     page.should have_css("#boards-modal", :visible => false)
@@ -42,7 +42,6 @@ describe "Boards modal", :js => true do
   it "should create an entry when clicked on new button" do
     click_on "Boards"
     click_on "New"
-
     find("li.selected input").set("Kangaroo Jack")
     javascript = %Q{$('li.selected input').trigger("blur")}
     page.execute_script(javascript)
@@ -54,9 +53,7 @@ describe "Boards modal", :js => true do
 
     page.should have_css(".open-board[disabled]")
     page.should have_css(".remove-board[disabled]")
-
     find(".board-list li:first-child").click
-
     page.should have_no_css(".open-board[disabled]")
     page.should have_no_css(".remove-board[disabled]")
 

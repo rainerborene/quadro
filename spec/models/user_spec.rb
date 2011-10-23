@@ -26,7 +26,7 @@ describe User do
   describe ".all_boards" do
     let(:shared_board) { Factory :board }
 
-    it "should fetch all boards including shared" do
+    it "should fetch all boards including shared ones" do
       subject.boards.create! Factory.attributes_for(:board)
       shared_board.push(:collaborator_ids => subject._id)
       shared_board.reload
@@ -37,7 +37,7 @@ describe User do
   end
 
   describe "#own?" do
-    it "should verify permission through a secret token" do
+    it "should verify permission given a secret token" do
       board = Factory :board, :user => subject
       subject.own?(board.secret_token).should be_true
       subject.own?("2ddecde").should_not be_true
