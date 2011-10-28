@@ -29,7 +29,7 @@ describe "Boards modal", :js => true do
   it "should replace text with input tag on double click" do
     # open modal and edit title
     click_on "Boards"
-    element = page.find(:xpath, "//span[@class='item-title']")
+    element = page.find("span.item-title")
     page.driver.browser.mouse.double_click(element.native)
 
     # workaround to trigger onblur event

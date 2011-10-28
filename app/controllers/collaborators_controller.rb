@@ -3,8 +3,8 @@ class CollaboratorsController < ApplicationController
   before_filter :find_board
 
   def create
-    username = params["username"].downcase
-    @user = User.where(:nickname => username).first
+    username = params[:username].downcase
+    @user = User.find_by_nickname username
 
     if @user.nil?
       begin
