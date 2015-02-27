@@ -1,32 +1,24 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '3.1.1'
-gem 'rack', '1.3.3'
-gem 'bson_ext', '>= 1.4.0'
-gem 'mongo_mapper', '0.9.2'
-gem 'SystemTimer', '>= 1.2.0', :platform => :ruby_18
-gem 'omniauth', '>= 0.3.0'
-gem 'twitter', '1.7.2'
-gem 'airbrake', :git => 'git://github.com/airbrake/airbrake.git'
-gem 'delayed_job'
-gem 'delayed_job_mongo_mapper', :git => 'git://github.com/pygatea/delayed_job_mongo_mapper.git'
+gem 'rails', '4.2.0'
+gem 'bson_ext'
+gem 'mongo_mapper', '~> 0.13'
+gem 'omniauth'
+gem 'omniauth-twitter'
 gem 'ejs'
-gem 'sass-rails', '~> 3.1.4'
+gem 'sass-rails'
 gem 'uglifier'
-gem 'compass', '~> 0.12.alpha'
-gem 'foreman'
+gem 'compass-rails'
 gem 'thin'
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'ruby-debug', :platform => :ruby_18
-  gem 'ruby-debug19', :require => 'ruby-debug', :platform => :ruby_19
+  gem 'guard-rspec'
+  gem 'pry-rails'
 end
 
 group :test do
-  gem 'factory_girl_rails', '~> 1.2'
-  gem 'guard-rspec'
-  gem 'growl_notify'
+  gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'launchy', '~> 2.0.4'
+  gem 'poltergeist'
 end

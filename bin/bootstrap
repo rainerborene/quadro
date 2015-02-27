@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+export GEM_HOME=/ruby_gems/2.1
+export PATH=/ruby_gems/2.1/bin:$PATH
+
+sudo chown -R app /ruby_gems
+sudo chown -R app /usr/local/bundle
+sudo chown -R app /app
+
+gem install bundler --quiet
+
+[[ -e tmp/pids/server.pid ]] && rm tmp/pids/server.pid
+
+bundle install --jobs 4 --retry 2
+bundle exec rails s -p 4000 -b 0.0.0.0

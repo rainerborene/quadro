@@ -3,25 +3,25 @@ class StickiesController < ApplicationController
   before_filter :find_board
 
   def index
-    @current_user.set({ :latest_open => @board.id })
-    @current_user.reload
-    render :json => @board.stickies
+    current_user.set(latest_open: @board.id)
+    current_user.reload
+    render json: @board.stickies
   end
 
   def create
     @sticky = Sticky.new picked_attributes
     @board.stickies << @sticky
     @board.save
-    render :json => @sticky
+    render json: @sticky
   end
 
   def update
     @sticky = @board.stickies.find(params[:id])
 
     if @sticky and @sticky.update_attributes! picked_attributes
-      render :json => @sticky
+      render json: @sticky
     else
-      render :json => { :success => false }, :status => :unprocessable_entity
+      render json: { success: false }, status: :unprocessable_entity
     end
   end
 
@@ -29,7 +29,7 @@ class StickiesController < ApplicationController
     @sticky = @board.stickies.find(params[:id])
     @board.stickies.delete(@sticky)
     @board.save
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   private

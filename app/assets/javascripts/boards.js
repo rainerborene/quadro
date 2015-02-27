@@ -3,7 +3,7 @@
  */
 
 var Collaborator = Backbone.Model.extend({})
-  , CollaboratorCollection = Backbone.Collection.extend({ model: Collaborator })
+  , CollaboratorCollection = Backbone.Collection.extend({ model: Collaborator });
  
 var Board = Backbone.Model.extend({
 
@@ -17,7 +17,7 @@ var Board = Backbone.Model.extend({
   },
 
   initialize: function() {
-    this.collaborators = new CollaboratorCollection;
+    this.collaborators = new CollaboratorCollection();
     this.collaborators.url = "/boards/" + this.id + "/collaborators";
     this.collaborators.reset(this.attributes.collaborators);
   },
@@ -31,7 +31,7 @@ var Board = Backbone.Model.extend({
 });
 
 var BoardCollection = Backbone.Collection.extend({ model: Board })
-  , Boards = window.Boards = new BoardCollection
+  , Boards = window.Boards = new BoardCollection()
   , currentBoard = null;
 
 /**
@@ -169,9 +169,12 @@ var BoardsView = Backbone.View.extend({
     input.parent().data("replaced", true);
     input.replaceWith(el);
 
-    if (id == "") {
+    if (id === "" || id === undefined) {
       Boards.create({ title: title }, options);
     } else {
+      console.log(id);
+      console.log(title);
+      console.log(options);
       Boards.get(id).save({ title: title }, options);
     }
   },

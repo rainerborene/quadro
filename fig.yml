@@ -1,0 +1,20 @@
+db:
+  image: mongo
+  ports:
+    - "27017:27017"
+web:
+  build: .
+  command: ./bin/bootstrap
+  working_dir: /app
+  user: app
+  volumes:
+    - .:/app
+    - ~/.gem:/ruby_gems
+  ports:
+    - "4000:4000"
+  links:
+    - db
+  environment:
+    TWITTER_API_KEY: 7b5wj8KB9CiHiJwwE4Q
+    TWITTER_API_SECRET: RYCWccRhXMUKIOwXroFjgIS5aoXTQTnkIQZ2adRoWH4
+    SECRET_TOKEN: cf09ca949788698306ae8c316c8d0b0149af9c677205790d475f5d701ec0f670b9be9b434253edf84d8b490951ae1f6573f6624dbbabbdb3eff9cc8e25d3da34

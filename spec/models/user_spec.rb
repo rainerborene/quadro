@@ -1,46 +1,46 @@
 require 'spec_helper'
- 
-describe User do
-  subject { Factory :user }
 
-  it { should validate_presence_of :uid }
-  it { should validate_presence_of :name }
-  it { should validate_presence_of :nickname }
-  it { should validate_presence_of :profile_image }
-  it { should has_many :boards }
+describe User do
+  subject { create :user }
+
+  it { is_expected.to validate_presence_of :uid }
+  it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_presence_of :nickname }
+  it { is_expected.to validate_presence_of :profile_image }
+  it { is_expected.to has_many :boards }
 
   describe ".update_with_omniauth" do
     it "should update attributes using OmniAuth hash schema" do
       auth = OmniAuth.config.mock_auth[:twitter]
       subject.update_with_omniauth(auth)
-      subject.uid.should eql auth["uid"]
-      subject.provider.should eql auth["provider"]
-      subject.name.should eql auth["user_info"]["name"]
-      subject.nickname.should eql auth["user_info"]["nickname"]
-      subject.profile_image.should eql auth["user_info"]["image"]
-      subject.token.should eql auth["credentials"]["token"]
-      subject.secret_token.should eql auth["credentials"]["secret"]
+      expect(subject.uid).to eql auth["uid"]
+      expect(subject.provider).to eql auth["provider"]
+      expect(subject.name).to eql auth["info"]["name"]
+      expect(subject.nickname).to eql auth["info"]["nickname"]
+      expect(subject.profile_image).to eql auth["info"]["image"]
+      expect(subject.token).to eql auth["credentials"]["token"]
+      expect(subject.secret_token).to eql auth["credentials"]["secret"]
     end
   end
 
   describe ".all_boards" do
-    let(:shared_board) { Factory :board }
+    let(:shared_board) { create :board }
 
     it "should fetch all boards including shared ones" do
-      subject.boards.create! Factory.attributes_for(:board)
+      subject.boards.create! attributes_for(:board)
       shared_board.push(:collaborator_ids => subject._id)
       shared_board.reload
-      subject.all_boards.size.should equal 2
-      subject.all_boards.should include shared_board
-      subject.all_boards.should include subject.boards.first
+      expect(subject.all_boards.size).to equal 2
+      expect(subject.all_boards).to include shared_board
+      expect(subject.all_boards).to include subject.boards.first
     end
   end
 
   describe "#own?" do
     it "should verify permission given a secret token" do
-      board = Factory :board, :user => subject
-      subject.own?(board.secret_token).should be_true
-      subject.own?("2ddecde").should_not be_true
+      board = create :board, :user => subject
+      expect(subject).to be_own(board.secret_token)
+      expect(subject).to_not be_own("2ddecde")
     end
   end
 end

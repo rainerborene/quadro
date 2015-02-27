@@ -40,7 +40,7 @@ RSpec::Matchers.define :has_many do |collection, options|
     options ||= {}
     reflection = model.class.associations[collection]
     valid = !reflection.nil?
-    
+
     if valid and options.has_key? :in
       valid = reflection.proxy_class == MongoMapper::Plugins::Associations::InArrayProxy
       valid = valid && reflection.options[:in] == options[:in]
