@@ -11,6 +11,10 @@ gem 'uglifier'
 gem 'compass-rails'
 gem 'thin'
 
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
